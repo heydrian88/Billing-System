@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verdant Craft Landscaping & Forestry Portal</title>
+    <title>Verdant Craft Landscaping & Forestry Portal - Layout 7</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@
         </nav>
 
         <div class="flex items-center space-x-4">
-            <!-- Sales Stats Modal Trigger (Admin / Member) -->
+            <!-- Sales Stats Trigger -->
             <button @click="showStatsModal = true" class="bg-forest-700 hover:bg-forest-600 text-gray-200 px-3 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1 border border-forest-600 transition">
                 <span>📊</span>
                 <span>Sales Stats</span>
@@ -72,7 +72,7 @@
                 <span>Billing Portal</span>
             </button>
 
-            <!-- User Authentication Status -->
+            <!-- User Auth Profile Switcher -->
             <div class="relative" x-data="{ openMenu: false }">
                 <button @click="openMenu = !openMenu" class="flex items-center space-x-2 bg-forest-700/80 px-3 py-1.5 rounded-xl border border-forest-600 hover:border-lime-500/50 transition">
                     <span class="w-7 h-7 rounded-lg bg-forest-600 flex items-center justify-center text-lime-400 text-xs font-bold" x-text="currentUser.username.substring(0,2).toUpperCase()"></span>
@@ -94,16 +94,13 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Application Body -->
     <main class="flex-1 flex flex-col">
 
-        <!------------------------------------------------ -->
-        <!-- VIEW 1: LAYOUT 7 SPLIT-SCREEN HOMEPAGE        -->
-        <!------------------------------------------------ -->
+        <!-- VIEW 1: HOMEPAGE (LAYOUT 7) -->
         <div x-show="currentView === 'home'" class="flex-1 flex flex-col">
             <!-- Hero Section -->
             <section class="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh] border-b border-forest-700">
-                <!-- Left Hero Content -->
                 <div class="flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-20 space-y-6">
                     <div class="inline-flex items-center space-x-2 bg-forest-700/50 border border-forest-600 px-3 py-1 rounded-full text-xs font-medium text-lime-400 w-max">
                       <span>✨</span>
@@ -128,6 +125,358 @@
                         </div>
                     </div>
 
-                    <!-- Category Quick Badges -->
                     <div class="grid grid-cols-3 gap-3 pt-6 border-t border-forest-700/50">
-                        <div
+                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
+                            <div class="text-lime-400 text-lg mb-1">🌿</div>
+                            <div class="text-xs font-bold text-white">Botanical Master Planning</div>
+                        </div>
+                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
+                            <div class="text-lime-400 text-lg mb-1">🏡</div>
+                            <div class="text-xs font-bold text-white">Hardscape & Stone Patios</div>
+                        </div>
+                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
+                            <div class="text-lime-400 text-lg mb-1">💧</div>
+                            <div class="text-xs font-bold text-white">Sustainable Forestry</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative bg-forest-900 flex items-center justify-center p-6 lg:p-12 overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-t from-forest-900 via-transparent to-transparent z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1558904541-efa8c4a4e8d3?auto=format&fit=crop&q=80&w=1200" alt="Lush Tropical Garden Pathway" class="w-full h-full object-cover rounded-2xl shadow-2xl border border-forest-700/80">
+                    <div class="absolute bottom-10 left-10 z-20 bg-forest-900/90 backdrop-blur px-5 py-3 rounded-xl border border-forest-700 shadow-xl">
+                        <div class="text-xs text-lime-400 font-bold uppercase tracking-wider">Featured Project</div>
+                        <div class="text-sm font-semibold text-white">The Tranquil Garden Escape</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Us & Gallery Section -->
+            <section class="px-8 lg:px-16 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 border-b border-forest-700">
+                <div class="space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-white">A Team of Creators, Builders And The Nature Lovers</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Verdant Craft blends passion with technical mastery to build outdoor ecosystems that stand the test of time. From concept to sustainable upkeep, our experts deliver high-end aesthetic transformations.
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <img src="https://images.unsplash.com/photo-1584467735811-628489a408d2?auto=format&fit=crop&q=80&w=400" alt="Landscape 1" class="rounded-xl h-28 w-full object-cover border border-forest-700">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400" alt="Landscape 2" class="rounded-xl h-28 w-full object-cover border border-forest-700">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=400" alt="Landscape 3" class="rounded-xl h-28 w-full object-cover border border-forest-700">
+                    </div>
+                </div>
+
+                <div class="bg-forest-900 p-8 rounded-2xl border border-forest-700 flex flex-col justify-between space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-white">Happy Clients Speak Out</h3>
+                        <div class="bg-lime-500 text-forest-900 font-extrabold text-xs px-3 py-1.5 rounded-full">100%</div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="Client" class="w-14 h-14 rounded-full object-cover border border-lime-500/50">
+                        <div>
+                            <p class="text-xs text-gray-300 italic mb-2">"Working with Verdant Craft completely transformed our corporate headquarters courtyard. Their attention to botanical health is unmatched!"</p>
+                            <span class="text-xs font-bold text-white block">Atty. Patricia Gomez</span>
+                            <span class="text-[10px] text-lime-400">Greenbelt Corporate Center, Makati</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VIEW 2: ORIGINAL BILLING PORTAL STRUCTURE -->
+        <div x-show="currentView === 'billing'" class="flex-1 p-6 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-forest-900 p-6 rounded-2xl border border-forest-700">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Billing & Invoicing Portal</h2>
+                    <p class="text-xs text-gray-400">Itemized line-row billing with Philippine Peso (₱), editable tax, and client discounts.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button @click="showNewInvoiceModal = true" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-4 py-2.5 rounded-xl font-bold text-xs shadow transition flex items-center space-x-2">
+                        <span>➕</span>
+                        <span>New Itemized Invoice</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-forest-900/60 p-4 rounded-xl border border-forest-700">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Status Filter</label>
+                    <select x-model="statusFilter" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-xs text-white">
+                        <option value="All">All Statuses</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Past Due">Past Due</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Client Filter</label>
+                    <select x-model="clientFilter" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-xs text-white">
+                        <option value="All">All Clients</option>
+                        <template x-for="client in uniqueClients">
+                            <option :value="client" x-text="client"></option>
+                        </template>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <div class="text-xs text-gray-400 bg-forest-800 px-3 py-2 rounded-lg border border-forest-600 w-full flex justify-between items-center">
+                        <span>Total Revenue:</span>
+                        <span class="font-bold text-lime-400" x-text="formatPeso(filteredTotalRevenue())"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Itemized Invoices Table -->
+            <div class="bg-forest-900 rounded-2xl border border-forest-700 overflow-hidden shadow-xl">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-forest-800/80 border-b border-forest-700 text-[11px] uppercase tracking-wider text-gray-400">
+                            <th class="p-4">Inv #</th>
+                            <th class="p-4">Client</th>
+                            <th class="p-4">Item Description</th>
+                            <th class="p-4">Qty / Hours</th>
+                            <th class="p-4">Unit Price (₱)</th>
+                            <th class="p-4">Discount (₱)</th>
+                            <th class="p-4">Tax (%)</th>
+                            <th class="p-4">Total (₱)</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-forest-800 text-xs">
+                        <template x-for="inv in filteredInvoices" :key="inv.id">
+                            <tr class="hover:bg-forest-800/40 transition">
+                                <td class="p-4 font-mono font-bold text-lime-400" x-text="inv.id"></td>
+                                <td class="p-4 font-semibold text-white" x-text="inv.client"></td>
+                                <td class="p-4 text-gray-300" x-text="inv.itemDesc"></td>
+                                <td class="p-4 text-gray-300" x-text="inv.qty"></td>
+                                <td class="p-4 font-mono" x-text="formatPeso(inv.unitPrice)"></td>
+                                <td class="p-4 font-mono text-gold-400" x-text="'-' + formatPeso(inv.discount)"></td>
+                                <td class="p-4 font-mono" x-text="inv.taxRate + '%'"></td>
+                                <td class="p-4 font-mono font-bold text-white" x-text="formatPeso(calcItemTotal(inv))"></td>
+                                <td class="p-4">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase"
+                                        :class="{
+                                            'bg-lime-500/20 text-lime-400 border border-lime-500/30': inv.status === 'Paid',
+                                            'bg-gold-500/20 text-gold-400 border border-gold-500/30': inv.status === 'Pending',
+                                            'bg-red-500/20 text-red-400 border border-red-500/30': inv.status === 'Past Due'
+                                        }"
+                                        x-text="inv.status">
+                                    </span>
+                                </td>
+                                <td class="p-4 text-right space-x-1">
+                                    <button @click="toggleStatus(inv.id)" class="bg-forest-700 hover:bg-forest-600 text-gray-200 px-2 py-1 rounded text-[10px] border border-forest-600">Status</button>
+                                    <button @click="deleteInvoice(inv.id)" x-show="currentUser.role === 'Admin'" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px] border border-red-500/30">Del</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Audit Trail -->
+            <div class="bg-forest-900 p-6 rounded-2xl border border-forest-700 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-white flex items-center space-x-2"><span>🛡️</span><span>Real-time Audit Trail</span></h3>
+                    <span class="text-[10px] bg-forest-800 text-lime-400 px-2 py-1 rounded border border-forest-700 font-mono">Live Recording</span>
+                </div>
+                <div class="bg-forest-800/60 rounded-xl p-4 border border-forest-700 max-h-36 overflow-y-auto space-y-2 font-mono text-[11px]">
+                    <template x-for="log in auditLogs">
+                        <div class="flex items-center justify-between text-gray-300 border-b border-forest-700/50 pb-1">
+                            <div><span class="text-lime-400 font-bold" x-text="'[' + log.user + ']'"></span> <span class="ml-2" x-text="log.action"></span></div>
+                            <span class="text-gray-500 text-[10px]" x-text="log.time"></span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-forest-700 bg-forest-900 px-6 py-6 text-xs text-gray-400 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>Address: Verdant Craft Landscaping, Building 4, Greenbelt Corporate Center, Makati City, Metro Manila</div>
+        <div>© 2026 Verdant Craft Landscaping. All Rights Reserved.</div>
+    </footer>
+
+    <!-- MODAL: SALES STATISTICS -->
+    <div x-show="showStatsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-forest-900 border border-forest-700 rounded-2xl p-6 max-w-md w-full space-y-6 shadow-2xl" @click.away="showStatsModal = false">
+            <div class="flex items-center justify-between border-b border-forest-800 pb-4">
+                <h3 class="font-bold text-base text-white flex items-center space-x-2"><span>📊</span><span>Sales Statistics Summary</span></h3>
+                <button @click="showStatsModal = false" class="text-gray-400 hover:text-white font-bold">✕</button>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Daily</span>
+                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(45200)"></span>
+                </div>
+                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Weekly</span>
+                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(318500)"></span>
+                </div>
+                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Monthly</span>
+                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(1425000)"></span>
+                </div>
+            </div>
+            <button @click="showStatsModal = false" class="w-full bg-forest-700 hover:bg-forest-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Close Statistics</button>
+        </div>
+    </div>
+
+    <!-- MODAL: NEW ITEMIZED INVOICE -->
+    <div x-show="showNewInvoiceModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-forest-900 border border-forest-700 rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl" @click.away="showNewInvoiceModal = false">
+            <div class="flex items-center justify-between border-b border-forest-800 pb-4">
+                <h3 class="font-bold text-base text-white">Create Itemized Invoice (₱)</h3>
+                <button @click="showNewInvoiceModal = false" class="text-gray-400 hover:text-white font-bold">✕</button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-gray-400 uppercase font-bold mb-1">Client Name</label>
+                    <input type="text" x-model="newItem.client" placeholder="e.g. Ayala Land Premier" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-gray-400 uppercase font-bold mb-1">Item Description</label>
+                    <input type="text" x-model="newItem.itemDesc" placeholder="e.g. Rare Palm Trees & Grading" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-400 uppercase font-bold mb-1">Quantity / Hours</label>
+                        <input type="number" x-model.number="newItem.qty" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 uppercase font-bold mb-1">Unit Price (₱)</label>
+                        <input type="number" x-model.number="newItem.unitPrice" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-400 uppercase font-bold mb-1">Discount (₱)</label>
+                        <input type="number" x-model.number="newItem.discount" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 uppercase font-bold mb-1">Tax Rate (%) [Default 0]</label>
+                        <input type="number" x-model.number="newItem.taxRate" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-3 pt-2">
+                <button @click="createInvoice()" class="flex-1 bg-lime-500 hover:bg-lime-400 text-forest-900 font-bold py-2.5 rounded-xl text-xs">Save Invoice</button>
+                <button @click="showNewInvoiceModal = false" class="bg-forest-800 text-gray-300 px-4 py-2.5 rounded-xl text-xs">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js Application Logic -->
+    <script>
+        function appData() {
+            return {
+                currentView: 'home',
+                showStatsModal: false,
+                showNewInvoiceModal: false,
+                statusFilter: 'All',
+                clientFilter: 'All',
+                currentUser: { username: 'cuteako', role: 'Admin' },
+
+                newItem: { client: '', itemDesc: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 },
+
+                invoices: [
+                    { id: 'INV-201', client: 'Ayala Land Premier', itemDesc: 'Botanical Master Planning - Phase 1', qty: 1, unitPrice: 185000, discount: 5000, taxRate: 0, status: 'Paid' },
+                    { id: 'INV-202', client: 'Rockwell Land Corp', itemDesc: 'Hardscape & Stone Patio Installation', qty: 2, unitPrice: 120000, discount: 0, taxRate: 0, status: 'Pending' },
+                    { id: 'INV-203', client: 'Megaworld Properties', itemDesc: 'Sustainable Forestry & Irrigation', qty: 1, unitPrice: 95000, discount: 2500, taxRate: 0, status: 'Past Due' }
+                ],
+
+                auditLogs: [
+                    { user: 'cuteako', action: 'Restored exact Layout 7 itemized billing structure', time: '8:15 PM' }
+                ],
+
+                get uniqueClients() {
+                    return [...new Set(this.invoices.map(i => i.client))];
+                },
+
+                calcItemTotal(inv) {
+                    const sub = (inv.qty * inv.unitPrice) - inv.discount;
+                    return sub * (1 + (inv.taxRate / 100));
+                },
+
+                get filteredInvoices() {
+                    return this.invoices.filter(inv => {
+                        const matchesStatus = this.statusFilter === 'All' || inv.status === this.statusFilter;
+                        const matchesClient = this.clientFilter === 'All' || inv.client === this.clientFilter;
+                        return matchesStatus && matchesClient;
+                    });
+                },
+
+                filteredTotalRevenue() {
+                    return this.filteredInvoices.reduce((sum, inv) => sum + this.calcItemTotal(inv), 0);
+                },
+
+                formatPeso(amount) {
+                    return '₱' + amount.toLocaleString('en-PH');
+                },
+
+                switchUser(username) {
+                    this.currentUser = username === 'cuteako' 
+                        ? { username: 'cuteako', role: 'Admin' } 
+                        : { username: 'landscape', role: 'Member' };
+                    this.auditLogs.unshift({
+                        user: this.currentUser.username,
+                        action: `Switched profile to ${this.currentUser.role}`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    });
+                },
+
+                toggleStatus(id) {
+                    const inv = this.invoices.find(i => i.id === id);
+                    if (inv) {
+                        const statuses = ['Paid', 'Pending', 'Past Due'];
+                        inv.status = statuses[(statuses.indexOf(inv.status) + 1) % statuses.length];
+                        this.auditLogs.unshift({
+                            user: this.currentUser.username,
+                            action: `Toggled invoice ${id} to ${inv.status}`,
+                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                        });
+                    }
+                },
+
+                deleteInvoice(id) {
+                    if (this.currentUser.role !== 'Admin') {
+                        alert('Only Admin users can delete invoices.');
+                        return;
+                    }
+                    this.invoices = this.invoices.filter(i => i.id !== id);
+                    this.auditLogs.unshift({
+                        user: this.currentUser.username,
+                        action: `Deleted invoice ${id}`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    });
+                },
+
+                createInvoice() {
+                    if (!this.newItem.client || !this.newItem.itemDesc) {
+                        alert('Please fill out client name and item description.');
+                        return;
+                    }
+                    const newId = 'INV-' + Math.floor(200 + Math.random() * 800);
+                    this.invoices.push({
+                        id: newId,
+                        client: this.newItem.client,
+                        itemDesc: this.newItem.itemDesc,
+                        qty: this.newItem.qty,
+                        unitPrice: this.newItem.unitPrice,
+                        discount: this.newItem.discount,
+                        taxRate: this.newItem.taxRate,
+                        status: 'Pending'
+                    });
+                    this.auditLogs.unshift({
+                        user: this.currentUser.username,
+                        action: `Created itemized invoice ${newId} for ${this.newItem.client}`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    });
+                    this.newItem = { client: '', itemDesc: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 };
+                    this.showNewInvoiceModal = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
