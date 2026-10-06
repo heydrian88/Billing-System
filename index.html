@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verdant Craft Landscaping & Forestry Portal - Layout 7</title>
+    <title>Verdant Craft Landscaping & Forestry Portal - Layout 8</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@
             <div class="w-10 h-10 rounded-xl bg-lime-500 flex items-center justify-center text-forest-900 font-bold text-xl shadow-lg">🌿</div>
             <div>
                 <h1 class="font-bold text-lg tracking-tight text-white leading-none">Verdant Craft</h1>
-                <span class="text-xs text-lime-400 font-medium uppercase tracking-wider">Landscaping & Forestry</span>
+                <span class="text-xs text-lime-400 font-medium uppercase tracking-wider">Layout 8 Portal</span>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
                 <span>Billing Portal</span>
             </button>
 
-            <!-- User Auth Profile Switcher -->
+            <!-- Password-Free User Auth Profile Switcher -->
             <div class="relative" x-data="{ openMenu: false }">
                 <button @click="openMenu = !openMenu" class="flex items-center space-x-2 bg-forest-700/80 px-3 py-1.5 rounded-xl border border-forest-600 hover:border-lime-500/50 transition">
                     <span class="w-7 h-7 rounded-lg bg-forest-600 flex items-center justify-center text-lime-400 text-xs font-bold" x-text="currentUser.username.substring(0,2).toUpperCase()"></span>
@@ -80,13 +80,13 @@
                     <span class="text-[10px] bg-lime-500/20 text-lime-400 px-1.5 py-0.5 rounded font-bold uppercase" x-text="currentUser.role"></span>
                 </button>
                 <div x-show="openMenu" @click.away="openMenu = false" class="absolute right-0 mt-2 w-48 bg-forest-900 border border-forest-700 rounded-xl shadow-2xl py-2 z-50 text-xs">
-                    <div class="px-4 py-2 border-b border-forest-800 text-gray-400">Signed in as <span class="text-white font-semibold" x-text="currentUser.username"></span></div>
+                    <div class="px-4 py-2 border-b border-forest-800 text-gray-400">Switch profile instantly:</div>
                     <button @click="switchUser('cuteako'); openMenu = false;" class="w-full text-left px-4 py-2 hover:bg-forest-800 text-gray-300 flex items-center justify-between">
-                        <span>Switch to Admin</span>
+                        <span>Admin (cuteako)</span>
                         <span x-show="currentUser.username === 'cuteako'" class="text-lime-400">✓</span>
                     </button>
                     <button @click="switchUser('landscape'); openMenu = false;" class="w-full text-left px-4 py-2 hover:bg-forest-800 text-gray-300 flex items-center justify-between">
-                        <span>Switch to Member</span>
+                        <span>Member (landscape)</span>
                         <span x-show="currentUser.username === 'landscape'" class="text-lime-400">✓</span>
                     </button>
                 </div>
@@ -97,14 +97,14 @@
     <!-- Main Application Body -->
     <main class="flex-1 flex flex-col">
 
-        <!-- VIEW 1: HOMEPAGE (LAYOUT 7) -->
+        <!-- VIEW 1: HOMEPAGE (LAYOUT 8) -->
         <div x-show="currentView === 'home'" class="flex-1 flex flex-col">
             <!-- Hero Section -->
             <section class="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh] border-b border-forest-700">
                 <div class="flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-20 space-y-6">
                     <div class="inline-flex items-center space-x-2 bg-forest-700/50 border border-forest-600 px-3 py-1 rounded-full text-xs font-medium text-lime-400 w-max">
                       <span>✨</span>
-                      <span>Healthy, Green, and Beautiful Forestry</span>
+                      <span>Verdant Craft Layout 8 Architecture</span>
                     </div>
                     <h1 class="text-4xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
                         Bringing Beauty And The Functionality to Your Landscape
@@ -114,7 +114,7 @@
                     </p>
                     <div class="flex flex-wrap items-center gap-4 pt-2">
                         <button @click="currentView = 'billing'" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-6 py-3 rounded-xl font-bold text-sm shadow-lg transition">
-                            Explore Our Services
+                            Explore Billing Portal
                         </button>
                         <div class="flex items-center space-x-3 bg-forest-700/40 px-4 py-3 rounded-xl border border-forest-600">
                             <span class="text-lime-400 text-lg">📞</span>
@@ -145,49 +145,19 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-forest-900 via-transparent to-transparent z-10"></div>
                     <img src="https://images.unsplash.com/photo-1558904541-efa8c4a4e8d3?auto=format&fit=crop&q=80&w=1200" alt="Lush Tropical Garden Pathway" class="w-full h-full object-cover rounded-2xl shadow-2xl border border-forest-700/80">
                     <div class="absolute bottom-10 left-10 z-20 bg-forest-900/90 backdrop-blur px-5 py-3 rounded-xl border border-forest-700 shadow-xl">
-                        <div class="text-xs text-lime-400 font-bold uppercase tracking-wider">Featured Project</div>
+                        <div class="text-xs text-lime-400 font-bold uppercase tracking-wider">Layout 8 Featured Project</div>
                         <div class="text-sm font-semibold text-white">The Tranquil Garden Escape</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- About Us & Gallery Section -->
-            <section class="px-8 lg:px-16 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 border-b border-forest-700">
-                <div class="space-y-6">
-                    <h2 class="text-2xl lg:text-3xl font-bold text-white">A Team of Creators, Builders And The Nature Lovers</h2>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Verdant Craft blends passion with technical mastery to build outdoor ecosystems that stand the test of time. From concept to sustainable upkeep, our experts deliver high-end aesthetic transformations.
-                    </p>
-                    <div class="grid grid-cols-3 gap-4">
-                        <img src="https://images.unsplash.com/photo-1584467735811-628489a408d2?auto=format&fit=crop&q=80&w=400" alt="Landscape 1" class="rounded-xl h-28 w-full object-cover border border-forest-700">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400" alt="Landscape 2" class="rounded-xl h-28 w-full object-cover border border-forest-700">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=400" alt="Landscape 3" class="rounded-xl h-28 w-full object-cover border border-forest-700">
-                    </div>
-                </div>
-
-                <div class="bg-forest-900 p-8 rounded-2xl border border-forest-700 flex flex-col justify-between space-y-6">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-white">Happy Clients Speak Out</h3>
-                        <div class="bg-lime-500 text-forest-900 font-extrabold text-xs px-3 py-1.5 rounded-full">100%</div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="Client" class="w-14 h-14 rounded-full object-cover border border-lime-500/50">
-                        <div>
-                            <p class="text-xs text-gray-300 italic mb-2">"Working with Verdant Craft completely transformed our corporate headquarters courtyard. Their attention to botanical health is unmatched!"</p>
-                            <span class="text-xs font-bold text-white block">Atty. Patricia Gomez</span>
-                            <span class="text-[10px] text-lime-400">Greenbelt Corporate Center, Makati</span>
-                        </div>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- VIEW 2: ORIGINAL BILLING PORTAL STRUCTURE -->
+        <!-- VIEW 2: ITEMIZED BILLING PORTAL WITH DEFINITION SUPPORT -->
         <div x-show="currentView === 'billing'" class="flex-1 p-6 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-forest-900 p-6 rounded-2xl border border-forest-700">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">Billing & Invoicing Portal</h2>
-                    <p class="text-xs text-gray-400">Itemized line-row billing with Philippine Peso (₱), editable tax, and client discounts.</p>
+                    <h2 class="text-2xl font-bold text-white">Billing & Invoicing Portal (Layout 8)</h2>
+                    <p class="text-xs text-gray-400">Itemized line-row billing with Philippine Peso (₱), custom scope definitions, and client discounts.</p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button @click="showNewInvoiceModal = true" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-4 py-2.5 rounded-xl font-bold text-xs shadow transition flex items-center space-x-2">
@@ -232,8 +202,8 @@
                         <tr class="bg-forest-800/80 border-b border-forest-700 text-[11px] uppercase tracking-wider text-gray-400">
                             <th class="p-4">Inv #</th>
                             <th class="p-4">Client</th>
-                            <th class="p-4">Item Description</th>
-                            <th class="p-4">Qty / Hours</th>
+                            <th class="p-4">Description & Definition</th>
+                            <th class="p-4">Qty</th>
                             <th class="p-4">Unit Price (₱)</th>
                             <th class="p-4">Discount (₱)</th>
                             <th class="p-4">Tax (%)</th>
@@ -247,7 +217,10 @@
                             <tr class="hover:bg-forest-800/40 transition">
                                 <td class="p-4 font-mono font-bold text-lime-400" x-text="inv.id"></td>
                                 <td class="p-4 font-semibold text-white" x-text="inv.client"></td>
-                                <td class="p-4 text-gray-300" x-text="inv.itemDesc"></td>
+                                <td class="p-4">
+                                    <div class="font-semibold text-white" x-text="inv.itemDesc"></div>
+                                    <div class="text-[11px] text-lime-400/90 italic mt-0.5" x-text="'Definition: ' + inv.definition"></div>
+                                </td>
                                 <td class="p-4 text-gray-300" x-text="inv.qty"></td>
                                 <td class="p-4 font-mono" x-text="formatPeso(inv.unitPrice)"></td>
                                 <td class="p-4 font-mono text-gold-400" x-text="'-' + formatPeso(inv.discount)"></td>
@@ -322,7 +295,7 @@
         </div>
     </div>
 
-    <!-- MODAL: NEW ITEMIZED INVOICE -->
+    <!-- MODAL: NEW ITEMIZED INVOICE WITH DEFINITION FIELD -->
     <div x-show="showNewInvoiceModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div class="bg-forest-900 border border-forest-700 rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl" @click.away="showNewInvoiceModal = false">
             <div class="flex items-center justify-between border-b border-forest-800 pb-4">
@@ -336,7 +309,11 @@
                 </div>
                 <div>
                     <label class="block text-gray-400 uppercase font-bold mb-1">Item Description</label>
-                    <input type="text" x-model="newItem.itemDesc" placeholder="e.g. Rare Palm Trees & Grading" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                    <input type="text" x-model="newItem.itemDesc" placeholder="e.g. Botanical Master Planning" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
+                </div>
+                <div>
+                    <label class="block text-gray-400 uppercase font-bold mb-1">Item Definition / Scope Specification</label>
+                    <input type="text" x-model="newItem.definition" placeholder="e.g. Phase 1 grading, soil conditioning & rare palm layout" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -377,16 +354,15 @@
                 clientFilter: 'All',
                 currentUser: { username: 'cuteako', role: 'Admin' },
 
-                newItem: { client: '', itemDesc: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 },
+                newItem: { client: '', itemDesc: '', definition: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 },
 
                 invoices: [
-                    { id: 'INV-201', client: 'Ayala Land Premier', itemDesc: 'Botanical Master Planning - Phase 1', qty: 1, unitPrice: 185000, discount: 5000, taxRate: 0, status: 'Paid' },
-                    { id: 'INV-202', client: 'Rockwell Land Corp', itemDesc: 'Hardscape & Stone Patio Installation', qty: 2, unitPrice: 120000, discount: 0, taxRate: 0, status: 'Pending' },
-                    { id: 'INV-203', client: 'Megaworld Properties', itemDesc: 'Sustainable Forestry & Irrigation', qty: 1, unitPrice: 95000, discount: 2500, taxRate: 0, status: 'Past Due' }
+                    { id: 'INV-801', client: 'Ayala Land Premier', itemDesc: 'Botanical Master Planning', definition: 'Phase 1 site contouring, native flora curation & irrigation mapping', qty: 1, unitPrice: 185000, discount: 5000, taxRate: 0, status: 'Paid' },
+                    { id: 'INV-802', client: 'Rockwell Land Corp', itemDesc: 'Hardscape & Stone Patio', definition: 'Basalt pavers, custom boulder placement & drainage channels', qty: 2, unitPrice: 120000, discount: 0, taxRate: 0, status: 'Pending' }
                 ],
 
                 auditLogs: [
-                    { user: 'cuteako', action: 'Restored exact Layout 7 itemized billing structure', time: '8:15 PM' }
+                    { user: 'cuteako', action: 'Initialized Layout 8 with password-free switching and definition field', time: '8:30 PM' }
                 ],
 
                 get uniqueClients() {
@@ -456,11 +432,12 @@
                         alert('Please fill out client name and item description.');
                         return;
                     }
-                    const newId = 'INV-' + Math.floor(200 + Math.random() * 800);
+                    const newId = 'INV-' + Math.floor(800 + Math.random() * 200);
                     this.invoices.push({
                         id: newId,
                         client: this.newItem.client,
                         itemDesc: this.newItem.itemDesc,
+                        definition: this.newItem.definition || 'Standard scope implementation',
                         qty: this.newItem.qty,
                         unitPrice: this.newItem.unitPrice,
                         discount: this.newItem.discount,
@@ -469,10 +446,10 @@
                     });
                     this.auditLogs.unshift({
                         user: this.currentUser.username,
-                        action: `Created itemized invoice ${newId} for ${this.newItem.client}`,
+                        action: `Created invoice ${newId} with definition notes`,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
-                    this.newItem = { client: '', itemDesc: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 };
+                    this.newItem = { client: '', itemDesc: '', definition: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 };
                     this.showNewInvoiceModal = false;
                 }
             }
