@@ -1,459 +1,1058 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verdant Craft Landscaping & Forestry Portal - Layout 8</title>
+    <title>Verdant Craft Landscaping & Forestry Portal</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         forest: {
-                            900: '#0d140e',
-                            800: '#131c14',
-                            700: '#1b261c',
-                            600: '#263527',
-                            500: '#384d39',
-                            400: '#557356',
+                            950: '#0b100d',
+                            900: '#111813',
+                            800: '#18231c',
+                            700: '#223027',
+                            600: '#2c3d32',
+                            500: '#3a5243',
+                            400: '#52755f',
+                            300: '#739e83',
+                            200: '#a3c7b0',
+                            100: '#d7e8de',
+                            50: '#f0f5f2'
                         },
-                        lime: {
-                            400: '#a3e635',
-                            500: '#84cc16',
-                            600: '#65a30d',
-                        },
-                        gold: {
-                            400: '#facc15',
-                            500: '#eab308',
+                        limeaccent: {
+                            DEFAULT: '#b8e356',
+                            hover: '#a4cf42',
+                            dark: '#93bc35'
                         }
                     },
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111813;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c3d32;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a5243;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body class="bg-forest-800 text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-lime-500 selection:text-forest-900" x-data="appData()">
+<body class="bg-forest-900 text-forest-100 font-sans antialiased min-h-screen flex flex-col selection:bg-limeaccent selection:text-forest-900">
 
-    <!-- Top Navigation Header -->
-    <header class="border-b border-forest-700 bg-forest-900/90 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3 cursor-pointer" @click="currentView = 'home'">
-            <div class="w-10 h-10 rounded-xl bg-lime-500 flex items-center justify-center text-forest-900 font-bold text-xl shadow-lg">🌿</div>
-            <div>
-                <h1 class="font-bold text-lg tracking-tight text-white leading-none">Verdant Craft</h1>
-                <span class="text-xs text-lime-400 font-medium uppercase tracking-wider">Layout 8 Portal</span>
-            </div>
-        </div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-            <a href="#" @click.prevent="currentView = 'home'" class="hover:text-lime-400 transition">Home</a>
-            <a href="#" @click.prevent="currentView = 'home'" class="hover:text-lime-400 transition">About</a>
-            <a href="#" @click.prevent="currentView = 'home'" class="hover:text-lime-400 transition">Services</a>
-            <a href="#" @click.prevent="currentView = 'home'" class="hover:text-lime-400 transition">Projects</a>
-            <a href="#" @click.prevent="currentView = 'home'" class="hover:text-lime-400 transition">Contact</a>
-        </nav>
+    <header class="sticky top-0 z-40 bg-forest-900/90 backdrop-blur-md border-b border-forest-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo Brand -->
+            <a href="#home" onclick="switchView('home')" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-xl shadow-inner group-hover:scale-105 transition">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg tracking-tight text-white leading-tight">Verdant Craft</span>
+                    <span class="block text-xs text-forest-300 font-medium tracking-wider uppercase">Landscaping & Forestry</span>
+                </div>
+            </a>
 
-        <div class="flex items-center space-x-4">
-            <!-- Sales Stats Trigger -->
-            <button @click="showStatsModal = true" class="bg-forest-700 hover:bg-forest-600 text-gray-200 px-3 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1 border border-forest-600 transition">
-                <span>📊</span>
-                <span>Sales Stats</span>
-            </button>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-forest-200">
+                <a href="#home" onclick="switchView('home')" class="hover:text-limeaccent transition">Home</a>
+                <a href="#about" onclick="switchView('about')" class="hover:text-limeaccent transition">About</a>
+                <a href="#services" onclick="switchView('services')" class="hover:text-limeaccent transition">Services</a>
+                <a href="#projects" onclick="switchView('projects')" class="hover:text-limeaccent transition">Projects</a>
+                <a href="#contact" onclick="switchView('contact')" class="hover:text-limeaccent transition">Contact</a>
+            </nav>
 
-            <!-- Billing Portal Access -->
-            <button @click="currentView = 'billing'" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-4 py-2 rounded-xl text-xs font-bold flex items-center space-x-2 shadow-md transition">
-                <span>📁</span>
-                <span>Billing Portal</span>
-            </button>
-
-            <!-- Password-Free User Auth Profile Switcher -->
-            <div class="relative" x-data="{ openMenu: false }">
-                <button @click="openMenu = !openMenu" class="flex items-center space-x-2 bg-forest-700/80 px-3 py-1.5 rounded-xl border border-forest-600 hover:border-lime-500/50 transition">
-                    <span class="w-7 h-7 rounded-lg bg-forest-600 flex items-center justify-center text-lime-400 text-xs font-bold" x-text="currentUser.username.substring(0,2).toUpperCase()"></span>
-                    <span class="text-xs font-semibold text-gray-200" x-text="currentUser.username"></span>
-                    <span class="text-[10px] bg-lime-500/20 text-lime-400 px-1.5 py-0.5 rounded font-bold uppercase" x-text="currentUser.role"></span>
-                </button>
-                <div x-show="openMenu" @click.away="openMenu = false" class="absolute right-0 mt-2 w-48 bg-forest-900 border border-forest-700 rounded-xl shadow-2xl py-2 z-50 text-xs">
-                    <div class="px-4 py-2 border-b border-forest-800 text-gray-400">Switch profile instantly:</div>
-                    <button @click="switchUser('cuteako'); openMenu = false;" class="w-full text-left px-4 py-2 hover:bg-forest-800 text-gray-300 flex items-center justify-between">
-                        <span>Admin (cuteako)</span>
-                        <span x-show="currentUser.username === 'cuteako'" class="text-lime-400">✓</span>
-                    </button>
-                    <button @click="switchUser('landscape'); openMenu = false;" class="w-full text-left px-4 py-2 hover:bg-forest-800 text-gray-300 flex items-center justify-between">
-                        <span>Member (landscape)</span>
-                        <span x-show="currentUser.username === 'landscape'" class="text-lime-400">✓</span>
-                    </button>
+            <!-- Right Actions: Role Switcher / Portal Buttons -->
+            <div class="flex items-center gap-3">
+                <div id="auth-nav-area" class="flex items-center gap-3">
+                    <!-- Dynamic Auth buttons inserted by JS -->
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Application Body -->
-    <main class="flex-1 flex flex-col">
+    <main id="main-content" class="flex-grow">
+        <!-- Views injected dynamically -->
+    </main>
 
-        <!-- VIEW 1: HOMEPAGE (LAYOUT 8) -->
-        <div x-show="currentView === 'home'" class="flex-1 flex flex-col">
-            <!-- Hero Section -->
-            <section class="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh] border-b border-forest-700">
-                <div class="flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-20 space-y-6">
-                    <div class="inline-flex items-center space-x-2 bg-forest-700/50 border border-forest-600 px-3 py-1 rounded-full text-xs font-medium text-lime-400 w-max">
-                      <span>✨</span>
-                      <span>Verdant Craft Layout 8 Architecture</span>
+    <footer class="bg-forest-950 border-t border-forest-800 py-12 px-4 sm:px-6 lg:px-8 text-forest-400 text-sm">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center text-limeaccent text-sm">
+                        <i class="fa-solid fa-leaf"></i>
                     </div>
-                    <h1 class="text-4xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                        Bringing Beauty And The Functionality to Your Landscape
-                    </h1>
-                    <p class="text-gray-400 text-sm lg:text-base leading-relaxed max-w-lg">
-                        Verdant Craft brings decades of expertise to sustainable landscaping, botanical master planning, and outdoor design contractor services to your landscape.
-                    </p>
-                    <div class="flex flex-wrap items-center gap-4 pt-2">
-                        <button @click="currentView = 'billing'" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-6 py-3 rounded-xl font-bold text-sm shadow-lg transition">
-                            Explore Billing Portal
+                    <span class="font-bold text-white text-base">Verdant Craft</span>
+                </div>
+                <p class="text-xs text-forest-400 leading-relaxed mb-4">
+                    Bringing beauty and the functionality to your landscape with sustainable forestry, exquisite landscape architecture, and pristine maintenance.
+                </p>
+                <div class="flex items-center gap-3 text-forest-300">
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#home" onclick="switchView('home')" class="hover:text-limeaccent transition">Home Landscape</a></li>
+                    <li><a href="#about" onclick="switchView('about')" class="hover:text-limeaccent transition">About Our Firm</a></li>
+                    <li><a href="#services" onclick="switchView('services')" class="hover:text-limeaccent transition">Services & Pricing</a></li>
+                    <li><a href="#projects" onclick="switchView('projects')" class="hover:text-limeaccent transition">Featured Projects</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Our Expertise</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Botanical Master Planning</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Hardscape & Stone Patios</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Sustainable Forestry</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Irrigation & Water Features</span></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-4">Headquarters</h4>
+                <p class="text-xs text-forest-400 mb-2">Verdant Craft Landscaping, Building 4, Greenbelt Corporate Center, Makati City, Metro Manila, Philippines</p>
+                <p class="text-xs text-forest-300 font-medium mb-1"><i class="fa-solid fa-phone mr-2 text-limeaccent"></i> +63 917 555 8924</p>
+                <p class="text-xs text-forest-300 font-medium"><i class="fa-solid fa-envelope mr-2 text-limeaccent"></i> info@verdantcraft.ph</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 border-t border-forest-900 flex flex-col sm:flex-row items-center justify-between text-xs text-forest-500">
+            <p>&copy; 2026 Verdant Craft Landscaping & Forestry. All rights reserved.</p>
+            <div class="flex gap-4 mt-2 sm:mt-0">
+                <a href="#" class="hover:text-forest-300 transition">Privacy Policy</a>
+                <a href="#" class="hover:text-forest-300 transition">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-forest-800 border border-forest-700 w-full max-w-md rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">Portal Sign In</h3>
+                <p class="text-xs text-forest-300 mt-1">Access the billing portal and project audit logs</p>
+            </div>
+            
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-forest-300 mb-1">Username / Passcode</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-forest-400"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="login-username" required placeholder="e.g., cuteako or landscape" class="w-full pl-10 pr-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent transition">
+                    </div>
+                    <p class="text-[11px] text-forest-400 mt-1.5">Hints: <code class="text-limeaccent font-mono">cuteako</code> (Admin) or <code class="text-limeaccent font-mono">landscape</code> (Member)</p>
+                </div>
+                <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-semibold py-2.5 rounded-lg text-sm transition shadow-md">
+                    Sign In to Portal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="stats-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-forest-800 border border-forest-700 w-full max-w-2xl rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+            <button onclick="toggleStatsModal(false)" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-lg">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">Sales & Performance Statistics</h3>
+                    <p class="text-xs text-forest-300">Real-time revenue and project conversion metrics</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Today's Revenue</p>
+                    <h4 class="text-xl font-bold text-white">₱ 42,500</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +12.4% vs yesterday</span>
+                </div>
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Weekly Performance</p>
+                    <h4 class="text-xl font-bold text-white">₱ 318,900</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +8.1% vs last week</span>
+                </div>
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Monthly Total</p>
+                    <h4 class="text-xl font-bold text-white">₱ 1,450,200</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +15.3% target achieved</span>
+                </div>
+            </div>
+
+            <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                <h5 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Project Status Distribution</h5>
+                <div class="space-y-2">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Completed & Paid Landscaping</span>
+                            <span class="text-white font-medium">68%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-limeaccent h-2 rounded-full" style="width: 68%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Active Proposals / Pending</span>
+                            <span class="text-white font-medium">22%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-amber-500 h-2 rounded-full" style="width: 22%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Scheduled Consultations</span>
+                            <span class="text-white font-medium">10%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentUser = null; // { username: 'cuteako', role: 'admin' } or { username: 'landscape', role: 'member' }
+        let currentView = 'home'; // 'home', 'about', 'services', 'projects', 'contact', 'billing'
+
+        // Mock Data for Invoices / Philippine Peso Billing Portal
+        let invoices = [
+            { id: 'INV-2026-001', client: 'Ayala Land Premier (Nuvali)', scope: 'Botanical Master Planning & Native Canopy Integration', amount: 185000, discount: 5000, taxRate: 0, status: 'Paid', date: '2026-06-01' },
+            { id: 'INV-2026-002', client: 'Megaworld Forbes Town Residence', scope: 'Zen Minimalist Turf & Perimeter Bamboo Wall', amount: 95000, discount: 0, taxRate: 0, status: 'Pending', date: '2026-06-04' },
+            { id: 'INV-2026-003', client: 'Tagaytay Highlands Botanical Villa', scope: 'Natural Flagstone Patio & Cascade Water Feature', amount: 240000, discount: 10000, taxRate: 0, status: 'Paid', date: '2026-06-02' },
+            { id: 'INV-2026-004', client: 'Sta. Elena Golf Estate Clubhouse', scope: 'Hardscape Maintenance & Smart Drip Irrigation', amount: 120000, discount: 2000, taxRate: 0, status: 'Past Due', date: '2026-05-15' },
+            { id: 'INV-2026-005', client: 'Greenmeadows Residential Garden', scope: 'Tropical Palm Tree Rescape & Outdoor LED Lighting', amount: 75000, discount: 0, taxRate: 0, status: 'Pending', date: '2026-06-05' }
+        ];
+
+        let auditLogs = [
+            { time: '10:42 AM', user: 'cuteako (Admin)', action: 'Generated invoice INV-2026-005' },
+            { time: '09:15 AM', user: 'landscape (Member)', action: 'Updated project status for Nuvali Villa' },
+            { time: 'Yesterday', user: 'cuteako (Admin)', action: 'Exported monthly Philippine Peso billing summary' }
+        ];
+
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium shadow-lg border animate-fade-in ${
+                type === 'success' 
+                ? 'bg-forest-800 border-forest-700 text-limeaccent' 
+                : 'bg-forest-800 border-red-800 text-red-400'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-limeaccent' : 'fa-circle-exclamation text-red-400'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Navigation Controller
+        function switchView(viewName) {
+            currentView = viewName;
+            renderNavbarAuth();
+            renderMainContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Navbar Authentication Elements & Password-Free Role Switcher
+        function renderNavbarAuth() {
+            const authArea = document.getElementById('auth-nav-area');
+            if (currentUser) {
+                authArea.innerHTML = `
+                    <div class="hidden sm:flex items-center gap-2 bg-forest-800/90 border border-forest-700 px-3 py-1.5 rounded-lg text-xs font-medium text-forest-200">
+                        <span class="w-2 h-2 rounded-full bg-limeaccent"></i></span>
+                        <span>Role: <strong class="text-white capitalize">${currentUser.username} (${currentUser.role})</strong></span>
+                    </div>
+                    <button onclick="quickSwitchUser()" class="bg-forest-800 hover:bg-forest-700 border border-forest-700 px-2.5 py-1.5 rounded-lg text-xs font-medium text-limeaccent transition" title="Switch Role">
+                        <i class="fa-solid fa-rotate mr-1"></i> Switch
+                    </button>
+                    <button onclick="toggleStatsModal(true)" class="hidden lg:flex items-center gap-2 bg-forest-800 hover:bg-forest-700 border border-forest-700 px-3 py-1.5 rounded-lg text-xs font-medium text-forest-200 transition">
+                        <i class="fa-solid fa-chart-line text-limeaccent"></i> Stats
+                    </button>
+                    <button onclick="switchView('billing')" class="flex items-center gap-2 bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-3 py-1.5 rounded-lg text-xs font-semibold transition shadow">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Billing Portal
+                    </button>
+                    <button onclick="handleLogout()" title="Sign Out" class="w-8 h-8 rounded-lg bg-forest-800 hover:bg-red-950/50 hover:text-red-400 text-forest-400 flex items-center justify-center transition">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                `;
+            } else {
+                authArea.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <button onclick="quickLogin('cuteako')" class="bg-forest-800 hover:bg-forest-700 border border-forest-700 text-limeaccent px-3 py-1.5 rounded-lg text-xs font-semibold transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-shield"></i> As cuteako (Admin)
                         </button>
-                        <div class="flex items-center space-x-3 bg-forest-700/40 px-4 py-3 rounded-xl border border-forest-600">
-                            <span class="text-lime-400 text-lg">📞</span>
-                            <div>
-                                <span class="text-[10px] text-gray-400 uppercase tracking-wider block">Phone Line</span>
-                                <span class="text-xs font-bold text-white">+63 917 7747 3839</span>
+                        <button onclick="quickLogin('landscape')" class="bg-forest-800 hover:bg-forest-700 border border-forest-700 text-forest-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-user"></i> As landscape
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Quick Password-Free Role Switcher
+        function quickLogin(username) {
+            if (username === 'cuteako') {
+                currentUser = { username: 'cuteako', role: 'admin' };
+                showToast('Switched to Admin Role (cuteako)');
+            } else {
+                currentUser = { username: 'landscape', role: 'member' };
+                showToast('Switched to Member Role (landscape)');
+            }
+            addAuditLog(`Quick switched role to ${currentUser.username} (${currentUser.role})`);
+            switchView('billing');
+        }
+
+        function quickSwitchUser() {
+            if (currentUser && currentUser.username === 'cuteako') {
+                quickLogin('landscape');
+            } else {
+                quickLogin('cuteako');
+            }
+        }
+
+        // Render Main Content based on currentView
+        function renderMainContent() {
+            const main = document.getElementById('main-content');
+            if (currentView === 'home') {
+                main.innerHTML = getHomeViewHTML();
+            } else if (currentView === 'about') {
+                main.innerHTML = getAboutViewHTML();
+            } else if (currentView === 'services') {
+                main.innerHTML = getServicesViewHTML();
+            } else if (currentView === 'projects') {
+                main.innerHTML = getProjectsViewHTML();
+            } else if (currentView === 'contact') {
+                main.innerHTML = getContactViewHTML();
+            } else if (currentView === 'billing') {
+                if (!currentUser) {
+                    quickLogin('cuteako');
+                    return;
+                }
+                main.innerHTML = getBillingViewHTML();
+                renderInvoicesTable();
+            }
+        }
+
+        function getHomeViewHTML() {
+            return `
+                <!-- Hero Section matching Layout 7 & 8 reference -->
+                <section class="relative bg-forest-900 py-12 lg:py-20 overflow-hidden border-b border-forest-800">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                            <!-- Left Column: Title & CTA -->
+                            <div class="lg:col-span-6 space-y-6">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-800 border border-forest-700 text-xs text-limeaccent font-medium">
+                                    <i class="fa-solid fa-seedling"></i> Award-Winning Philippine Landscape Architecture
+                                </div>
+                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]">
+                                    Bringing Beauty And The Functionality To Your Landscape
+                                </h1>
+                                <p class="text-forest-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                                    Crafting botanical masterworks and sustainable forestry in premium estates across Metro Manila, Tagaytay, and Nuvali.
+                                </p>
+                                <div class="flex flex-wrap items-center gap-4 pt-2">
+                                    <button onclick="switchView('services')" class="bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-6 py-3 rounded-full text-sm font-semibold transition shadow-lg flex items-center gap-2">
+                                        Explore Our Services <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                    <div class="flex items-center gap-3 px-4 py-2 bg-forest-800/80 rounded-full border border-forest-700">
+                                        <div class="w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center text-limeaccent">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div>
+                                            <span class="block text-[10px] text-forest-400 uppercase">Call Our Experts</span>
+                                            <span class="text-xs font-bold text-white">+63 917 555 8924</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mini Feature Badges -->
+                                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-forest-800/80">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-tree"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Botanical Design</h4>
+                                            <p class="text-[11px] text-forest-400">Tailored Layouts</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-water"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Water Features</h4>
+                                            <p class="text-[11px] text-forest-400">Ponds & Fountains</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-sun"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Lighting Systems</h4>
+                                            <p class="text-[11px] text-forest-400">Eco-LED Outdoor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: High-Definition Tropical Landscape Image matching reference -->
+                            <div class="lg:col-span-6 relative">
+                                <div class="relative rounded-3xl overflow-hidden border-2 border-forest-700 shadow-2xl group">
+                                    <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200&auto=format&fit=crop" 
+                                         alt="Tropical garden pathway with stone pavers and lush ferns" 
+                                         class="w-full h-[420px] sm:h-[480px] object-cover group-hover:scale-105 transition duration-700"
+                                         onerror="this.src='https://placehold.co/800x600/223027/d7e8de?text=Verdant+Landscape'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+                                        <div class="bg-forest-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-forest-700">
+                                            <span class="block text-[10px] text-forest-400 uppercase">Featured Project</span>
+                                            <span class="text-xs font-bold text-white">Nuvali Forest Sanctuary Estate</span>
+                                        </div>
+                                        <span class="w-10 h-10 rounded-full bg-limeaccent text-forest-900 flex items-center justify-center font-bold shadow-lg">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <div class="grid grid-cols-3 gap-3 pt-6 border-t border-forest-700/50">
-                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
-                            <div class="text-lime-400 text-lg mb-1">🌿</div>
-                            <div class="text-xs font-bold text-white">Botanical Master Planning</div>
+                <!-- About Us & Testimonial Section matching reference layout -->
+                <section class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                            <!-- About Us Text -->
+                            <div class="lg:col-span-6 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">About Us</span>
+                                <h2 class="text-3xl font-bold text-white tracking-tight">
+                                    Verdant Craft has transformed ordinary exteriors into extraordinary outdoor sanctuaries.
+                                </h2>
+                                <p class="text-forest-300 text-sm leading-relaxed">
+                                    With over 12 years of excellence in landscape architecture and ecological forestry in the Philippines, our dedicated team blends sustainable horticulture with modern structural design.
+                                </p>
+                            </div>
+
+                            <!-- Testimonial Card matching reference -->
+                            <div class="lg:col-span-6">
+                                <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 relative flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+                                    <div class="absolute top-4 right-4 text-limeaccent text-2xl opacity-40">
+                                        <i class="fa-solid fa-quote-right"></i>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" 
+                                         alt="Client Avatar" 
+                                         class="w-20 h-20 rounded-full object-cover border-2 border-limeaccent shadow-md flex-shrink-0"
+                                         onerror="this.src='https://placehold.co/150x150/3a5243/ffffff?text=Client'">
+                                    <div>
+                                        <h4 class="text-xs uppercase text-limeaccent font-semibold tracking-wider mb-1">Over 8 Years Happy Clients Speak Out</h4>
+                                        <p class="text-xs text-forest-200 italic leading-relaxed mb-3">
+                                            "Verdant Craft transformed our sprawling residential lawn in Alabang into a breathtaking tropical paradise. Their attention to plant health and stonework is unmatched."
+                                        </p>
+                                        <div class="flex items-center gap-1 text-amber-400 text-xs">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <span class="text-forest-300 ml-2 font-semibold">5.0 / Verified Client</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
-                            <div class="text-lime-400 text-lg mb-1">🏡</div>
-                            <div class="text-xs font-bold text-white">Hardscape & Stone Patios</div>
+
+                        <!-- 3 Lower Project Gallery Cards matching reference image -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Card 1 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1558904541-efa843a88f01?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Stone pathway garden" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+1'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Hardscape</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Tagaytay Ridge Stone Sanctuary</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Natural flagstone patio with native Philippine flora & mood lighting.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1592417817098-8f3d692a4b5b?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Modern villa landscaping" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+2'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Modern Estate</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Forbes Park Minimalist Oasis</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Clean architectural turf, Zen water features, and perimeter bamboo.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Forest forestry landscaping" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+3'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Forestry</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Nuvali Woodland Masterplan</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Canopy preservation, indigenous tree planting, and shaded trails.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-forest-900/60 p-3 rounded-xl border border-forest-700">
-                            <div class="text-lime-400 text-lg mb-1">💧</div>
-                            <div class="text-xs font-bold text-white">Sustainable Forestry</div>
+                    </div>
+                </section>
+            `;
+        }
+
+        // About View
+        function getAboutViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Our Heritage</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Pioneering Sustainable Landscaping in the Philippines</h2>
+                            <p class="text-forest-300 text-sm">Founded in 2014, Verdant Craft has grown from a boutique arboriculture consultancy into the country's premier high-end landscape architecture firm.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                            <div class="rounded-2xl overflow-hidden border border-forest-700 shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=800&auto=format&fit=crop" alt="Landscape Team at Work" class="w-full h-80 object-cover">
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-white">Our Core Philosophy</h3>
+                                <p class="text-forest-300 text-sm leading-relaxed">
+                                    We believe that every landscape should reflect the natural beauty of its surrounding ecosystem while accommodating modern lifestyles. Whether it's a residential garden in Alabang or a commercial forestry master plan in Nuvali, we prioritize native flora, water conservation, and breathtaking aesthetic harmony.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 pt-4">
+                                    <div class="bg-forest-800 p-4 rounded-xl border border-forest-700">
+                                        <h4 class="text-2xl font-bold text-limeaccent mb-1">150+</h4>
+                                        <p class="text-xs text-forest-300">Estates Landscaped</p>
+                                    </div>
+                                    <div class="bg-forest-800 p-4 rounded-xl border border-forest-700">
+                                        <h4 class="text-2xl font-bold text-limeaccent mb-1">12 Yrs</h4>
+                                        <p class="text-xs text-forest-300">Industry Excellence</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Services View
+        function getServicesViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">What We Offer</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Comprehensive Landscaping & Forestry Services</h2>
+                            <p class="text-forest-300 text-sm">Tailored packages for private residential estates, commercial hubs, and forestry conservation.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-compass-drafting"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Landscape Architecture</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Complete 3D master planning, terrain contouring, plant selection, and hardscape integration tailored to Philippine tropical weather.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 75,000</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-tree"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Sustainable Forestry</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Native tree conservation, canopy management, watershed protection, and ecological reforestation for large estates and corporate developments.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 120,000</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-droplet"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Irrigation & Maintenance</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Automated smart drip irrigation, Koi ponds, water cascading features, and bi-weekly professional horticultural maintenance teams.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 35,000 / mo</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Projects View
+        function getProjectsViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Portfolio</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Featured Landscaping & Forestry Projects</h2>
+                            <p class="text-forest-300 text-sm">Explore our award-winning residential and commercial estates across the Philippines.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1558904541-efa843a88f01?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Tagaytay Highlands</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Pine Ridge Estate Botanical Garden</h3>
+                                    <p class="text-xs text-forest-300">Complete multi-tier stone pathways and cool-climate pine forestry integration.</p>
+                                </div>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692a4b5b?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Forbes Park, Makati</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Modern Minimalist Courtyard</h3>
+                                    <p class="text-xs text-forest-300">Zen minimalist turf, architectural lighting, and black basalt water feature.</p>
+                                </div>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Nuvali, Laguna</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Eco-Sanctuary Forestry Path</h3>
+                                    <p class="text-xs text-forest-300">Native hardwood canopy preservation and fern woodland trail landscaping.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Contact View
+        function getContactViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="bg-forest-800 border border-forest-700 rounded-3xl p-8 sm:p-12 shadow-2xl">
+                            <div class="text-center max-w-lg mx-auto mb-10">
+                                <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Get In Touch</span>
+                                <h2 class="text-3xl font-bold text-white mt-1 mb-2">Start Your Landscape Consultation</h2>
+                                <p class="text-forest-300 text-xs">Fill out the form below and our landscape architects will contact you within 24 hours.</p>
+                            </div>
+                            <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Full Name</label>
+                                        <input type="text" required placeholder="e.g. Maria Santos" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Email Address</label>
+                                        <input type="email" required placeholder="maria@example.com" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Contact Number</label>
+                                        <input type="text" required placeholder="+63 917 123 4567" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Project Location</label>
+                                        <input type="text" required placeholder="e.g. Alabang, Tagaytay, Nuvali" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Project Details & Requirements</label>
+                                    <textarea rows="4" required placeholder="Tell us about your property size and landscape vision..." class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-bold py-3 rounded-xl text-sm transition shadow-lg">
+                                    Submit Consultation Request
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getBillingViewHTML() {
+            return `
+                <div class="py-12 bg-forest-900 min-h-screen">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <!-- Portal Header -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-forest-800 border border-forest-700 p-6 rounded-2xl shadow-xl">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900 border border-forest-700 text-xs text-limeaccent font-medium mb-2">
+                                    <i class="fa-solid fa-shield-halved"></i> Role: <span class="uppercase">${currentUser.role}</span> (${currentUser.username})
+                                </div>
+                                <h1 class="text-2xl font-bold text-white">Philippine Peso (₱) Billing & Invoicing Portal</h1>
+                                <p class="text-xs text-forest-300 mt-1">Manage client billing, itemized scopes, adjustable tax rates, discounts, and audit logs.</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="openNewInvoiceModal()" class="bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow">
+                                    <i class="fa-solid fa-plus"></i> New Itemized Invoice
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Billing Filters & Controls -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Filter by Status</label>
+                                <select id="filter-status" onchange="filterInvoices()" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Past Due">Past Due</option>
+                                </select>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Search Client / Scope</label>
+                                <input type="text" id="filter-search" oninput="filterInvoices()" placeholder="Search client or scope..." class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Editable Tax Rate (%)</label>
+                                <input type="number" id="global-tax-rate" value="0" min="0" max="30" step="0.5" onchange="renderInvoicesTable()" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent font-bold text-limeaccent">
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl flex flex-col justify-center">
+                                <span class="text-[11px] font-medium text-forest-400 uppercase">Total Portfolio Billing</span>
+                                <span class="text-lg font-bold text-white" id="total-revenue-display">₱ 0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Invoices Table & Audit Trail Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <!-- Invoices Table (8 cols) -->
+                            <div class="lg:col-span-8 bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <div class="px-6 py-4 border-b border-forest-700 flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-white">Active Itemized Invoices</h3>
+                                    <span class="text-xs text-forest-400" id="invoice-count-label">Showing all records</span>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse text-xs">
+                                        <thead>
+                                            <tr class="bg-forest-900/60 text-forest-400 border-b border-forest-700">
+                                                <th class="p-4 font-medium">Invoice ID</th>
+                                                <th class="p-4 font-medium">Client Name</th>
+                                                <th class="p-4 font-medium">Definition / Scope</th>
+                                                <th class="p-4 font-medium">Subtotal (₱)</th>
+                                                <th class="p-4 font-medium">Final (₱)</th>
+                                                <th class="p-4 font-medium">Status</th>
+                                                <th class="p-4 font-medium text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoices-table-body" class="divide-y divide-forest-700/60">
+                                            <!-- Dynamic rows inserted by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Audit Trail (4 cols) -->
+                            <div class="lg:col-span-4 bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col">
+                                <div class="flex items-center justify-between mb-4 pb-3 border-b border-forest-700">
+                                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-clock-rotate-left text-limeaccent"></i> Real-time Audit Trail
+                                    </h3>
+                                    <span class="text-[10px] bg-forest-900 text-limeaccent px-2 py-0.5 rounded border border-forest-700">Live</span>
+                                </div>
+                                <div class="space-y-3 overflow-y-auto max-h-[360px] pr-1 flex-grow" id="audit-trail-container">
+                                    <!-- Dynamic audit logs -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="relative bg-forest-900 flex items-center justify-center p-6 lg:p-12 overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-t from-forest-900 via-transparent to-transparent z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1558904541-efa8c4a4e8d3?auto=format&fit=crop&q=80&w=1200" alt="Lush Tropical Garden Pathway" class="w-full h-full object-cover rounded-2xl shadow-2xl border border-forest-700/80">
-                    <div class="absolute bottom-10 left-10 z-20 bg-forest-900/90 backdrop-blur px-5 py-3 rounded-xl border border-forest-700 shadow-xl">
-                        <div class="text-xs text-lime-400 font-bold uppercase tracking-wider">Layout 8 Featured Project</div>
-                        <div class="text-sm font-semibold text-white">The Tranquil Garden Escape</div>
+                <!-- New Invoice Modal with Definition / Scope Field -->
+                <div id="new-invoice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+                    <div class="bg-forest-800 border border-forest-700 w-full max-w-lg rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+                        <button onclick="closeNewInvoiceModal()" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <h3 class="text-lg font-bold text-white mb-4">Create New Itemized Philippine Peso Invoice</h3>
+                        <form onsubmit="handleCreateInvoice(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-forest-300 mb-1">Client / Project Name</label>
+                                <input type="text" id="new-inv-client" required placeholder="e.g. Ayala Land Premier Villa" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-forest-300 mb-1">Definition / Scope</label>
+                                <input type="text" id="new-inv-scope" required placeholder="e.g. Botanical Master Planning & Stone Patios" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Amount (₱)</label>
+                                    <input type="number" id="new-inv-amount" required min="1000" placeholder="50000" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Discount (₱)</label>
+                                    <input type="number" id="new-inv-discount" value="0" min="0" placeholder="0" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-forest-300 mb-1">Status</label>
+                                <select id="new-inv-status" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Past Due">Past Due</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-bold py-2.5 rounded-xl text-xs transition shadow">
+                                Save & Generate Invoice
+                            </button>
+                        </form>
                     </div>
                 </div>
-            </section>
-        </div>
+            `;
+        }
 
-        <!-- VIEW 2: ITEMIZED BILLING PORTAL WITH DEFINITION SUPPORT -->
-        <div x-show="currentView === 'billing'" class="flex-1 p-6 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-forest-900 p-6 rounded-2xl border border-forest-700">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">Billing & Invoicing Portal (Layout 8)</h2>
-                    <p class="text-xs text-gray-400">Itemized line-row billing with Philippine Peso (₱), custom scope definitions, and client discounts.</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button @click="showNewInvoiceModal = true" class="bg-lime-500 hover:bg-lime-400 text-forest-900 px-4 py-2.5 rounded-xl font-bold text-xs shadow transition flex items-center space-x-2">
-                        <span>➕</span>
-                        <span>New Itemized Invoice</span>
-                    </button>
-                </div>
-            </div>
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
 
-            <!-- Filter Controls -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-forest-900/60 p-4 rounded-xl border border-forest-700">
-                <div>
-                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Status Filter</label>
-                    <select x-model="statusFilter" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-xs text-white">
-                        <option value="All">All Statuses</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Past Due">Past Due</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Client Filter</label>
-                    <select x-model="clientFilter" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-xs text-white">
-                        <option value="All">All Clients</option>
-                        <template x-for="client in uniqueClients">
-                            <option :value="client" x-text="client"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <div class="text-xs text-gray-400 bg-forest-800 px-3 py-2 rounded-lg border border-forest-600 w-full flex justify-between items-center">
-                        <span>Total Revenue:</span>
-                        <span class="font-bold text-lime-400" x-text="formatPeso(filteredTotalRevenue())"></span>
-                    </div>
-                </div>
-            </div>
+        // Stats Modal Handlers
+        function toggleStatsModal(show) {
+            const modal = document.getElementById('stats-modal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
 
-            <!-- Detailed Itemized Invoices Table -->
-            <div class="bg-forest-900 rounded-2xl border border-forest-700 overflow-hidden shadow-xl">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-forest-800/80 border-b border-forest-700 text-[11px] uppercase tracking-wider text-gray-400">
-                            <th class="p-4">Inv #</th>
-                            <th class="p-4">Client</th>
-                            <th class="p-4">Description & Definition</th>
-                            <th class="p-4">Qty</th>
-                            <th class="p-4">Unit Price (₱)</th>
-                            <th class="p-4">Discount (₱)</th>
-                            <th class="p-4">Tax (%)</th>
-                            <th class="p-4">Total (₱)</th>
-                            <th class="p-4">Status</th>
-                            <th class="p-4 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-forest-800 text-xs">
-                        <template x-for="inv in filteredInvoices" :key="inv.id">
-                            <tr class="hover:bg-forest-800/40 transition">
-                                <td class="p-4 font-mono font-bold text-lime-400" x-text="inv.id"></td>
-                                <td class="p-4 font-semibold text-white" x-text="inv.client"></td>
-                                <td class="p-4">
-                                    <div class="font-semibold text-white" x-text="inv.itemDesc"></div>
-                                    <div class="text-[11px] text-lime-400/90 italic mt-0.5" x-text="'Definition: ' + inv.definition"></div>
-                                </td>
-                                <td class="p-4 text-gray-300" x-text="inv.qty"></td>
-                                <td class="p-4 font-mono" x-text="formatPeso(inv.unitPrice)"></td>
-                                <td class="p-4 font-mono text-gold-400" x-text="'-' + formatPeso(inv.discount)"></td>
-                                <td class="p-4 font-mono" x-text="inv.taxRate + '%'"></td>
-                                <td class="p-4 font-mono font-bold text-white" x-text="formatPeso(calcItemTotal(inv))"></td>
-                                <td class="p-4">
-                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase"
-                                        :class="{
-                                            'bg-lime-500/20 text-lime-400 border border-lime-500/30': inv.status === 'Paid',
-                                            'bg-gold-500/20 text-gold-400 border border-gold-500/30': inv.status === 'Pending',
-                                            'bg-red-500/20 text-red-400 border border-red-500/30': inv.status === 'Past Due'
-                                        }"
-                                        x-text="inv.status">
-                                    </span>
-                                </td>
-                                <td class="p-4 text-right space-x-1">
-                                    <button @click="toggleStatus(inv.id)" class="bg-forest-700 hover:bg-forest-600 text-gray-200 px-2 py-1 rounded text-[10px] border border-forest-600">Status</button>
-                                    <button @click="deleteInvoice(inv.id)" x-show="currentUser.role === 'Admin'" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px] border border-red-500/30">Del</button>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </div>
+        // Contact Form Submission Handler
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast('Consultation request sent successfully! We will contact you soon.');
+            e.target.reset();
+        }
 
-            <!-- Audit Trail -->
-            <div class="bg-forest-900 p-6 rounded-2xl border border-forest-700 space-y-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-bold text-white flex items-center space-x-2"><span>🛡️</span><span>Real-time Audit Trail</span></h3>
-                    <span class="text-[10px] bg-forest-800 text-lime-400 px-2 py-1 rounded border border-forest-700 font-mono">Live Recording</span>
-                </div>
-                <div class="bg-forest-800/60 rounded-xl p-4 border border-forest-700 max-h-36 overflow-y-auto space-y-2 font-mono text-[11px]">
-                    <template x-for="log in auditLogs">
-                        <div class="flex items-center justify-between text-gray-300 border-b border-forest-700/50 pb-1">
-                            <div><span class="text-lime-400 font-bold" x-text="'[' + log.user + ']'"></span> <span class="ml-2" x-text="log.action"></span></div>
-                            <span class="text-gray-500 text-[10px]" x-text="log.time"></span>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </div>
-    </main>
+        // Billing Portal Logic & Rendering
+        function renderInvoicesTable() {
+            const tbody = document.getElementById('invoices-table-body');
+            if (!tbody) return;
 
-    <!-- Footer -->
-    <footer class="border-t border-forest-700 bg-forest-900 px-6 py-6 text-xs text-gray-400 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>Address: Verdant Craft Landscaping, Building 4, Greenbelt Corporate Center, Makati City, Metro Manila</div>
-        <div>© 2026 Verdant Craft Landscaping. All Rights Reserved.</div>
-    </footer>
+            const statusFilter = document.getElementById('filter-status').value;
+            const searchFilter = document.getElementById('filter-search').value.toLowerCase();
+            const taxRate = parseFloat(document.getElementById('global-tax-rate').value) || 0;
 
-    <!-- MODAL: SALES STATISTICS -->
-    <div x-show="showStatsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-forest-900 border border-forest-700 rounded-2xl p-6 max-w-md w-full space-y-6 shadow-2xl" @click.away="showStatsModal = false">
-            <div class="flex items-center justify-between border-b border-forest-800 pb-4">
-                <h3 class="font-bold text-base text-white flex items-center space-x-2"><span>📊</span><span>Sales Statistics Summary</span></h3>
-                <button @click="showStatsModal = false" class="text-gray-400 hover:text-white font-bold">✕</button>
-            </div>
-            <div class="grid grid-cols-3 gap-3">
-                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
-                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Daily</span>
-                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(45200)"></span>
-                </div>
-                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
-                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Weekly</span>
-                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(318500)"></span>
-                </div>
-                <div class="bg-forest-800 p-3 rounded-xl border border-forest-700 text-center">
-                    <span class="text-[10px] text-gray-400 uppercase font-bold block">Monthly</span>
-                    <span class="text-sm font-bold text-lime-400" x-text="formatPeso(1425000)"></span>
-                </div>
-            </div>
-            <button @click="showStatsModal = false" class="w-full bg-forest-700 hover:bg-forest-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Close Statistics</button>
-        </div>
-    </div>
+            const filtered = invoices.filter(inv => {
+                const matchesStatus = (statusFilter === 'ALL' || inv.status === statusFilter);
+                const matchesSearch = inv.client.toLowerCase().includes(searchFilter) || inv.id.toLowerCase().includes(searchFilter) || inv.scope.toLowerCase().includes(searchFilter);
+                return matchesStatus && matchesSearch;
+            });
 
-    <!-- MODAL: NEW ITEMIZED INVOICE WITH DEFINITION FIELD -->
-    <div x-show="showNewInvoiceModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-forest-900 border border-forest-700 rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl" @click.away="showNewInvoiceModal = false">
-            <div class="flex items-center justify-between border-b border-forest-800 pb-4">
-                <h3 class="font-bold text-base text-white">Create Itemized Invoice (₱)</h3>
-                <button @click="showNewInvoiceModal = false" class="text-gray-400 hover:text-white font-bold">✕</button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block text-gray-400 uppercase font-bold mb-1">Client Name</label>
-                    <input type="text" x-model="newItem.client" placeholder="e.g. Ayala Land Premier" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 uppercase font-bold mb-1">Item Description</label>
-                    <input type="text" x-model="newItem.itemDesc" placeholder="e.g. Botanical Master Planning" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 uppercase font-bold mb-1">Item Definition / Scope Specification</label>
-                    <input type="text" x-model="newItem.definition" placeholder="e.g. Phase 1 grading, soil conditioning & rare palm layout" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-gray-400 uppercase font-bold mb-1">Quantity / Hours</label>
-                        <input type="number" x-model.number="newItem.qty" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 uppercase font-bold mb-1">Unit Price (₱)</label>
-                        <input type="number" x-model.number="newItem.unitPrice" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-gray-400 uppercase font-bold mb-1">Discount (₱)</label>
-                        <input type="number" x-model.number="newItem.discount" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 uppercase font-bold mb-1">Tax Rate (%) [Default 0]</label>
-                        <input type="number" x-model.number="newItem.taxRate" class="w-full bg-forest-800 border border-forest-600 rounded-lg px-3 py-2 text-white">
-                    </div>
-                </div>
-            </div>
-            <div class="flex space-x-3 pt-2">
-                <button @click="createInvoice()" class="flex-1 bg-lime-500 hover:bg-lime-400 text-forest-900 font-bold py-2.5 rounded-xl text-xs">Save Invoice</button>
-                <button @click="showNewInvoiceModal = false" class="bg-forest-800 text-gray-300 px-4 py-2.5 rounded-xl text-xs">Cancel</button>
-            </div>
-        </div>
-    </div>
+            let totalRev = 0;
+            tbody.innerHTML = '';
 
-    <!-- Alpine.js Application Logic -->
-    <script>
-        function appData() {
-            return {
-                currentView: 'home',
-                showStatsModal: false,
-                showNewInvoiceModal: false,
-                statusFilter: 'All',
-                clientFilter: 'All',
-                currentUser: { username: 'cuteako', role: 'Admin' },
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-forest-400">No invoices match your filter criteria.</td></tr>`;
+                document.getElementById('total-revenue-display').innerText = '₱ 0.00';
+                document.getElementById('invoice-count-label').innerText = '0 records found';
+                return;
+            }
 
-                newItem: { client: '', itemDesc: '', definition: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 },
-
-                invoices: [
-                    { id: 'INV-801', client: 'Ayala Land Premier', itemDesc: 'Botanical Master Planning', definition: 'Phase 1 site contouring, native flora curation & irrigation mapping', qty: 1, unitPrice: 185000, discount: 5000, taxRate: 0, status: 'Paid' },
-                    { id: 'INV-802', client: 'Rockwell Land Corp', itemDesc: 'Hardscape & Stone Patio', definition: 'Basalt pavers, custom boulder placement & drainage channels', qty: 2, unitPrice: 120000, discount: 0, taxRate: 0, status: 'Pending' }
-                ],
-
-                auditLogs: [
-                    { user: 'cuteako', action: 'Initialized Layout 8 with password-free switching and definition field', time: '8:30 PM' }
-                ],
-
-                get uniqueClients() {
-                    return [...new Set(this.invoices.map(i => i.client))];
-                },
-
-                calcItemTotal(inv) {
-                    const sub = (inv.qty * inv.unitPrice) - inv.discount;
-                    return sub * (1 + (inv.taxRate / 100));
-                },
-
-                get filteredInvoices() {
-                    return this.invoices.filter(inv => {
-                        const matchesStatus = this.statusFilter === 'All' || inv.status === this.statusFilter;
-                        const matchesClient = this.clientFilter === 'All' || inv.client === this.clientFilter;
-                        return matchesStatus && matchesClient;
-                    });
-                },
-
-                filteredTotalRevenue() {
-                    return this.filteredInvoices.reduce((sum, inv) => sum + this.calcItemTotal(inv), 0);
-                },
-
-                formatPeso(amount) {
-                    return '₱' + amount.toLocaleString('en-PH');
-                },
-
-                switchUser(username) {
-                    this.currentUser = username === 'cuteako' 
-                        ? { username: 'cuteako', role: 'Admin' } 
-                        : { username: 'landscape', role: 'Member' };
-                    this.auditLogs.unshift({
-                        user: this.currentUser.username,
-                        action: `Switched profile to ${this.currentUser.role}`,
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    });
-                },
-
-                toggleStatus(id) {
-                    const inv = this.invoices.find(i => i.id === id);
-                    if (inv) {
-                        const statuses = ['Paid', 'Pending', 'Past Due'];
-                        inv.status = statuses[(statuses.indexOf(inv.status) + 1) % statuses.length];
-                        this.auditLogs.unshift({
-                            user: this.currentUser.username,
-                            action: `Toggled invoice ${id} to ${inv.status}`,
-                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                        });
-                    }
-                },
-
-                deleteInvoice(id) {
-                    if (this.currentUser.role !== 'Admin') {
-                        alert('Only Admin users can delete invoices.');
-                        return;
-                    }
-                    this.invoices = this.invoices.filter(i => i.id !== id);
-                    this.auditLogs.unshift({
-                        user: this.currentUser.username,
-                        action: `Deleted invoice ${id}`,
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    });
-                },
-
-                createInvoice() {
-                    if (!this.newItem.client || !this.newItem.itemDesc) {
-                        alert('Please fill out client name and item description.');
-                        return;
-                    }
-                    const newId = 'INV-' + Math.floor(800 + Math.random() * 200);
-                    this.invoices.push({
-                        id: newId,
-                        client: this.newItem.client,
-                        itemDesc: this.newItem.itemDesc,
-                        definition: this.newItem.definition || 'Standard scope implementation',
-                        qty: this.newItem.qty,
-                        unitPrice: this.newItem.unitPrice,
-                        discount: this.newItem.discount,
-                        taxRate: this.newItem.taxRate,
-                        status: 'Pending'
-                    });
-                    this.auditLogs.unshift({
-                        user: this.currentUser.username,
-                        action: `Created invoice ${newId} with definition notes`,
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    });
-                    this.newItem = { client: '', itemDesc: '', definition: '', qty: 1, unitPrice: 50000, discount: 0, taxRate: 0 };
-                    this.showNewInvoiceModal = false;
+            filtered.forEach(inv => {
+                const taxableAmount = Math.max(0, inv.amount - (inv.discount || 0));
+                const taxAmount = taxableAmount * (taxRate / 100);
+                const finalTotal = taxableAmount + taxAmount;
+                if (inv.status === 'Paid') {
+                    totalRev += finalTotal;
                 }
+
+                const statusColor = inv.status === 'Paid' 
+                    ? 'bg-emerald-900/60 text-emerald-300 border-emerald-700' 
+                    : inv.status === 'Pending' 
+                    ? 'bg-amber-900/60 text-amber-300 border-amber-700' 
+                    : 'bg-red-900/60 text-red-300 border-red-700';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-forest-900/40 transition';
+                tr.innerHTML = `
+                    <td class="p-4 font-mono font-medium text-white">${inv.id}</td>
+                    <td class="p-4 font-medium text-forest-100">${inv.client}</td>
+                    <td class="p-4 text-forest-300 max-w-xs truncate" title="${inv.scope}">${inv.scope}</td>
+                    <td class="p-4 text-forest-300">₱ ${inv.amount.toLocaleString()}</td>
+                    <td class="p-4 font-bold text-white">₱ ${finalTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-semibold border ${statusColor}">${inv.status}</span></td>
+                    <td class="p-4 text-right">
+                        <button onclick="deleteInvoice('${inv.id}')" title="Delete" class="w-7 h-7 rounded bg-forest-900 hover:bg-red-950 hover:text-red-400 text-forest-400 flex items-center justify-center transition ml-auto">
+                            <i class="fa-solid fa-trash text-[11px]"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('total-revenue-display').innerText = `₱ ${totalRev.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('invoice-count-label').innerText = `Showing ${filtered.length} of ${invoices.length} records`;
+            renderAuditTrail();
+        }
+
+        function filterInvoices() {
+            renderInvoicesTable();
+        }
+
+        function openNewInvoiceModal() {
+            document.getElementById('new-invoice-modal').classList.remove('hidden');
+        }
+        function closeNewInvoiceModal() {
+            document.getElementById('new-invoice-modal').classList.add('hidden');
+        }
+
+        function handleCreateInvoice(e) {
+            e.preventDefault();
+            const client = document.getElementById('new-inv-client').value;
+            const scope = document.getElementById('new-inv-scope').value;
+            const amount = parseFloat(document.getElementById('new-inv-amount').value);
+            const discount = parseFloat(document.getElementById('new-inv-discount').value) || 0;
+            const status = document.getElementById('new-inv-status').value;
+
+            const newId = `INV-2026-00${invoices.length + 1}`;
+            invoices.unshift({
+                id: newId,
+                client: client,
+                scope: scope,
+                amount: amount,
+                discount: discount,
+                taxRate: 0,
+                status: status,
+                date: new Date().toISOString().split('T')[0]
+            });
+
+            addAuditLog(`Created invoice ${newId} for ${client} (${scope}) - ₱ ${amount.toLocaleString()}`);
+            closeNewInvoiceModal();
+            showToast(`Invoice ${newId} successfully created!`);
+            e.target.reset();
+            renderInvoicesTable();
+        }
+
+        function deleteInvoice(id) {
+            const index = invoices.findIndex(i => i.id === id);
+            if (index !== -1) {
+                const removed = invoices.splice(index, 1)[0];
+                addAuditLog(`Deleted invoice ${removed.id} (${removed.client})`);
+                showToast(`Invoice ${id} deleted.`);
+                renderInvoicesTable();
             }
         }
+
+        function handleLogout() {
+            currentUser = null;
+            showToast('Signed out from portal successfully');
+            switchView('home');
+        }
+
+        function addAuditLog(actionText) {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            auditLogs.unshift({
+                time: timeStr,
+                user: currentUser ? `${currentUser.username} (${currentUser.role})` : 'System',
+                action: actionText
+            });
+            if (auditLogs.length > 20) auditLogs.pop();
+        }
+
+        function renderAuditTrail() {
+            const container = document.getElementById('audit-trail-container');
+            if (!container) return;
+            container.innerHTML = '';
+            auditLogs.forEach(log => {
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-xl bg-forest-900 border border-forest-700/80 text-xs space-y-1';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between text-[10px] text-forest-400">
+                        <span class="text-limeaccent font-semibold">${log.user}</span>
+                        <span>${log.time}</span>
+                    </div>
+                    <p class="text-forest-200">${log.action}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Initialize App on Load
+        window.onload = function() {
+            currentUser = { username: 'cuteako', role: 'admin' };
+            switchView('home');
+        };
     </script>
 </body>
 </html>
