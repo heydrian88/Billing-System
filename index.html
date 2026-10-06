@@ -50,13 +50,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        /* Parallax subtle effect */
-        .parallax-hero {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
     </style>
 </head>
 <body class="bg-emerald-50/30 text-gray-800 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
@@ -79,9 +72,8 @@
                 <a href="#gallery" onclick="navigateToSection('gallery')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-images mr-1.5 opacity-80"></i>Gallery</a>
                 <a href="#about" onclick="navigateToSection('about')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-mountain-sun mr-1.5 opacity-80"></i>About</a>
                 <a href="#contact" onclick="navigateToSection('contact')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-envelope mr-1.5 opacity-80"></i>Contact</a>
-                <!-- Billing & Invoices Tab visible upon authentication -->
                 <a href="#billing" id="nav-billing-tab" onclick="navigateToSection('billing')" class="hidden text-emerald-100 hover:text-white bg-forest-900/90 px-3.5 py-2 rounded-xl border border-emerald-500/40 shadow-inner transition flex items-center">
-                    <i class="fa-solid fa-file-invoice-dollar mr-2 text-emerald-400"></i>Billing Portal
+                    <i class="fa-solid fa-file-invoice-dollar mr-2 text-emerald-400"></i>Billing Portal (₱)
                 </a>
             </nav>
 
@@ -108,11 +100,12 @@
             <a href="#gallery" onclick="toggleMobileMenu(); navigateToSection('gallery')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Gallery</a>
             <a href="#about" onclick="toggleMobileMenu(); navigateToSection('about')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">About</a>
             <a href="#contact" onclick="toggleMobileMenu(); navigateToSection('contact')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Contact</a>
-            <a href="#billing" id="mobile-billing-tab" onclick="toggleMobileMenu(); navigateToSection('billing')" class="hidden block py-2.5 bg-forest-900 px-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/30">Billing & Invoices</a>
+            <a href="#billing" id="mobile-billing-tab" onclick="toggleMobileMenu(); navigateToSection('billing')" class="hidden block py-2.5 bg-forest-900 px-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/30">Billing Portal (₱)</a>
         </div>
     </header>
 
     <main class="flex-grow">
+        <!-- Home Section with 5-Photo Slideshow -->
         <section id="home" class="main-page-section relative bg-forest-950 text-white py-28 md:py-36 px-4 overflow-hidden">
             <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/70 to-transparent z-10"></div>
@@ -136,7 +129,7 @@
                     </div>
                 </div>
                 
-                <!-- Hero Slideshow supporting up to 5 photos -->
+                <!-- Hero Slideshow supporting 5 photos -->
                 <div class="relative">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-emerald-500/30 bg-forest-900 aspect-[4/3]">
                         <img src="https://placehold.co/800x600/052e16/10b981?text=Evergreen+Canopy+Design+1" alt="Forest Landscaping 1" class="w-full h-full object-cover hero-slide active slide">
@@ -157,6 +150,7 @@
             </div>
         </section>
 
+        <!-- Services Section -->
         <section id="services" class="main-page-section py-24 px-4 max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
                 <span class="text-emerald-700 font-semibold text-xs uppercase tracking-widest bg-emerald-100 px-3 py-1 rounded-full">Our Professional Craft</span>
@@ -191,6 +185,7 @@
             </div>
         </section>
 
+        <!-- Gallery Section -->
         <section id="gallery" class="main-page-section py-24 bg-forest-900/10 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
@@ -207,7 +202,6 @@
                         <img src="https://placehold.co/1200x675/14532d/ffffff?text=Gallery+Project+4:+Woodland+Paver+Path" alt="Gallery 4" class="w-full h-full object-cover gallery-slide slide">
                         <img src="https://placehold.co/1200x675/166534/ffffff?text=Gallery+Project+5:+Alpine+Spruce+Sanctuary" alt="Gallery 5" class="w-full h-full object-cover gallery-slide slide">
 
-                        <!-- Gallery Controls -->
                         <button onclick="changeGallerySlide(-1)" class="absolute left-5 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg">
                             <i class="fa-solid fa-chevron-left text-lg"></i>
                         </button>
@@ -233,6 +227,7 @@
             </div>
         </section>
 
+        <!-- About Section -->
         <section id="about" class="main-page-section py-24 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
                 <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider">About Verdant Craft</span>
@@ -250,7 +245,7 @@
                 </div>
             </div>
             <div class="bg-gradient-to-br from-forest-900 to-forest-950 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden border border-emerald-500/20">
-                <div class="absolute -right-10 -bottom-10 opacity-10 text-9k">
+                <div class="absolute -right-10 -bottom-10 opacity-10">
                     <i class="fa-solid fa-tree text-9xl"></i>
                 </div>
                 <div class="relative z-10 space-y-5">
@@ -263,6 +258,7 @@
             </div>
         </section>
 
+        <!-- Contact Section -->
         <section id="contact" class="main-page-section py-24 bg-gray-100/70 px-4">
             <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-14 border border-gray-200">
                 <div class="text-center mb-12 space-y-3">
@@ -316,51 +312,50 @@
             </div>
         </section>
 
+        <!-- Billing Section (Admin & Member Only) -->
         <section id="billing" class="main-page-section hidden py-24 px-4 max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-gray-200 gap-4">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Billing & Invoicing Portal</h2>
-                    <p class="text-gray-600 text-sm mt-1">Manage client accounts, configure admin sender credentials, create invoices with editable taxes & line item discounts, and dispatch simulated emails.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Billing & Invoicing Portal (₱ PHP)</h2>
+                    <p class="text-gray-600 text-sm mt-1">Manage client accounts, configure admin sender credentials, create invoices with Philippine Peso currency, status filters, and audit logs.</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <button onclick="switchBillingTab('invoices')" id="btn-tab-invoices" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition">Invoices</button>
                     <button onclick="switchBillingTab('clients')" id="btn-tab-clients" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition">Client Directory</button>
+                    <button onclick="switchBillingTab('audit')" id="btn-tab-audit" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition">Audit Log</button>
                     <button onclick="switchBillingTab('settings')" id="btn-tab-settings" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition admin-only">Admin Email Settings</button>
                 </div>
             </div>
 
             <!-- Live Statistics Dashboard Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                <!-- Paid Stats Card -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-100 flex items-center justify-between">
                     <div class="space-y-1">
                         <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Paid Invoices</p>
                         <h4 id="stat-paid-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-paid-total" class="text-sm font-bold text-emerald-700">$0.00</p>
+                        <p id="stat-paid-total" class="text-sm font-bold text-emerald-700">₱0.00</p>
                     </div>
                     <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                 </div>
 
-                <!-- Past Due Stats Card -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-red-100 flex items-center justify-between">
                     <div class="space-y-1">
                         <p class="text-xs font-bold uppercase tracking-wider text-red-600">Past Due Invoices</p>
                         <h4 id="stat-pastdue-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-pastdue-total" class="text-sm font-bold text-red-700">$0.00</p>
+                        <p id="stat-pastdue-total" class="text-sm font-bold text-red-700">₱0.00</p>
                     </div>
                     <div class="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
                 </div>
 
-                <!-- Pending Stats Card -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-amber-100 flex items-center justify-between">
                     <div class="space-y-1">
                         <p class="text-xs font-bold uppercase tracking-wider text-amber-600">Pending / Sent</p>
                         <h4 id="stat-pending-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-pending-total" class="text-sm font-bold text-amber-700">$0.00</p>
+                        <p id="stat-pending-total" class="text-sm font-bold text-amber-700">₱0.00</p>
                     </div>
                     <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
                         <i class="fa-solid fa-clock"></i>
@@ -385,6 +380,7 @@
                                 <select id="inv-client-select" onchange="onClientSelect()" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-medium">
                                     <option value="">-- Choose Client --</option>
                                 </select>
+                                <p id="err-client" class="text-xs text-red-500 mt-1 hidden">Please select a client.</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Issue Date *</label>
@@ -411,10 +407,10 @@
                             </div>
                         </div>
 
-                        <!-- Line Items Table with Discounts -->
+                        <!-- Line Items Table -->
                         <div class="pt-4">
                             <div class="flex justify-between items-center mb-3">
-                                <h4 class="font-bold text-gray-800 font-serif text-lg">Line Items & Discounts</h4>
+                                <h4 class="font-bold text-gray-800 font-serif text-lg">Line Items & Discounts (₱)</h4>
                                 <button type="button" onclick="addLineItemRow()" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-4 py-2 rounded-xl text-xs font-semibold border border-emerald-200 transition">
                                     <i class="fa-solid fa-plus mr-1"></i>Add Line Item
                                 </button>
@@ -425,9 +421,9 @@
                                         <tr>
                                             <th class="p-3.5">Description</th>
                                             <th class="p-3.5 w-24">Qty</th>
-                                            <th class="p-3.5 w-36">Unit Price ($)</th>
+                                            <th class="p-3.5 w-36">Unit Price (₱)</th>
                                             <th class="p-3.5 w-32">Discount (%)</th>
-                                            <th class="p-3.5 w-36">Net Amount ($)</th>
+                                            <th class="p-3.5 w-36">Net Amount (₱)</th>
                                             <th class="p-3.5 w-16 text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -436,32 +432,33 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <p id="err-items" class="text-xs text-red-500 mt-1 hidden">Please include at least one valid line item with description and rate.</p>
                         </div>
 
-                        <!-- Summary & Editable Taxes -->
+                        <!-- Summary & Taxes -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 items-center">
                             <div class="flex items-center space-x-3 bg-emerald-50/60 p-4.5 rounded-2xl border border-emerald-100">
                                 <label class="text-sm font-semibold text-gray-700">Tax Rate (%):</label>
                                 <input type="number" id="inv-tax-rate" value="12" min="0" max="100" step="0.1" oninput="calculateInvoiceTotals()" class="w-24 px-3 py-2.5 rounded-xl border border-gray-300 bg-white font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <span class="text-xs text-gray-500">(Default 12%, fully editable)</span>
+                                <span class="text-xs text-gray-500">(VAT 12%, fully editable)</span>
                             </div>
                             <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 space-y-2 text-right">
                                 <div class="flex justify-between text-sm text-gray-600">
                                     <span>Subtotal:</span>
-                                    <span id="inv-subtotal" class="font-semibold text-gray-800">$0.00</span>
+                                    <span id="inv-subtotal" class="font-semibold text-gray-800">₱0.00</span>
                                 </div>
                                 <div class="flex justify-between text-sm text-gray-600">
                                     <span>Tax Amount:</span>
-                                    <span id="inv-tax-amount" class="font-semibold text-gray-800">$0.00</span>
+                                    <span id="inv-tax-amount" class="font-semibold text-gray-800">₱0.00</span>
                                 </div>
                                 <div class="flex justify-between text-xl font-extrabold text-gray-900 border-t border-gray-300 pt-2 font-serif">
                                     <span>Total Due:</span>
-                                    <span id="inv-total" class="text-emerald-700">$0.00</span>
+                                    <span id="inv-total" class="text-emerald-700">₱0.00</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div id="invoice-form-error" class="hidden text-xs text-red-500 font-semibold">Please select a client and ensure at least one line item is added.</div>
+                        <div id="invoice-form-error" class="hidden text-xs text-red-500 font-semibold">Please correct the highlighted errors before saving.</div>
 
                         <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-gray-200">
                             <button type="button" onclick="saveInvoiceDraft()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-6 py-3.5 rounded-2xl transition">
@@ -475,9 +472,29 @@
                     </form>
                 </div>
 
-                <!-- Existing Invoices List -->
+                <!-- Existing Invoices List with Filters -->
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <h3 class="text-2xl font-bold text-gray-900 font-serif mb-6">Generated Invoices</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <h3 class="text-2xl font-bold text-gray-900 font-serif">Generated Invoices</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1">Filter by Status</label>
+                                <select id="filter-status" onchange="renderInvoicesList()" class="px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold outline-none">
+                                    <option value="All">All Statuses</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Sent">Pending / Sent</option>
+                                    <option value="Past Due">Past Due</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1">Filter by Client</label>
+                                <select id="filter-client" onchange="renderInvoicesList()" class="px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold outline-none">
+                                    <option value="All">All Clients</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
@@ -538,6 +555,34 @@
                             </thead>
                             <tbody id="clients-list-body" class="divide-y divide-gray-200 text-sm">
                                 <!-- Clients loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audit Log Tab Content -->
+            <div id="tab-content-audit" class="hidden space-y-10">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 font-serif">System Audit Log & Activity Tracker</h3>
+                            <p class="text-sm text-gray-500 mt-1">Tracks every create, edit, and delete action performed by Administrators or Members with exact timestamps.</p>
+                        </div>
+                        <button onclick="clearAuditLog()" class="text-xs text-red-600 hover:text-red-800 bg-red-50 px-3.5 py-2 rounded-xl font-semibold border border-red-200">Clear Audit Log</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
+                                <tr>
+                                    <th class="p-3.5">Timestamp</th>
+                                    <th class="p-3.5">User Role</th>
+                                    <th class="p-3.5">Action Type</th>
+                                    <th class="p-3.5">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audit-log-body" class="divide-y divide-gray-200 text-sm">
+                                <!-- Audit logs loaded dynamically -->
                             </tbody>
                         </table>
                     </div>
@@ -643,7 +688,7 @@
                     <i class="fa-solid fa-paper-plane"></i>
                 </div>
                 <h3 class="text-2xl font-bold text-gray-900 font-serif">Automated Invoice Email Dispatch</h3>
-                <p class="text-xs text-gray-500">Invoice successfully processed and dispatched via SMTP!</p>
+                <p class="text-xs text-gray-500">Invoice successfully processed and dispatched via SMTP in ₱ Philippine Pesos!</p>
             </div>
 
             <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 space-y-3 text-sm">
@@ -674,7 +719,7 @@
     </div>
 
     <script>
-        // Hero Slideshow Logic (supporting up to 5 evergreen forest photos)
+        // Hero Slideshow Logic (5 photos)
         let currentHeroIndex = 0;
         const heroSlides = document.querySelectorAll('.hero-slide');
         const heroDots = document.querySelectorAll('.hero-dot');
@@ -699,7 +744,7 @@
             showHeroSlide(currentHeroIndex);
         }, 5000);
 
-        // Gallery Slideshow Logic (supporting up to 5 photos)
+        // Gallery Slideshow Logic (5 photos)
         let currentGalleryIndex = 0;
         const gallerySlides = document.querySelectorAll('.gallery-slide');
         const galleryDotsContainer = document.getElementById('gallery-dots');
@@ -761,25 +806,16 @@
             }
         }
 
-        // Contact Form Real-Time Validation
+        // Contact Form Validation
         function validateField(fieldId) {
             const val = document.getElementById(`contact-${fieldId}`).value.trim();
             const errEl = document.getElementById(`error-${fieldId}`);
             if(!errEl) return;
-
             if(fieldId === 'email') {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if(!emailRegex.test(val)) {
-                    errEl.classList.remove('hidden');
-                } else {
-                    errEl.classList.add('hidden');
-                }
+                errEl.classList.toggle('hidden', emailRegex.test(val));
             } else {
-                if(val === '') {
-                    errEl.classList.remove('hidden');
-                } else {
-                    errEl.classList.add('hidden');
-                }
+                errEl.classList.toggle('hidden', val !== '');
             }
         }
 
@@ -791,7 +827,6 @@
             const message = document.getElementById('contact-message').value.trim();
 
             if(!name || !email || !phone || !message) {
-                alert('Please complete all required fields.');
                 return;
             }
 
@@ -802,7 +837,7 @@
             }, 5000);
         }
 
-        // Authentication & Role State
+        // Authentication State
         let currentUserRole = localStorage.getItem('vc_auth_role') || null; // 'admin' or 'member'
 
         function openLoginModal() {
@@ -850,11 +885,7 @@
 
             const adminEls = document.querySelectorAll('.admin-only');
             adminEls.forEach(el => {
-                if(currentUserRole === 'admin') {
-                    el.classList.remove('hidden');
-                } else {
-                    el.classList.add('hidden');
-                }
+                el.classList.toggle('hidden', currentUserRole !== 'admin');
             });
 
             initBillingSystem();
@@ -870,15 +901,20 @@
             navigateToSection('home');
         }
 
-        // Persistent Billing Data
+        // Persistent Billing & Audit Data (with Philippine Peso ₱)
         let clients = JSON.parse(localStorage.getItem('vc_clients')) || [
             { id: 'c1', name: 'Pinecrest Woodland Estate', email: 'billing@pinecrest.org' },
             { id: 'c2', name: 'Highland Evergreen Corp', email: 'accounts@highlandevergreen.com' }
         ];
 
         let invoices = JSON.parse(localStorage.getItem('vc_invoices')) || [
-            { id: 'INV-2026-201', clientId: 'c1', clientName: 'Pinecrest Woodland Estate', clientEmail: 'billing@pinecrest.org', date: '2026-10-01', dueDate: '2026-10-15', taxRate: 12, items: [{desc: 'Evergreen Canopy Installation & Spruce Trees', qty: 2, price: 650, discount: 5}], subtotal: 1235, taxAmount: 148.20, total: 1383.20, status: 'Paid' },
-            { id: 'INV-2026-202', clientId: 'c2', clientName: 'Highland Evergreen Corp', clientEmail: 'accounts@highlandevergreen.com', date: '2026-09-15', dueDate: '2026-09-30', taxRate: 12, items: [{desc: 'Natural Stone Stream & Waterfall Design', qty: 1, price: 950, discount: 0}], subtotal: 950, taxAmount: 114, total: 1064, status: 'Past Due' }
+            { id: 'INV-2026-201', clientId: 'c1', clientName: 'Pinecrest Woodland Estate', clientEmail: 'billing@pinecrest.org', date: '2026-10-01', dueDate: '2026-10-15', taxRate: 12, items: [{desc: 'Evergreen Canopy Installation & Spruce Trees', qty: 2, price: 36500, discount: 5}], subtotal: 69350, taxAmount: 8322, total: 77672, status: 'Paid' },
+            { id: 'INV-2026-202', clientId: 'c2', clientName: 'Highland Evergreen Corp', clientEmail: 'accounts@highlandevergreen.com', date: '2026-09-15', dueDate: '2026-09-30', taxRate: 12, items: [{desc: 'Natural Stone Stream & Waterfall Design', qty: 1, price: 54000, discount: 0}], subtotal: 54000, taxAmount: 6480, total: 60480, status: 'Past Due' }
+        ];
+
+        let auditLogs = JSON.parse(localStorage.getItem('vc_audit_logs')) || [
+            { timestamp: '2026-10-01 10:30 AM', role: 'Admin', action: 'CREATE', details: 'Created invoice INV-2026-201 for Pinecrest Woodland Estate (₱77,672.00)' },
+            { timestamp: '2026-09-15 02:15 PM', role: 'Admin', action: 'CREATE', details: 'Created invoice INV-2026-202 for Highland Evergreen Corp (₱60,480.00)' }
         ];
 
         let adminSettings = JSON.parse(localStorage.getItem('vc_admin_settings')) || {
@@ -887,11 +923,21 @@
             senderPassword: '••••••••••••'
         };
 
+        function logAudit(action, details) {
+            const now = new Date();
+            const timestamp = now.toISOString().split('T')[0] + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const role = currentUserRole === 'admin' ? 'Admin' : 'Member';
+            auditLogs.unshift({ timestamp, role, action, details });
+            localStorage.setItem('vc_audit_logs', JSON.stringify(auditLogs));
+            renderAuditLog();
+        }
+
         function initBillingSystem() {
-            populateClientDropdown();
+            populateClientDropdowns();
             renderClientsList();
             renderInvoicesList();
             updateBillingStatistics();
+            renderAuditLog();
             loadAdminSettings();
             if(invoiceItems.length === 0) {
                 addLineItemRow();
@@ -908,10 +954,12 @@
         function switchBillingTab(tabName) {
             document.getElementById('tab-content-invoices').classList.add('hidden');
             document.getElementById('tab-content-clients').classList.add('hidden');
+            document.getElementById('tab-content-audit').classList.add('hidden');
             document.getElementById('tab-content-settings').classList.add('hidden');
 
             document.getElementById('btn-tab-invoices').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
             document.getElementById('btn-tab-clients').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
+            document.getElementById('btn-tab-audit').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
             const btnSettings = document.getElementById('btn-tab-settings');
             if(btnSettings) btnSettings.className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
 
@@ -920,16 +968,31 @@
         }
 
         // Client Management
-        function populateClientDropdown() {
+        function populateClientDropdowns() {
             const select = document.getElementById('inv-client-select');
-            if(!select) return;
+            const filterClient = document.getElementById('filter-client');
+            if(!select || !filterClient) return;
+
+            const prevClientVal = select.value;
+            const prevFilterVal = filterClient.value;
+
             select.innerHTML = '<option value="">-- Choose Client --</option>';
+            filterClient.innerHTML = '<option value="All">All Clients</option>';
+
             clients.forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c.id;
-                opt.textContent = c.name + ' (' + c.email + ')';
-                select.appendChild(opt);
+                const opt1 = document.createElement('option');
+                opt1.value = c.id;
+                opt1.textContent = c.name + ' (' + c.email + ')';
+                select.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = c.id;
+                opt2.textContent = c.name;
+                filterClient.appendChild(opt2);
             });
+
+            select.value = prevClientVal;
+            filterClient.value = prevFilterVal;
         }
 
         function onClientSelect() {
@@ -951,16 +1014,18 @@
                 if(idx !== -1) {
                     clients[idx].name = name;
                     clients[idx].email = email;
+                    logAudit('UPDATE', `Updated client record for ${name}`);
                 }
             } else {
                 const newId = 'c_' + Date.now();
                 clients.push({ id: newId, name, email });
+                logAudit('CREATE', `Added new client ${name}`);
             }
 
             localStorage.setItem('vc_clients', JSON.stringify(clients));
             resetClientForm();
             renderClientsList();
-            populateClientDropdown();
+            populateClientDropdowns();
         }
 
         function editClient(id) {
@@ -974,10 +1039,12 @@
 
         function deleteClient(id) {
             if(confirm('Are you sure you want to delete this client?')) {
+                const client = clients.find(c => c.id === id);
                 clients = clients.filter(c => c.id !== id);
                 localStorage.setItem('vc_clients', JSON.stringify(clients));
                 renderClientsList();
-                populateClientDropdown();
+                populateClientDropdowns();
+                logAudit('DELETE', `Deleted client ${client ? client.name : id}`);
             }
         }
 
@@ -1025,12 +1092,13 @@
             adminSettings.senderEmail = document.getElementById('admin-sender-email').value.trim();
             adminSettings.senderPassword = document.getElementById('admin-sender-password').value.trim();
             localStorage.setItem('vc_admin_settings', JSON.stringify(adminSettings));
+            logAudit('UPDATE', 'Updated admin sender email configuration');
             alert('Admin sender email configuration updated successfully!');
         }
 
         // Line Items & Editable Taxes / Discounts
         let invoiceItems = [
-            { desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 300, discount: 0 }
+            { desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 15000, discount: 0 }
         ];
 
         function addLineItemRow() {
@@ -1062,11 +1130,11 @@
                 const netItemAmount = (item.qty * item.price) * (1 - (item.discount / 100));
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="p-2.5"><input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none" placeholder="Forest service or tree item description"></td>
+                    <td class="p-2.5"><input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none" placeholder="Forest service description"></td>
                     <td class="p-2.5"><input type="number" min="1" value="${item.qty}" oninput="updateItem(${index}, 'qty', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none"></td>
                     <td class="p-2.5"><input type="number" min="0" step="0.01" value="${item.price}" oninput="updateItem(${index}, 'price', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none"></td>
                     <td class="p-2.5"><input type="number" min="0" max="100" step="0.1" value="${item.discount}" oninput="updateItem(${index}, 'discount', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none" placeholder="0%"></td>
-                    <td class="p-2.5 font-semibold text-gray-700 item-net-display">$${netItemAmount.toFixed(2)}</td>
+                    <td class="p-2.5 font-semibold text-gray-700 item-net-display">₱${netItemAmount.toFixed(2)}</td>
                     <td class="p-2.5 text-center"><button type="button" onclick="removeLineItemRow(${index})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash"></i></button></td>
                 `;
                 tbody.appendChild(tr);
@@ -1079,7 +1147,7 @@
                 const net = (item.qty * item.price) * (1 - (item.discount / 100));
                 subtotal += net;
                 const netDisplays = document.querySelectorAll('.item-net-display');
-                if(netDisplays[idx]) netDisplays[idx].textContent = '$' + net.toFixed(2);
+                if(netDisplays[idx]) netDisplays[idx].textContent = '₱' + net.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             });
 
             const taxRateInput = document.getElementById('inv-tax-rate');
@@ -1088,9 +1156,9 @@
             const total = subtotal + taxAmount;
 
             if(document.getElementById('inv-subtotal')) {
-                document.getElementById('inv-subtotal').textContent = '$' + subtotal.toFixed(2);
-                document.getElementById('inv-tax-amount').textContent = '$' + taxAmount.toFixed(2);
-                document.getElementById('inv-total').textContent = '$' + total.toFixed(2);
+                document.getElementById('inv-subtotal').textContent = '₱' + subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('inv-tax-amount').textContent = '₱' + taxAmount.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('inv-total').textContent = '₱' + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             }
 
             return { subtotal, taxAmount, total };
@@ -1111,23 +1179,23 @@
                 } else if(status === 'Past Due') {
                     pastDueCount++;
                     pastDueTotal += amt;
-                } else {
+                } else if(status === 'Sent') {
                     pendingCount++;
                     pendingTotal += amt;
                 }
             });
 
             document.getElementById('stat-paid-count').textContent = paidCount;
-            document.getElementById('stat-paid-total').textContent = '$' + paidTotal.toFixed(2);
+            document.getElementById('stat-paid-total').textContent = '₱' + paidTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
             document.getElementById('stat-pastdue-count').textContent = pastDueCount;
-            document.getElementById('stat-pastdue-total').textContent = '$' + pastDueTotal.toFixed(2);
+            document.getElementById('stat-pastdue-total').textContent = '₱' + pastDueTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
             document.getElementById('stat-pending-count').textContent = pendingCount;
-            document.getElementById('stat-pending-total').textContent = '$' + pendingTotal.toFixed(2);
+            document.getElementById('stat-pending-total').textContent = '₱' + pendingTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
-        // Save & Send Invoice Simulation
+        // Form Validation & Save Invoice
         function saveInvoice(e) {
             e.preventDefault();
             const clientId = document.getElementById('inv-client-select').value;
@@ -1136,13 +1204,29 @@
             const dueDate = document.getElementById('inv-due-date').value || new Date().toISOString().split('T')[0];
             const taxRate = parseFloat(document.getElementById('inv-tax-rate').value) || 12;
             const status = document.getElementById('inv-status-select').value;
-            const errEl = document.getElementById('invoice-form-error');
 
-            if(!clientId || invoiceItems.length === 0) {
-                errEl.classList.remove('hidden');
+            let hasError = false;
+            if(!clientId) {
+                document.getElementById('err-client').classList.remove('hidden');
+                hasError = true;
+            } else {
+                document.getElementById('err-client').classList.add('hidden');
+            }
+
+            let validItems = invoiceItems.filter(i => i.desc.trim() !== '' && i.price > 0);
+            if(validItems.length === 0) {
+                document.getElementById('err-items').classList.remove('hidden');
+                hasError = true;
+            } else {
+                document.getElementById('err-items').classList.add('hidden');
+            }
+
+            const errBanner = document.getElementById('invoice-form-error');
+            if(hasError) {
+                errBanner.classList.remove('hidden');
                 return;
             }
-            errEl.classList.add('hidden');
+            errBanner.classList.add('hidden');
 
             const client = clients.find(c => c.id === clientId);
             const totals = calculateInvoiceTotals();
@@ -1166,8 +1250,10 @@
             const existingIdx = invoices.findIndex(i => i.id === invoiceId);
             if(existingIdx !== -1) {
                 invoices[existingIdx] = invoiceObj;
+                logAudit('UPDATE', `Updated invoice ${invoiceId} for ${invoiceObj.clientName} (₱${invoiceObj.total.toLocaleString()})`);
             } else {
                 invoices.unshift(invoiceObj);
+                logAudit('CREATE', `Created invoice ${invoiceId} for ${invoiceObj.clientName} (₱${invoiceObj.total.toLocaleString()})`);
             }
 
             localStorage.setItem('vc_invoices', JSON.stringify(invoices));
@@ -1175,7 +1261,6 @@
             updateBillingStatistics();
             resetInvoiceForm();
 
-            // Trigger email simulation modal
             document.getElementById('sim-sender').textContent = adminSettings.senderEmail;
             document.getElementById('sim-recipient').textContent = invoiceObj.clientEmail;
             document.getElementById('sim-invoice-ref').textContent = invoiceObj.id;
@@ -1211,8 +1296,13 @@
             };
 
             const existingIdx = invoices.findIndex(i => i.id === invoiceId);
-            if(existingIdx !== -1) invoices[existingIdx] = invoiceObj;
-            else invoices.unshift(invoiceObj);
+            if(existingIdx !== -1) {
+                invoices[existingIdx] = invoiceObj;
+                logAudit('UPDATE', `Saved draft for invoice ${invoiceId}`);
+            } else {
+                invoices.unshift(invoiceObj);
+                logAudit('CREATE', `Saved draft for new invoice ${invoiceId}`);
+            }
 
             localStorage.setItem('vc_invoices', JSON.stringify(invoices));
             renderInvoicesList();
@@ -1225,15 +1315,27 @@
             document.getElementById('email-dispatch-modal').classList.add('hidden');
         }
 
+        // Render Invoices with Status and Client Filters
         function renderInvoicesList() {
             const tbody = document.getElementById('invoices-list-body');
             if(!tbody) return;
+
+            const statusFilter = document.getElementById('filter-status').value;
+            const clientFilter = document.getElementById('filter-client').value;
+
+            let filtered = invoices.filter(inv => {
+                if(statusFilter !== 'All' && inv.status !== statusFilter) return false;
+                if(clientFilter !== 'All' && inv.clientId !== clientFilter) return false;
+                return true;
+            });
+
             tbody.innerHTML = '';
-            if(invoices.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-400">No invoices generated yet.</td></tr>';
+            if(filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-400">No invoices match the selected filter criteria.</td></tr>';
                 return;
             }
-            invoices.forEach(inv => {
+
+            filtered.forEach(inv => {
                 let statusBadge = '';
                 if(inv.status === 'Paid') {
                     statusBadge = '<span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">Paid</span>';
@@ -1253,7 +1355,7 @@
                     <td class="p-3.5 text-gray-600">${inv.clientEmail}</td>
                     <td class="p-3.5 text-gray-600">${inv.date}</td>
                     <td class="p-3.5 text-gray-600">${inv.dueDate || inv.date}</td>
-                    <td class="p-3.5 font-bold text-emerald-700">$${inv.total.toFixed(2)}</td>
+                    <td class="p-3.5 font-bold text-emerald-700">₱${inv.total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="p-3.5">${statusBadge}</td>
                     <td class="p-3.5 text-center space-x-2">
                         <button onclick="editInvoice('${inv.id}')" class="text-blue-600 hover:text-blue-800 text-xs font-semibold px-2.5 py-1 bg-blue-50 rounded-lg">Edit</button>
@@ -1287,6 +1389,7 @@
                 localStorage.setItem('vc_invoices', JSON.stringify(invoices));
                 renderInvoicesList();
                 updateBillingStatistics();
+                logAudit('DELETE', `Deleted invoice ${id}`);
             }
         }
 
@@ -1295,7 +1398,10 @@
             document.getElementById('invoice-id').value = '';
             document.getElementById('invoice-form-title').textContent = 'Create New Forest Invoice';
             document.getElementById('inv-tax-rate').value = '12';
-            invoiceItems = [{ desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 300, discount: 0 }];
+            document.getElementById('err-client').classList.add('hidden');
+            document.getElementById('err-items').classList.add('hidden');
+            document.getElementById('invoice-form-error').classList.add('hidden');
+            invoiceItems = [{ desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 15000, discount: 0 }];
             renderLineItems();
             calculateInvoiceTotals();
             const today = new Date().toISOString().split('T')[0];
@@ -1305,7 +1411,44 @@
             document.getElementById('inv-due-date').value = due.toISOString().split('T')[0];
         }
 
-        // On load check session authentication state
+        // Render Audit Log Table
+        function renderAuditLog() {
+            const tbody = document.getElementById('audit-log-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            if(auditLogs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-400">No activity recorded yet.</td></tr>';
+                return;
+            }
+            auditLogs.forEach(log => {
+                let roleBadge = log.role === 'Admin' ? '<span class="bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full text-xs font-bold">Admin</span>' : '<span class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-xs font-bold">Member</span>';
+                let actionBadge = '';
+                if(log.action === 'CREATE') actionBadge = '<span class="text-emerald-700 font-bold">CREATE</span>';
+                else if(log.action === 'UPDATE') actionBadge = '<span class="text-blue-700 font-bold">UPDATE</span>';
+                else if(log.action === 'DELETE') actionBadge = '<span class="text-red-700 font-bold">DELETE</span>';
+                else actionBadge = `<span class="text-gray-700 font-bold">${log.action}</span>`;
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50';
+                tr.innerHTML = `
+                    <td class="p-3.5 text-gray-600 font-mono text-xs">${log.timestamp}</td>
+                    <td class="p-3.5">${roleBadge}</td>
+                    <td class="p-3.5">${actionBadge}</td>
+                    <td class="p-3.5 text-gray-800">${log.details}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearAuditLog() {
+            if(confirm('Are you sure you want to clear the audit activity tracker?')) {
+                auditLogs = [];
+                localStorage.removeItem('vc_audit_logs');
+                renderAuditLog();
+            }
+        }
+
+        // Initialize on window load
         window.onload = function() {
             if(currentUserRole) {
                 if(currentUserRole === 'admin') setAuthUI('Administrator', 'Admin');
