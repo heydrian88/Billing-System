@@ -8,1504 +8,1039 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter & Playfair Display -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
+                    colors: {
+                        forest: {
+                            900: '#111813',
+                            800: '#18231c',
+                            700: '#223027',
+                            600: '#2c3d32',
+                            500: '#3a5243',
+                            400: '#52755f',
+                            300: '#739e83',
+                            200: '#a3c7b0',
+                            100: '#d7e8de',
+                            50: '#f0f5f2'
+                        },
+                        earth: {
+                            500: '#8c7a6b',
+                            600: '#6e5f52',
+                        },
+                        limeaccent: {
+                            DEFAULT: '#b8e356',
+                            hover: '#a4cf42',
+                            dark: '#93bc35'
+                        }
+                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    },
-                    colors: {
-                        emerald: {
-                            50: '#ecfdf5',
-                            100: '#d1fae5',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                            800: '#065f46',
-                            900: '#064e3b',
-                            950: '#022c22',
-                        },
-                        forest: {
-                            50: '#f0fdf4',
-                            800: '#166534',
-                            900: '#14532d',
-                            950: '#052e16',
-                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .slide { display: none; }
-        .slide.active { display: block; }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111813;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c3d32;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a5243;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
     </style>
 </head>
-<body class="bg-emerald-50/30 text-gray-800 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+<body class="bg-forest-900 text-forest-100 font-sans antialiased min-h-screen flex flex-col selection:bg-limeaccent selection:text-forest-900">
 
-    <header class="bg-forest-950/95 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-forest-900/40">
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <header class="sticky top-0 z-40 bg-forest-900/90 backdrop-blur-md border-b border-forest-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateToSection('home')">
-                <div class="bg-gradient-to-br from-emerald-500 to-forest-800 p-2.5 rounded-2xl shadow-lg text-white">
-                    <i class="fa-solid fa-tree text-2xl"></i>
+            <!-- Logo Brand -->
+            <a href="#home" onclick="switchView('home')" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-xl shadow-inner group-hover:scale-105 transition">
+                    <i class="fa-solid fa-leaf"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight font-serif">Verdant Craft</h1>
-                    <p class="text-xs text-emerald-400 font-medium tracking-wide">Evergreen Landscape & Forest Architecture</p>
+                    <span class="block font-bold text-lg tracking-tight text-white leading-tight">Verdant Craft</span>
+                    <span class="block text-xs text-forest-300 font-medium tracking-wider uppercase">Landscaping & Forestry</span>
                 </div>
-            </div>
+            </a>
 
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <a href="#home" onclick="navigateToSection('home')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-house mr-1.5 opacity-80"></i>Home</a>
-                <a href="#services" onclick="navigateToSection('services')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-seedling mr-1.5 opacity-80"></i>Services</a>
-                <a href="#gallery" onclick="navigateToSection('gallery')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-images mr-1.5 opacity-80"></i>Gallery</a>
-                <a href="#about" onclick="navigateToSection('about')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-mountain-sun mr-1.5 opacity-80"></i>About</a>
-                <a href="#contact" onclick="navigateToSection('contact')" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-envelope mr-1.5 opacity-80"></i>Contact</a>
-                <a href="#billing" id="nav-billing-tab" onclick="navigateToSection('billing')" class="hidden text-emerald-100 hover:text-white bg-forest-900/90 px-3.5 py-2 rounded-xl border border-emerald-500/40 shadow-inner transition flex items-center">
-                    <i class="fa-solid fa-file-invoice-dollar mr-2 text-emerald-400"></i>Billing Portal (₱)
-                </a>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-forest-200">
+                <a href="#home" onclick="switchView('home')" class="hover:text-limeaccent transition">Home</a>
+                <a href="#about" onclick="switchView('about')" class="hover:text-limeaccent transition">About</a>
+                <a href="#services" onclick="switchView('services')" class="hover:text-limeaccent transition">Services</a>
+                <a href="#projects" onclick="switchView('projects')" class="hover:text-limeaccent transition">Projects</a>
+                <a href="#contact" onclick="switchView('contact')" class="hover:text-limeaccent transition">Contact</a>
             </nav>
 
-            <div class="flex items-center space-x-3">
-                <button onclick="openSalesModal()" id="sales-stats-btn" class="hidden bg-emerald-800/80 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-2 border border-emerald-500/40 shadow">
-                    <i class="fa-solid fa-chart-line text-emerald-300"></i>
-                    <span>Sales Statistics</span>
-                </button>
-                <div id="auth-status" class="hidden flex items-center space-x-2 bg-forest-900 px-3 py-1.5 rounded-xl text-xs font-semibold border border-emerald-500/30">
-                    <span id="auth-role-badge" class="bg-emerald-600 px-2.5 py-0.5 rounded-lg text-white font-bold">Member</span>
-                    <span id="auth-user-name" class="text-emerald-100">User</span>
-                    <button onclick="logout()" class="text-emerald-300 hover:text-white ml-2 transition" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+            <!-- Right Actions: Auth / Portal Buttons -->
+            <div class="flex items-center gap-3">
+                <div id="auth-nav-area" class="flex items-center gap-3">
+                    <!-- Dynamic Auth buttons inserted by JS -->
                 </div>
-                <button onclick="openLoginModal()" id="login-btn" class="bg-gradient-to-r from-emerald-600 to-forest-700 hover:from-emerald-500 hover:to-forest-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition flex items-center space-x-2 border border-emerald-500/30">
-                    <i class="fa-solid fa-user-lock"></i>
-                    <span>Portal Login</span>
-                </button>
-                <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2 hover:bg-forest-900 rounded-lg">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
             </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-forest-950 px-4 pt-3 pb-5 space-y-2 border-t border-forest-900">
-            <a href="#home" onclick="toggleMobileMenu(); navigateToSection('home')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Home</a>
-            <a href="#services" onclick="toggleMobileMenu(); navigateToSection('services')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Services</a>
-            <a href="#gallery" onclick="toggleMobileMenu(); navigateToSection('gallery')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Gallery</a>
-            <a href="#about" onclick="toggleMobileMenu(); navigateToSection('about')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">About</a>
-            <a href="#contact" onclick="toggleMobileMenu(); navigateToSection('contact')" class="block py-2.5 hover:bg-forest-900 px-3 rounded-xl font-medium">Contact</a>
-            <a href="#billing" id="mobile-billing-tab" onclick="toggleMobileMenu(); navigateToSection('billing')" class="hidden block py-2.5 bg-forest-900 px-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/30">Billing Portal (₱)</a>
         </div>
     </header>
 
-    <main class="flex-grow">
-        <!-- Home Section with 5-Photo Slideshow -->
-        <section id="home" class="main-page-section relative bg-forest-950 text-white py-28 md:py-36 px-4 overflow-hidden">
-            <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/70 to-transparent z-10"></div>
-            
-            <div class="max-w-7xl mx-auto relative z-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <div class="inline-flex items-center space-x-2 bg-forest-900/90 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-500/30 shadow-sm">
-                        <i class="fa-solid fa-tree text-emerald-400"></i>
-                        <span>Evergreen Forest & Canopy Architects</span>
-                    </div>
-                    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight font-serif">Immersive Evergreen Landscapes & Majestic Forests</h2>
-                    <p class="text-emerald-100/90 text-lg leading-relaxed font-light">Bring the serene majesty of pristine old-growth evergreen forests into your residential sanctuary. We craft living outdoor environments with towering pines, native ferns, and organic stone pathways.</p>
-                    <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#contact" onclick="navigateToSection('contact')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-7 py-3.5 rounded-2xl shadow-xl transition flex items-center space-x-2">
-                            <span>Get Free Forest Estimate</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                        <a href="#gallery" onclick="navigateToSection('gallery')" class="bg-forest-900/80 hover:bg-forest-900 text-white font-semibold px-7 py-3.5 rounded-2xl border border-emerald-500/30 transition flex items-center">
-                            Explore Forest Gallery
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Hero Slideshow supporting 5 photos -->
-                <div class="relative">
-                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-emerald-500/30 bg-forest-900 aspect-[4/3]">
-                        <img src="https://placehold.co/800x600/052e16/10b981?text=Evergreen+Canopy+Design+1" alt="Forest Landscaping 1" class="w-full h-full object-cover hero-slide active slide">
-                        <img src="https://placehold.co/800x600/022c22/34d399?text=Evergreen+Canopy+Design+2" alt="Forest Landscaping 2" class="w-full h-full object-cover hero-slide slide">
-                        <img src="https://placehold.co/800x600/14532d/6ee7b7?text=Evergreen+Canopy+Design+3" alt="Forest Landscaping 3" class="w-full h-full object-cover hero-slide slide">
-                        <img src="https://placehold.co/800x600/064e3b/a7f3d0?text=Evergreen+Canopy+Design+4" alt="Forest Landscaping 4" class="w-full h-full object-cover hero-slide slide">
-                        <img src="https://placehold.co/800x600/166534/ecfdf5?text=Evergreen+Canopy+Design+5" alt="Forest Landscaping 5" class="w-full h-full object-cover hero-slide slide">
-                        
-                        <div class="absolute bottom-5 left-0 right-0 flex justify-center space-x-2.5 z-30">
-                            <button onclick="currentHeroSlide(0)" class="w-3.5 h-3.5 rounded-full bg-white/60 hover:bg-white transition hero-dot active shadow"></button>
-                            <button onclick="currentHeroSlide(1)" class="w-3.5 h-3.5 rounded-full bg-white/60 hover:bg-white transition hero-dot shadow"></button>
-                            <button onclick="currentHeroSlide(2)" class="w-3.5 h-3.5 rounded-full bg-white/60 hover:bg-white transition hero-dot shadow"></button>
-                            <button onclick="currentHeroSlide(3)" class="w-3.5 h-3.5 rounded-full bg-white/60 hover:bg-white transition hero-dot shadow"></button>
-                            <button onclick="currentHeroSlide(4)" class="w-3.5 h-3.5 rounded-full bg-white/60 hover:bg-white transition hero-dot shadow"></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="main-page-section py-24 px-4 max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <span class="text-emerald-700 font-semibold text-xs uppercase tracking-widest bg-emerald-100 px-3 py-1 rounded-full">Our Professional Craft</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Forest & Woodland Landscaping Services</h2>
-                <p class="text-gray-600">Comprehensive ecological design, evergreen reforestation, and harmonious landscape engineering.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-emerald-100 hover:shadow-xl transition group">
-                    <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
-                        <i class="fa-solid fa-tree"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 font-serif">Evergreen Woodland Design</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Specialized planting of spruce, pine, fir, and hemlock trees to cultivate a deep, tranquil forest atmosphere right in your backyard.</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-emerald-100 hover:shadow-xl transition group">
-                    <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
-                        <i class="fa-solid fa-water"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 font-serif">Forest Streams & Waterfalls</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Natural boulder waterfalls, meandering woodland streams, and eco-friendly rain gardens designed to attract local wildlife.</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-emerald-100 hover:shadow-xl transition group">
-                    <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition duration-300">
-                        <i class="fa-solid fa-road"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 font-serif">Stone Pathways & Canopies</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Hand-laid mossy flagstone pathways, timber pergolas, and ambient low-voltage forest uplighting for magical evening ambiance.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gallery Section -->
-        <section id="gallery" class="main-page-section py-24 bg-forest-900/10 px-4">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <span class="text-emerald-700 font-semibold text-xs uppercase tracking-widest bg-emerald-100 px-3 py-1 rounded-full">Portfolio Showcase</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Forest Landscape Gallery</h2>
-                    <p class="text-gray-600">Explore our signature woodland projects showcasing up to 5 high-resolution landscape transformations.</p>
-                </div>
-                
-                <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-emerald-100">
-                    <div class="relative aspect-[16/9] bg-forest-950 overflow-hidden">
-                        <img src="https://placehold.co/1200x675/022c22/ffffff?text=Forest+Project+1:+Pine+Canopy+Retreat" alt="Gallery 1" class="w-full h-full object-cover gallery-slide active slide">
-                        <img src="https://placehold.co/1200x675/052e16/ffffff?text=Gallery+Project+2:+Mossy+Stone+Stream" alt="Gallery 2" class="w-full h-full object-cover gallery-slide slide">
-                        <img src="https://placehold.co/1200x675/064e3b/ffffff?text=Gallery+Project+3:+Evergreen+Fern+Garden" alt="Gallery 3" class="w-full h-full object-cover gallery-slide slide">
-                        <img src="https://placehold.co/1200x675/14532d/ffffff?text=Gallery+Project+4:+Woodland+Paver+Path" alt="Gallery 4" class="w-full h-full object-cover gallery-slide slide">
-                        <img src="https://placehold.co/1200x675/166534/ffffff?text=Gallery+Project+5:+Alpine+Spruce+Sanctuary" alt="Gallery 5" class="w-full h-full object-cover gallery-slide slide">
-
-                        <button onclick="changeGallerySlide(-1)" class="absolute left-5 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg">
-                            <i class="fa-solid fa-chevron-left text-lg"></i>
-                        </button>
-                        <button onclick="changeGallerySlide(1)" class="absolute right-5 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg">
-                            <i class="fa-solid fa-chevron-right text-lg"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="p-8 flex flex-col md:flex-row items-center justify-between border-t border-gray-100 bg-white gap-4">
-                        <div>
-                            <h4 id="gallery-title" class="font-bold text-xl text-gray-900 font-serif">Pine Canopy Retreat</h4>
-                            <p id="gallery-desc" class="text-sm text-gray-500 mt-1">Mature evergreen pines seamlessly integrated with custom stone patios.</p>
-                        </div>
-                        <div class="flex space-x-2" id="gallery-dots">
-                            <button onclick="setGallerySlide(0)" class="w-3.5 h-3.5 rounded-full bg-emerald-600 transition shadow"></button>
-                            <button onclick="setGallerySlide(1)" class="w-3.5 h-3.5 rounded-full bg-gray-300 transition shadow"></button>
-                            <button onclick="setGallerySlide(2)" class="w-3.5 h-3.5 rounded-full bg-gray-300 transition shadow"></button>
-                            <button onclick="setGallerySlide(3)" class="w-3.5 h-3.5 rounded-full bg-gray-300 transition shadow"></button>
-                            <button onclick="setGallerySlide(4)" class="w-3.5 h-3.5 rounded-full bg-gray-300 transition shadow"></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="main-page-section py-24 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider">About Verdant Craft</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Rooted in Forest Heritage, Grown in Precision</h2>
-                <p class="text-gray-600 leading-relaxed">For over 15 years, Verdant Craft has specialized in transforming ordinary suburban yards into thriving, self-sustaining evergreen ecosystems. Our master arborists and landscape architects combine ecological wisdom with timeless craftsmanship.</p>
-                <div class="grid grid-cols-2 gap-6 pt-2">
-                    <div class="border-l-4 border-emerald-600 pl-4 py-1">
-                        <p class="text-3xl font-extrabold text-gray-900 font-serif">15+</p>
-                        <p class="text-sm text-gray-500 font-medium">Years in Forestry & Design</p>
-                    </div>
-                    <div class="border-l-4 border-emerald-600 pl-4 py-1">
-                        <p class="text-3xl font-extrabold text-gray-900 font-serif">500+</p>
-                        <p class="text-sm text-gray-500 font-medium">Forest Havens Created</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gradient-to-br from-forest-900 to-forest-950 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden border border-emerald-500/20">
-                <div class="absolute -right-10 -bottom-10 opacity-10">
-                    <i class="fa-solid fa-tree text-9xl"></i>
-                </div>
-                <div class="relative z-10 space-y-5">
-                    <h3 class="text-3xl font-bold font-serif">Bring the Forest Home Today</h3>
-                    <p class="text-emerald-200/90 leading-relaxed">Schedule a complimentary on-site forest consultation with our principal landscape architects.</p>
-                    <a href="#contact" onclick="navigateToSection('contact')" class="inline-block bg-white text-forest-950 font-semibold px-7 py-3.5 rounded-xl hover:bg-emerald-50 transition shadow-lg">
-                        Book Forest Consultation
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="main-page-section py-24 bg-gray-100/70 px-4">
-            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-14 border border-gray-200">
-                <div class="text-center mb-12 space-y-3">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Request a Forest Landscaping Estimate</h2>
-                    <p class="text-gray-600">Complete the project details below and our team will prepare a customized proposal.</p>
-                </div>
-
-                <form id="estimate-form" onsubmit="handleContactSubmit(event)" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-                            <input type="text" id="contact-name" oninput="validateField('name')" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="Jane Doe">
-                            <p id="error-name" class="text-xs text-red-500 mt-1 hidden">Please enter your full name.</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="contact-email" oninput="validateField('email')" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="jane@example.com">
-                            <p id="error-email" class="text-xs text-red-500 mt-1 hidden">Please enter a valid email address.</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-                            <input type="tel" id="contact-phone" oninput="validateField('phone')" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="(555) 000-0000">
-                            <p id="error-phone" class="text-xs text-red-500 mt-1 hidden">Please enter a valid phone number.</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Forest Service Required</label>
-                            <select id="contact-service" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-medium">
-                                <option>Evergreen Woodland Design & Planting</option>
-                                <option>Forest Stream & Water Feature</option>
-                                <option>Stone Flagstone Pathway & Canopies</option>
-                                <option>General Ecological Yard Maintenance</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Project Vision & Message *</label>
-                        <textarea id="contact-message" rows="4" oninput="validateField('message')" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none transition" placeholder="Describe your yard dimensions, preferred tree species, and goals..."></textarea>
-                        <p id="error-message" class="text-xs text-red-500 mt-1 hidden">Please provide a brief message about your project.</p>
-                    </div>
-                    <div class="text-center pt-2">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-10 py-4 rounded-2xl shadow-xl transition w-full md:w-auto">
-                            Submit Forest Inquiry
-                        </button>
-                    </div>
-                </form>
-                <div id="form-success-alert" class="hidden mt-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-center font-medium shadow-sm">
-                    <i class="fa-solid fa-circle-check mr-2 text-emerald-600"></i> Thank you! Your forest landscaping inquiry has been successfully sent.
-                </div>
-            </div>
-        </section>
-
-        <!-- Billing Section (Admin & Member Only) -->
-        <section id="billing" class="main-page-section hidden py-24 px-4 max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-gray-200 gap-4">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-serif">Billing & Invoicing Portal (₱ PHP)</h2>
-                    <p class="text-gray-600 text-sm mt-1">Manage client accounts, configure admin sender credentials, create invoices with Philippine Peso currency, line-item discounts, and audit logs.</p>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="switchBillingTab('invoices')" id="btn-tab-invoices" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition">Invoices</button>
-                    <button onclick="switchBillingTab('clients')" id="btn-tab-clients" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition">Client Directory</button>
-                    <button onclick="switchBillingTab('audit')" id="btn-tab-audit" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition">Audit Log</button>
-                    <button onclick="switchBillingTab('settings')" id="btn-tab-settings" class="bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition admin-only">Admin Email Settings</button>
-                </div>
-            </div>
-
-            <!-- Live Statistics Dashboard Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-100 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Paid Invoices</p>
-                        <h4 id="stat-paid-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-paid-total" class="text-sm font-bold text-emerald-700">₱0.00</p>
-                    </div>
-                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-red-100 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-bold uppercase tracking-wider text-red-600">Past Due Invoices</p>
-                        <h4 id="stat-pastdue-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-pastdue-total" class="text-sm font-bold text-red-700">₱0.00</p>
-                    </div>
-                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-amber-100 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-bold uppercase tracking-wider text-amber-600">Pending / Sent</p>
-                        <h4 id="stat-pending-count" class="text-3xl font-extrabold text-gray-900 font-serif">0</h4>
-                        <p id="stat-pending-total" class="text-sm font-bold text-amber-700">₱0.00</p>
-                    </div>
-                    <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Invoices Tab Content -->
-            <div id="tab-content-invoices" class="space-y-10">
-                <!-- Create/Edit Invoice Form Card -->
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 font-serif" id="invoice-form-title">Create New Forest Invoice</h3>
-                        <button onclick="resetInvoiceForm()" class="text-sm text-gray-500 hover:text-emerald-600 font-medium"><i class="fa-solid fa-rotate-right mr-1"></i>Reset Form</button>
-                    </div>
-
-                    <form id="invoice-form" onsubmit="saveInvoice(event)" class="space-y-6">
-                        <input type="hidden" id="invoice-id">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Select Client *</label>
-                                <select id="inv-client-select" onchange="onClientSelect()" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-medium">
-                                    <option value="">-- Choose Client --</option>
-                                </select>
-                                <p id="err-client" class="text-xs text-red-500 mt-1 hidden">Please select a client.</p>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Issue Date *</label>
-                                <input type="date" id="inv-date" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Due Date *</label>
-                                <input type="date" id="inv-due-date" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Client Email (Auto-filled)</label>
-                                <input type="email" id="inv-client-email" readonly class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-200 bg-gray-100 text-gray-600 outline-none" placeholder="client@example.com">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Invoice Status</label>
-                                <select id="inv-status-select" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-semibold">
-                                    <option value="Sent">Pending / Sent</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Past Due">Past Due</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Line Items Table with Discount -->
-                        <div class="pt-4">
-                            <div class="flex justify-between items-center mb-3">
-                                <h4 class="font-bold text-gray-800 font-serif text-lg">Line Items & Discounts (₱)</h4>
-                                <button type="button" onclick="addLineItemRow()" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-4 py-2 rounded-xl text-xs font-semibold border border-emerald-200 transition">
-                                    <i class="fa-solid fa-plus mr-1"></i>Add Line Item
-                                </button>
-                            </div>
-                            <div class="overflow-x-auto rounded-2xl border border-gray-200">
-                                <table class="w-full text-left border-collapse" id="line-items-table">
-                                    <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
-                                        <tr>
-                                            <th class="p-3.5">Description</th>
-                                            <th class="p-3.5 w-24">Qty</th>
-                                            <th class="p-3.5 w-36">Unit Price (₱)</th>
-                                            <th class="p-3.5 w-32">Discount (%)</th>
-                                            <th class="p-3.5 w-36">Net Amount (₱)</th>
-                                            <th class="p-3.5 w-16 text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="line-items-body" class="divide-y divide-gray-200 text-sm">
-                                        <!-- Dynamic items -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p id="err-items" class="text-xs text-red-500 mt-1 hidden">Please include at least one valid line item with description and rate.</p>
-                        </div>
-
-                        <!-- Summary & Taxes (Default 0%) -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 items-center">
-                            <div class="flex items-center space-x-3 bg-emerald-50/60 p-4.5 rounded-2xl border border-emerald-100">
-                                <label class="text-sm font-semibold text-gray-700">Tax Rate (%):</label>
-                                <input type="number" id="inv-tax-rate" value="0" min="0" max="100" step="0.1" oninput="calculateInvoiceTotals()" class="w-24 px-3 py-2.5 rounded-xl border border-gray-300 bg-white font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <span class="text-xs text-gray-500">(Default 0%, fully editable)</span>
-                            </div>
-                            <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 space-y-2 text-right">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Subtotal:</span>
-                                    <span id="inv-subtotal" class="font-semibold text-gray-800">₱0.00</span>
-                                </div>
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Tax Amount:</span>
-                                    <span id="inv-tax-amount" class="font-semibold text-gray-800">₱0.00</span>
-                                </div>
-                                <div class="flex justify-between text-xl font-extrabold text-gray-900 border-t border-gray-300 pt-2 font-serif">
-                                    <span>Total Due:</span>
-                                    <span id="inv-total" class="text-emerald-700">₱0.00</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="invoice-form-error" class="hidden text-xs text-red-500 font-semibold">Please correct the highlighted errors before saving.</div>
-
-                        <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-gray-200">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-2xl shadow-lg transition flex items-center space-x-2">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span>Save & Simulate Email Send</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Existing Invoices List with Status and Client Filters -->
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                        <h3 class="text-2xl font-bold text-gray-900 font-serif">Generated Invoices</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">Filter by Status</label>
-                                <select id="filter-status" onchange="renderInvoicesList()" class="px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold outline-none">
-                                    <option value="All">All Statuses</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Sent">Pending / Sent</option>
-                                    <option value="Past Due">Past Due</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">Filter by Client</label>
-                                <select id="filter-client" onchange="renderInvoicesList()" class="px-3.5 py-2 rounded-xl border border-gray-300 bg-white text-sm font-semibold outline-none">
-                                    <option value="All">All Clients</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
-                                <tr>
-                                    <th class="p-3.5">Invoice #</th>
-                                    <th class="p-3.5">Client</th>
-                                    <th class="p-3.5">Email</th>
-                                    <th class="p-3.5">Issue Date</th>
-                                    <th class="p-3.5">Due Date</th>
-                                    <th class="p-3.5">Total</th>
-                                    <th class="p-3.5">Status</th>
-                                    <th class="p-3.5 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="invoices-list-body" class="divide-y divide-gray-200 text-sm">
-                                <!-- Invoices loaded dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Client Management Tab Content -->
-            <div id="tab-content-clients" class="hidden space-y-10">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 font-serif" id="client-form-heading">Add New Client</h3>
-                        <button onclick="resetClientForm()" class="text-sm text-gray-500 hover:text-emerald-600 font-medium"><i class="fa-solid fa-rotate-right mr-1"></i>Reset</button>
-                    </div>
-                    <form id="client-form" onsubmit="saveClient(event)" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-                        <input type="hidden" id="client-id">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Client Name *</label>
-                            <input type="text" id="client-name" required class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Acme Woodland Corp">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="client-email" required class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="billing@acme.com">
-                        </div>
-                        <div>
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 rounded-2xl shadow transition">
-                                Save Client Record
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <h3 class="text-2xl font-bold text-gray-900 font-serif mb-6">Client Directory</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
-                                <tr>
-                                    <th class="p-3.5">Client Name</th>
-                                    <th class="p-3.5">Email Address</th>
-                                    <th class="p-3.5 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="clients-list-body" class="divide-y divide-gray-200 text-sm">
-                                <!-- Clients loaded dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Audit Log Tab Content -->
-            <div id="tab-content-audit" class="hidden space-y-10">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-10">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h3 class="text-2xl font-bold text-gray-900 font-serif">System Audit Log & Activity Tracker</h3>
-                            <p class="text-sm text-gray-500 mt-1">Tracks every create, edit, and delete action performed by Administrators or Members with exact timestamps.</p>
-                        </div>
-                        <button onclick="clearAuditLog()" class="text-xs text-red-600 hover:text-red-800 bg-red-50 px-3.5 py-2 rounded-xl font-semibold border border-red-200">Clear Audit Log</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
-                                <tr>
-                                    <th class="p-3.5">Timestamp</th>
-                                    <th class="p-3.5">User Role</th>
-                                    <th class="p-3.5">Action Type</th>
-                                    <th class="p-3.5">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="audit-log-body" class="divide-y divide-gray-200 text-sm">
-                                <!-- Audit logs loaded dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Email Settings Tab Content -->
-            <div id="tab-content-settings" class="hidden space-y-10">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 md:p-12 max-w-2xl mx-auto">
-                    <h3 class="text-2xl font-bold text-gray-900 font-serif mb-2 flex items-center"><i class="fa-solid fa-gear mr-3 text-emerald-600"></i>Admin Email Configuration</h3>
-                    <p class="text-gray-500 text-sm mb-8">Configure the sender address and credentials used when sending automated invoices to clients.</p>
-                    
-                    <form id="admin-settings-form" onsubmit="saveAdminSettings(event)" class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Sender Name / Organization</label>
-                            <input type="text" id="admin-sender-name" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="Verdant Craft Forest Billing">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Admin Sender Email Address *</label>
-                            <input type="email" id="admin-sender-email" required class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="billing@verdantcraft.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">SMTP / App Password (Simulated)</label>
-                            <input type="password" id="admin-sender-password" class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="••••••••••••">
-                        </div>
-                        <div class="pt-4">
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-2xl shadow-lg transition">
-                                Save Admin Configuration
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
+    <main id="main-content" class="flex-grow">
+        <!-- Views will be dynamically injected here -->
     </main>
 
-    <footer class="bg-forest-950 text-white py-14 px-4 border-t border-forest-900 mt-24">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
-            <div class="space-y-4">
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-tree text-emerald-400 text-2xl"></i>
-                    <span class="font-bold text-xl font-serif">Verdant Craft</span>
+    <footer class="bg-forest-950 border-t border-forest-800 py-12 px-4 sm:px-6 lg:px-8 text-forest-400 text-sm">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center text-limeaccent text-sm">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <span class="font-bold text-white text-base">Verdant Craft</span>
                 </div>
-                <p class="text-xs text-emerald-300/80 leading-relaxed">Artisan evergreen forestry, sustainable woodland design, and majestic landscape architecture.</p>
+                <p class="text-xs text-forest-400 leading-relaxed mb-4">
+                    Bringing beauty and the functionality to your landscape with sustainable forestry, exquisite landscape architecture, and pristine maintenance.
+                </p>
+                <div class="flex items-center gap-3 text-forest-300">
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center hover:text-limeaccent hover:bg-forest-700 transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
             </div>
             <div>
-                <h4 class="font-semibold text-sm mb-4 text-emerald-200 font-serif">Quick Links</h4>
-                <ul class="space-y-2.5 text-sm text-emerald-300/80">
-                    <li><a href="#home" onclick="navigateToSection('home')" class="hover:text-white transition">Home</a></li>
-                    <li><a href="#services" onclick="navigateToSection('services')" class="hover:text-white transition">Services</a></li>
-                    <li><a href="#gallery" onclick="navigateToSection('gallery')" class="hover:text-white transition">Gallery</a></li>
-                    <li><a href="#about" onclick="navigateToSection('about')" class="hover:text-white transition">About Us</a></li>
+                <h4 class="text-white font-semibold text-sm mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#home" onclick="switchView('home')" class="hover:text-limeaccent transition">Home Landscape</a></li>
+                    <li><a href="#about" onclick="switchView('about')" class="hover:text-limeaccent transition">About Our Firm</a></li>
+                    <li><a href="#services" onclick="switchView('services')" class="hover:text-limeaccent transition">Services & Pricing</a></li>
+                    <li><a href="#projects" onclick="switchView('projects')" class="hover:text-limeaccent transition">Featured Projects</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-semibold text-sm mb-4 text-emerald-200 font-serif">Forest Specialties</h4>
-                <ul class="space-y-2.5 text-sm text-emerald-300/80">
-                    <li><span class="hover:text-white transition">Evergreen Woodland Design</span></li>
-                    <li><span class="hover:text-white transition">Forest Streams & Waterfalls</span></li>
-                    <li><span class="hover:text-white transition">Mossy Stone Pathways</span></li>
+                <h4 class="text-white font-semibold text-sm mb-4">Our Expertise</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Botanical Master Planning</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Hardscape & Stone Patios</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Sustainable Forestry</span></li>
+                    <li><span class="hover:text-limeaccent transition cursor-pointer">Irrigation & Water Features</span></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-semibold text-sm mb-4 text-emerald-200 font-serif">Contact Information</h4>
-                <p class="text-xs text-emerald-300/80 leading-relaxed">Metro Manila, Philippines<br>Email: info@verdantcraft.com<br>Phone: +63 900 555 1234</p>
+                <h4 class="text-white font-semibold text-sm mb-4">Headquarters</h4>
+                <p class="text-xs text-forest-400 mb-2">Verdant Craft Landscaping, Building 4, Greenbelt Corporate Center, Makati City, Metro Manila, Philippines</p>
+                <p class="text-xs text-forest-300 font-medium mb-1"><i class="fa-solid fa-phone mr-2 text-limeaccent"></i> +63 917 555 8924</p>
+                <p class="text-xs text-forest-300 font-medium"><i class="fa-solid fa-envelope mr-2 text-limeaccent"></i> info@verdantcraft.ph</p>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-forest-900 text-center text-xs text-emerald-400/80">
-            &copy; 2026 Verdant Craft Landscaping & Forestry. All rights reserved.
+        <div class="max-w-7xl mx-auto pt-6 border-t border-forest-900 flex flex-col sm:flex-row items-center justify-between text-xs text-forest-500">
+            <p>&copy; 2026 Verdant Craft Landscaping & Forestry. All rights reserved.</p>
+            <div class="flex gap-4 mt-2 sm:mt-0">
+                <a href="#" class="hover:text-forest-300 transition">Privacy Policy</a>
+                <a href="#" class="hover:text-forest-300 transition">Terms of Service</a>
+            </div>
         </div>
     </footer>
 
-    <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 md:p-10 shadow-2xl relative animate-fade-in border border-gray-100">
-            <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-2">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-forest-800 border border-forest-700 w-full max-w-md rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="text-center mb-8">
-                <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
-                    <i class="fa-solid fa-lock"></i>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-user-shield"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 font-serif">Portal Authentication</h3>
-                <p class="text-xs text-gray-500 mt-2">Admin Password: <span class="font-mono bg-emerald-50 px-2 py-1 rounded text-emerald-800 font-bold">cuteako</span> | Member Password: <span class="font-mono bg-emerald-50 px-2 py-1 rounded text-emerald-800 font-bold">landscape</span></p>
+                <h3 class="text-xl font-bold text-white">Portal Sign In</h3>
+                <p class="text-xs text-forest-300 mt-1">Access the billing portal and project audit logs</p>
             </div>
             
-            <form onsubmit="handleLogin(event)" class="space-y-5">
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Access Password *</label>
-                    <input type="password" id="login-password" required class="w-full px-4.5 py-3.5 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Enter portal password">
+                    <label class="block text-xs font-medium text-forest-300 mb-1">Username / Passcode</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-forest-400"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="login-username" required placeholder="e.g., cuteako or landscape" class="w-full pl-10 pr-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent transition">
+                    </div>
+                    <p class="text-[11px] text-forest-400 mt-1.5">Hints: <code class="text-limeaccent font-mono">cuteako</code> (Admin) or <code class="text-limeaccent font-mono">landscape</code> (Member)</p>
                 </div>
-                <div id="login-error" class="text-xs text-red-500 hidden font-medium text-center">Invalid password. Try 'cuteako' or 'landscape'.</div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-2xl shadow-xl transition">
-                    Authenticate Session
+                <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-semibold py-2.5 rounded-lg text-sm transition shadow-md">
+                    Sign In to Portal
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Sales Statistics Modal -->
-    <div id="sales-stats-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 md:p-10 shadow-2xl relative animate-fade-in space-y-6 border border-gray-100">
-            <button onclick="closeSalesModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-2">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <div id="stats-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-forest-800 border border-forest-700 w-full max-w-2xl rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+            <button onclick="toggleStatsModal(false)" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="text-center space-y-2">
-                <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-lg">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 font-serif">Sales & Revenue Breakdown</h3>
-                <p class="text-xs text-gray-500">Live analytics across Daily, Weekly, and Monthly intervals in Philippine Pesos (₱).</p>
+                <div>
+                    <h3 class="text-lg font-bold text-white">Sales & Performance Statistics</h3>
+                    <p class="text-xs text-forest-300">Real-time revenue and project conversion metrics</p>
+                </div>
             </div>
 
-            <div class="space-y-4 pt-2">
-                <div class="bg-gradient-to-r from-emerald-50 to-forest-50 p-5 rounded-2xl border border-emerald-100 flex items-center justify-between">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Today's Revenue</p>
+                    <h4 class="text-xl font-bold text-white" id="stat-daily">₱ 42,500</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +12.4% vs yesterday</span>
+                </div>
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Weekly Performance</p>
+                    <h4 class="text-xl font-bold text-white" id="stat-weekly">₱ 318,900</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +8.1% vs last week</span>
+                </div>
+                <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                    <p class="text-xs text-forest-400 font-medium mb-1">Monthly Total</p>
+                    <h4 class="text-xl font-bold text-white" id="stat-monthly">₱ 1,450,200</h4>
+                    <span class="text-[10px] text-limeaccent mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +15.3% target achieved</span>
+                </div>
+            </div>
+
+            <div class="bg-forest-900 border border-forest-700 p-4 rounded-xl">
+                <h5 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Project Status Distribution</h5>
+                <div class="space-y-2">
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-emerald-800">Daily Sales Revenue</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Invoices recorded today</p>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Completed & Paid Landscaping</span>
+                            <span class="text-white font-medium">68%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-limeaccent h-2 rounded-full" style="width: 68%"></div>
+                        </div>
                     </div>
-                    <span id="sales-daily" class="text-2xl font-extrabold text-emerald-700 font-serif">₱0.00</span>
-                </div>
-
-                <div class="bg-gradient-to-r from-emerald-50 to-forest-50 p-5 rounded-2xl border border-emerald-100 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-emerald-800">Weekly Sales Revenue</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Past 7 days volume</p>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Active Proposals / Pending</span>
+                            <span class="text-white font-medium">22%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-amber-500 h-2 rounded-full" style="width: 22%"></div>
+                        </div>
                     </div>
-                    <span id="sales-weekly" class="text-2xl font-extrabold text-emerald-700 font-serif">₱0.00</span>
-                </div>
-
-                <div class="bg-gradient-to-r from-emerald-50 to-forest-50 p-5 rounded-2xl border border-emerald-100 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-emerald-800">Monthly Sales Revenue</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Current calendar month</p>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-forest-300">Scheduled Consultations</span>
+                            <span class="text-white font-medium">10%</span>
+                        </div>
+                        <div class="w-full bg-forest-800 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 10%"></div>
+                        </div>
                     </div>
-                    <span id="sales-monthly" class="text-2xl font-extrabold text-emerald-700 font-serif">₱0.00</span>
                 </div>
-            </div>
-
-            <div class="pt-2">
-                <button onclick="closeSalesModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 rounded-2xl shadow-xl transition">
-                    Close Statistics
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Email Dispatch Simulation Modal -->
-    <div id="email-dispatch-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 md:p-10 shadow-2xl relative animate-fade-in space-y-6 border border-gray-100">
-            <div class="text-center space-y-2">
-                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl animate-bounce shadow">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 font-serif">Automated Invoice Email Dispatch</h3>
-                <p class="text-xs text-gray-500">Invoice successfully processed and dispatched via SMTP in ₱ Philippine Pesos!</p>
-            </div>
-
-            <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 space-y-3 text-sm">
-                <div class="flex justify-between border-b border-gray-200 pb-2.5">
-                    <span class="text-gray-500 font-medium">From (Admin Sender):</span>
-                    <span id="sim-sender" class="font-semibold text-gray-800">billing@verdantcraft.com</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-200 pb-2.5">
-                    <span class="text-gray-500 font-medium">To (Client Email):</span>
-                    <span id="sim-recipient" class="font-semibold text-emerald-700">client@example.com</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-200 pb-2.5">
-                    <span class="text-gray-500 font-medium">Invoice Reference:</span>
-                    <span id="sim-invoice-ref" class="font-semibold text-gray-800">INV-2026-001</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-500 font-medium">Delivery Status:</span>
-                    <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold tracking-wide">SENT & DELIVERED</span>
-                </div>
-            </div>
-
-            <div class="pt-2">
-                <button onclick="closeEmailModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-2xl shadow-xl transition">
-                    Done / Close
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Hero Slideshow Logic (5 photos)
-        let currentHeroIndex = 0;
-        const heroSlides = document.querySelectorAll('.hero-slide');
-        const heroDots = document.querySelectorAll('.hero-dot');
+        // Application State
+        let currentUser = null; // { username: 'cuteako', role: 'admin' } or { username: 'landscape', role: 'member' }
+        let currentView = 'home'; // 'home', 'about', 'services', 'projects', 'contact', 'billing'
 
-        function showHeroSlide(index) {
-            heroSlides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-                if(heroDots[i]) {
-                    heroDots[i].classList.toggle('bg-white', i === index);
-                    heroDots[i].classList.toggle('bg-white/60', i !== index);
-                }
-            });
-            currentHeroIndex = index;
-        }
-
-        function currentHeroSlide(index) {
-            showHeroSlide(index);
-        }
-
-        setInterval(() => {
-            currentHeroIndex = (currentHeroIndex + 1) % heroSlides.length;
-            showHeroSlide(currentHeroIndex);
-        }, 5000);
-
-        // Gallery Slideshow Logic (5 photos)
-        let currentGalleryIndex = 0;
-        const gallerySlides = document.querySelectorAll('.gallery-slide');
-        const galleryDotsContainer = document.getElementById('gallery-dots');
-        const galleryTitleEl = document.getElementById('gallery-title');
-        const galleryDescEl = document.getElementById('gallery-desc');
-
-        const galleryData = [
-            { title: "Pine Canopy Retreat", desc: "Mature evergreen pines seamlessly integrated with custom stone patios." },
-            { title: "Mossy Stone Stream", desc: "Meandering natural woodland stream with boulder waterfalls." },
-            { title: "Evergreen Fern Garden", desc: "Shade-loving native ferns and perennial undergrowth." },
-            { title: "Woodland Paver Pathway", desc: "Hand-laid flagstone path winding through dense pines." },
-            { title: "Alpine Spruce Sanctuary", desc: "Majestic spruce trees framing an organic forest sanctuary." }
+        // Mock Data for Invoices / Philippine Peso Billing Portal
+        let invoices = [
+            { id: 'INV-2026-001', client: 'Ayala Land Premier (Nuvali)', amount: 185000, discount: 5000, taxRate: 0, status: 'Paid', date: '2026-06-01' },
+            { id: 'INV-2026-002', client: 'Megaworld Forbes Town Residence', amount: 95000, discount: 0, taxRate: 0, status: 'Pending', date: '2026-06-04' },
+            { id: 'INV-2026-003', client: 'Tagaytay Highlands Botanical Villa', amount: 240000, discount: 10000, taxRate: 0, status: 'Paid', date: '2026-06-02' },
+            { id: 'INV-2026-004', client: 'Sta. Elena Golf Estate Clubhouse', amount: 120000, discount: 2000, taxRate: 0, status: 'Past Due', date: '2026-05-15' },
+            { id: 'INV-2026-005', client: 'Greenmeadows Residential Garden', amount: 75000, discount: 0, taxRate: 0, status: 'Pending', date: '2026-06-05' }
         ];
 
-        function showGallerySlide(index) {
-            gallerySlides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-            const dots = galleryDotsContainer.querySelectorAll('button');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('bg-emerald-600', i === index);
-                dot.classList.toggle('bg-gray-300', i !== index);
-            });
-            if(galleryData[index]) {
-                galleryTitleEl.textContent = galleryData[index].title;
-                galleryDescEl.textContent = galleryData[index].desc;
-            }
-            currentGalleryIndex = index;
-        }
+        let auditLogs = [
+            { time: '10:42 AM', user: 'cuteako (Admin)', action: 'Generated invoice INV-2026-005' },
+            { time: '09:15 AM', user: 'landscape (Member)', action: 'Updated project status for Nuvali Villa' },
+            { time: 'Yesterday', user: 'cuteako (Admin)', action: 'Exported monthly Philippine Peso billing summary' }
+        ];
 
-        function changeGallerySlide(direction) {
-            currentGalleryIndex = (currentGalleryIndex + direction + gallerySlides.length) % gallerySlides.length;
-            showGallerySlide(currentGalleryIndex);
-        }
-
-        function setGallerySlide(index) {
-            showGallerySlide(index);
-        }
-
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Section Navigation Controller
-        function navigateToSection(sectionId) {
-            const sections = document.querySelectorAll('.main-page-section');
-            sections.forEach(sec => {
-                if(sec.id === sectionId) {
-                    sec.classList.remove('hidden');
-                } else {
-                    sec.classList.add('hidden');
-                }
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if(sectionId === 'billing') {
-                initBillingSystem();
-            }
-        }
-
-        // Contact Form Validation
-        function validateField(fieldId) {
-            const val = document.getElementById(`contact-${fieldId}`).value.trim();
-            const errEl = document.getElementById(`error-${fieldId}`);
-            if(!errEl) return;
-            if(fieldId === 'email') {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                errEl.classList.toggle('hidden', emailRegex.test(val));
-            } else {
-                errEl.classList.toggle('hidden', val !== '');
-            }
-        }
-
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('contact-name').value.trim();
-            const email = document.getElementById('contact-email').value.trim();
-            const phone = document.getElementById('contact-phone').value.trim();
-            const message = document.getElementById('contact-message').value.trim();
-
-            if(!name || !email || !phone || !message) {
-                return;
-            }
-
-            document.getElementById('estimate-form').reset();
-            document.getElementById('form-success-alert').classList.remove('hidden');
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium shadow-lg border animate-fade-in ${
+                type === 'success' 
+                ? 'bg-forest-800 border-forest-700 text-limeaccent' 
+                : 'bg-forest-800 border-red-800 text-red-400'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-limeaccent' : 'fa-circle-exclamation text-red-400'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
             setTimeout(() => {
-                document.getElementById('form-success-alert').classList.add('hidden');
-            }, 5000);
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
         }
 
-        // Authentication State
-        let currentUserRole = localStorage.getItem('vc_auth_role') || null; // 'admin' or 'member'
-
-        function openLoginModal() {
-            document.getElementById('login-modal').classList.remove('hidden');
-            document.getElementById('login-password').value = '';
-            document.getElementById('login-error').classList.add('hidden');
+        // Navigation Controller
+        function switchView(viewName) {
+            currentView = viewName;
+            renderNavbarAuth();
+            renderMainContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function closeLoginModal() {
-            document.getElementById('login-modal').classList.add('hidden');
+        // Render Navbar Authentication Elements
+        function renderNavbarAuth() {
+            const authArea = document.getElementById('auth-nav-area');
+            if (currentUser) {
+                authArea.innerHTML = `
+                    <button onclick="toggleStatsModal(true)" class="hidden sm:flex items-center gap-2 bg-forest-800 hover:bg-forest-700 border border-forest-700 px-3 py-1.5 rounded-lg text-xs font-medium text-forest-200 transition">
+                        <i class="fa-solid fa-chart-line text-limeaccent"></i> Sales Stats
+                    </button>
+                    <button onclick="switchView('billing')" class="flex items-center gap-2 bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-3 py-1.5 rounded-lg text-xs font-semibold transition shadow">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Billing Portal
+                    </button>
+                    <div class="flex items-center gap-2 pl-2 border-l border-forest-700">
+                        <span class="text-xs text-forest-300 hidden sm:inline">Hi, <strong class="text-white">${currentUser.username}</strong></span>
+                        <button onclick="handleLogout()" title="Sign Out" class="w-8 h-8 rounded-lg bg-forest-800 hover:bg-red-950/50 hover:text-red-400 text-forest-400 flex items-center justify-center transition">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                authArea.innerHTML = `
+                    <button onclick="openAuthModal()" class="flex items-center gap-2 bg-forest-800 hover:bg-forest-700 border border-forest-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition shadow-sm">
+                        <i class="fa-solid fa-user-lock text-limeaccent"></i> Portal Sign In
+                    </button>
+                `;
+            }
         }
 
-        function openSalesModal() {
-            calculateSalesStatistics();
-            document.getElementById('sales-stats-modal').classList.remove('hidden');
+        // Render Main Content based on currentView
+        function renderMainContent() {
+            const main = document.getElementById('main-content');
+            if (currentView === 'home') {
+                main.innerHTML = getHomeViewHTML();
+            } else if (currentView === 'about') {
+                main.innerHTML = getAboutViewHTML();
+            } else if (currentView === 'services') {
+                main.innerHTML = getServicesViewHTML();
+            } else if (currentView === 'projects') {
+                main.innerHTML = getProjectsViewHTML();
+            } else if (currentView === 'contact') {
+                main.innerHTML = getContactViewHTML();
+            } else if (currentView === 'billing') {
+                if (!currentUser) {
+                    openAuthModal();
+                    currentView = 'home';
+                    renderMainContent();
+                    return;
+                }
+                main.innerHTML = getBillingViewHTML();
+            }
         }
 
-        function closeSalesModal() {
-            document.getElementById('sales-stats-modal').classList.add('hidden');
+        // Homepage HTML (Layout 7 with accurate Unsplash photography matching reference)
+        function getHomeViewHTML() {
+            return `
+                <!-- Hero Section matching Layout 7 reference image -->
+                <section class="relative bg-forest-900 py-12 lg:py-20 overflow-hidden border-b border-forest-800">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                            <!-- Left Column: Title & CTA -->
+                            <div class="lg:col-span-6 space-y-6">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-800 border border-forest-700 text-xs text-limeaccent font-medium">
+                                    <i class="fa-solid fa-seedling"></i> Award-Winning Philippine Landscape Architecture
+                                </div>
+                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]">
+                                    Bringing Beauty And The Functionality To Your Landscape
+                                </h1>
+                                <p class="text-forest-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                                    Crafting botanical masterworks and sustainable forestry in premium estates across Metro Manila, Tagaytay, and Nuvali.
+                                </p>
+                                <div class="flex flex-wrap items-center gap-4 pt-2">
+                                    <button onclick="switchView('contact')" class="bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-6 py-3 rounded-full text-sm font-semibold transition shadow-lg flex items-center gap-2">
+                                        Explore Our Services <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                    <div class="flex items-center gap-3 px-4 py-2 bg-forest-800/80 rounded-full border border-forest-700">
+                                        <div class="w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center text-limeaccent">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div>
+                                            <span class="block text-[10px] text-forest-400 uppercase">Call Our Experts</span>
+                                            <span class="text-xs font-bold text-white">+63 917 555 8924</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mini Feature Badges -->
+                                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-forest-800/80">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-tree"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Botanical Design</h4>
+                                            <p class="text-[11px] text-forest-400">Tailored Layouts</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-water"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Water Features</h4>
+                                            <p class="text-[11px] text-forest-400">Ponds & Fountains</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-forest-800 border border-forest-700 flex items-center justify-center text-limeaccent text-sm">
+                                            <i class="fa-solid fa-sun"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs font-bold text-white">Lighting Systems</h4>
+                                            <p class="text-[11px] text-forest-400">Eco-LED Outdoor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Hero High-Definition Landscape Image matching reference -->
+                            <div class="lg:col-span-6 relative">
+                                <div class="relative rounded-3xl overflow-hidden border-2 border-forest-700 shadow-2xl group">
+                                    <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200&auto=format&fit=crop" 
+                                         alt="Tropical garden pathway with stone pavers and lush ferns" 
+                                         class="w-full h-[420px] sm:h-[480px] object-cover group-hover:scale-105 transition duration-700"
+                                         onerror="this.src='https://placehold.co/800x600/223027/d7e8de?text=Verdant+Landscape'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+                                        <div class="bg-forest-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-forest-700">
+                                            <span class="block text-[10px] text-forest-400 uppercase">Featured Project</span>
+                                            <span class="text-xs font-bold text-white">Nuvali Forest Sanctuary Estate</span>
+                                        </div>
+                                        <span class="w-10 h-10 rounded-full bg-limeaccent text-forest-900 flex items-center justify-center font-bold shadow-lg">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Us & Testimonial Section matching reference layout -->
+                <section class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                            <!-- About Us Text -->
+                            <div class="lg:col-span-6 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">About Us</span>
+                                <h2 class="text-3xl font-bold text-white tracking-tight">
+                                    Verdant Craft has transformed ordinary exteriors into extraordinary outdoor sanctuaries.
+                                </h2>
+                                <p class="text-forest-300 text-sm leading-relaxed">
+                                    With over 12 years of excellence in landscape architecture and ecological forestry in the Philippines, our dedicated team blends sustainable horticulture with modern structural design.
+                                </p>
+                            </div>
+
+                            <!-- Testimonial Card matching reference -->
+                            <div class="lg:col-span-6">
+                                <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 relative flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+                                    <div class="absolute top-4 right-4 text-limeaccent text-2xl opacity-40">
+                                        <i class="fa-solid fa-quote-right"></i>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" 
+                                         alt="Client Avatar" 
+                                         class="w-20 h-20 rounded-full object-cover border-2 border-limeaccent shadow-md flex-shrink-0"
+                                         onerror="this.src='https://placehold.co/150x150/3a5243/ffffff?text=Client'">
+                                    <div>
+                                        <h4 class="text-xs uppercase text-limeaccent font-semibold tracking-wider mb-1">Over 8 Years Happy Clients Speak Out</h4>
+                                        <p class="text-xs text-forest-200 italic leading-relaxed mb-3">
+                                            "Verdant Craft transformed our sprawling residential lawn in Alabang into a breathtaking tropical paradise. Their attention to plant health and stonework is unmatched."
+                                        </p>
+                                        <div class="flex items-center gap-1 text-amber-400 text-xs">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <span class="text-forest-300 ml-2 font-semibold">5.0 / Verified Client</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3 Lower Project Gallery Cards matching reference image -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Card 1 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1558904541-efa843a88f01?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Stone pathway garden" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+1'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Hardscape</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Tagaytay Ridge Stone Sanctuary</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Natural flagstone patio with native Philippine flora & mood lighting.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1592417817098-8f3d692a4b5b?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Modern villa landscaping" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+2'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Modern Estate</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Forbes Park Minimalist Oasis</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Clean architectural turf, Zen water features, and perimeter bamboo.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden group shadow-lg">
+                                <div class="h-48 overflow-hidden relative">
+                                    <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=600&auto=format&fit=crop" 
+                                         alt="Forest forestry landscaping" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                         onerror="this.src='https://placehold.co/600x400/223027/d7e8de?text=Project+3'">
+                                    <span class="absolute top-3 left-3 bg-forest-900/80 backdrop-blur-sm text-limeaccent text-[10px] font-semibold px-2.5 py-1 rounded-full border border-forest-700">Forestry</span>
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-white font-bold text-sm mb-1">Nuvali Woodland Masterplan</h4>
+                                    <p class="text-xs text-forest-300 mb-3">Canopy preservation, indigenous tree planting, and shaded trails.</p>
+                                    <button onclick="switchView('projects')" class="text-xs text-limeaccent font-semibold hover:underline flex items-center gap-1">
+                                        View Case Study <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
         }
 
+        // About View
+        function getAboutViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Our Heritage</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Pioneering Sustainable Landscaping in the Philippines</h2>
+                            <p class="text-forest-300 text-sm">Founded in 2014, Verdant Craft has grown from a boutique arboriculture consultancy into the country's premier high-end landscape architecture firm.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                            <div class="rounded-2xl overflow-hidden border border-forest-700 shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=800&auto=format&fit=crop" alt="Landscape Team at Work" class="w-full h-80 object-cover">
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-bold text-white">Our Core Philosophy</h3>
+                                <p class="text-forest-300 text-sm leading-relaxed">
+                                    We believe that every landscape should reflect the natural beauty of its surrounding ecosystem while accommodating modern lifestyles. Whether it's a residential garden in Alabang or a commercial forestry master plan in Nuvali, we prioritize native flora, water conservation, and breathtaking aesthetic harmony.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 pt-4">
+                                    <div class="bg-forest-800 p-4 rounded-xl border border-forest-700">
+                                        <h4 class="text-2xl font-bold text-limeaccent mb-1">150+</h4>
+                                        <p class="text-xs text-forest-300">Estates Landscaped</p>
+                                    </div>
+                                    <div class="bg-forest-800 p-4 rounded-xl border border-forest-700">
+                                        <h4 class="text-2xl font-bold text-limeaccent mb-1">12 Yrs</h4>
+                                        <p class="text-xs text-forest-300">Industry Excellence</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Services View
+        function getServicesViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">What We Offer</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Comprehensive Landscaping & Forestry Services</h2>
+                            <p class="text-forest-300 text-sm">Tailored packages for private residential estates, commercial hubs, and forestry conservation.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-compass-drafting"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Landscape Architecture</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Complete 3D master planning, terrain contouring, plant selection, and hardscape integration tailored to Philippine tropical weather.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 75,000</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-tree"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Sustainable Forestry</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Native tree conservation, canopy management, watershed protection, and ecological reforestation for large estates and corporate developments.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 120,000</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <div class="w-12 h-12 rounded-xl bg-forest-900 border border-forest-700 flex items-center justify-center text-limeaccent text-xl mb-4">
+                                        <i class="fa-solid fa-droplet"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-2">Irrigation & Maintenance</h3>
+                                    <p class="text-xs text-forest-300 leading-relaxed mb-6">Automated smart drip irrigation, Koi ponds, water cascading features, and bi-weekly professional horticultural maintenance teams.</p>
+                                </div>
+                                <div class="pt-4 border-t border-forest-700 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-limeaccent">From ₱ 35,000 / mo</span>
+                                    <button onclick="switchView('contact')" class="bg-forest-700 hover:bg-forest-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">Inquire</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Projects View
+        function getProjectsViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-2xl mx-auto mb-16">
+                            <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Portfolio</span>
+                            <h2 class="text-3xl font-bold text-white mt-1 mb-3">Featured Landscaping & Forestry Projects</h2>
+                            <p class="text-forest-300 text-sm">Explore our award-winning residential and commercial estates across the Philippines.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1558904541-efa843a88f01?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Tagaytay Highlands</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Pine Ridge Estate Botanical Garden</h3>
+                                    <p class="text-xs text-forest-300">Complete multi-tier stone pathways and cool-climate pine forestry integration.</p>
+                                </div>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692a4b5b?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Forbes Park, Makati</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Modern Minimalist Courtyard</h3>
+                                    <p class="text-xs text-forest-300">Zen minimalist turf, architectural lighting, and black basalt water feature.</p>
+                                </div>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=600&auto=format&fit=crop" alt="Project" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <span class="text-[10px] text-limeaccent font-bold uppercase tracking-wider">Nuvali, Laguna</span>
+                                    <h3 class="text-base font-bold text-white mt-1 mb-2">Eco-Sanctuary Forestry Path</h3>
+                                    <p class="text-xs text-forest-300">Native hardwood canopy preservation and fern woodland trail landscaping.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Contact View
+        function getContactViewHTML() {
+            return `
+                <div class="py-16 bg-forest-900">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="bg-forest-800 border border-forest-700 rounded-3xl p-8 sm:p-12 shadow-2xl">
+                            <div class="text-center max-w-lg mx-auto mb-10">
+                                <span class="text-xs font-bold uppercase tracking-wider text-limeaccent">Get In Touch</span>
+                                <h2 class="text-3xl font-bold text-white mt-1 mb-2">Start Your Landscape Consultation</h2>
+                                <p class="text-forest-300 text-xs">Fill out the form below and our landscape architects will contact you within 24 hours.</p>
+                            </div>
+                            <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Full Name</label>
+                                        <input type="text" required placeholder="e.g. Maria Santos" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Email Address</label>
+                                        <input type="email" required placeholder="maria@example.com" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Contact Number</label>
+                                        <input type="text" required placeholder="+63 917 123 4567" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-forest-300 mb-1">Project Location</label>
+                                        <input type="text" required placeholder="e.g. Alabang, Tagaytay, Nuvali" class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Project Details & Requirements</label>
+                                    <textarea rows="4" required placeholder="Tell us about your property size and landscape vision..." class="w-full px-4 py-2.5 bg-forest-900 border border-forest-700 rounded-lg text-white text-sm focus:outline-none focus:border-limeaccent"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-bold py-3 rounded-xl text-sm transition shadow-lg">
+                                    Submit Consultation Request
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Philippine Peso Billing Portal View
+        function getBillingViewHTML() {
+            return `
+                <div class="py-12 bg-forest-900 min-h-screen">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <!-- Portal Header -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-forest-800 border border-forest-700 p-6 rounded-2xl shadow-xl">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900 border border-forest-700 text-xs text-limeaccent font-medium mb-2">
+                                    <i class="fa-solid fa-shield-halved"></i> Role: <span class="uppercase">${currentUser.role}</span> (${currentUser.username})
+                                </div>
+                                <h1 class="text-2xl font-bold text-white">Philippine Peso (₱) Billing & Invoicing Portal</h1>
+                                <p class="text-xs text-forest-300 mt-1">Manage client billing, adjustable tax rates, discounts, and audit logs.</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="openNewInvoiceModal()" class="bg-limeaccent hover:bg-limeaccent-hover text-forest-900 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow">
+                                    <i class="fa-solid fa-plus"></i> New Invoice
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Billing Filters & Controls -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Filter by Status</label>
+                                <select id="filter-status" onchange="filterInvoices()" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Past Due">Past Due</option>
+                                </select>
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Search Client</label>
+                                <input type="text" id="filter-search" oninput="filterInvoices()" placeholder="Search client name..." class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl">
+                                <label class="block text-[11px] font-medium text-forest-400 uppercase mb-1">Editable Tax Rate (%)</label>
+                                <input type="number" id="global-tax-rate" value="0" min="0" max="30" step="0.5" onchange="renderInvoicesTable()" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent font-bold text-limeaccent">
+                            </div>
+                            <div class="bg-forest-800 border border-forest-700 p-4 rounded-xl flex flex-col justify-center">
+                                <span class="text-[11px] font-medium text-forest-400 uppercase">Total Portfolio Billing</span>
+                                <span class="text-lg font-bold text-white" id="total-revenue-display">₱ 0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Invoices Table & Audit Trail Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <!-- Invoices Table (8 cols) -->
+                            <div class="lg:col-span-8 bg-forest-800 border border-forest-700 rounded-2xl overflow-hidden shadow-xl">
+                                <div class="px-6 py-4 border-b border-forest-700 flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-white">Active Invoices</h3>
+                                    <span class="text-xs text-forest-400" id="invoice-count-label">Showing all records</span>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse text-xs">
+                                        <thead>
+                                            <tr class="bg-forest-900/60 text-forest-400 border-b border-forest-700">
+                                                <th class="p-4 font-medium">Invoice ID</th>
+                                                <th class="p-4 font-medium">Client Name</th>
+                                                <th class="p-4 font-medium">Subtotal (₱)</th>
+                                                <th class="p-4 font-medium">Discount (₱)</th>
+                                                <th class="p-4 font-medium">Final (₱)</th>
+                                                <th class="p-4 font-medium">Status</th>
+                                                <th class="p-4 font-medium text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoices-table-body" class="divide-y divide-forest-700/60">
+                                            <!-- Dynamic rows inserted by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Audit Trail (4 cols) -->
+                            <div class="lg:col-span-4 bg-forest-800 border border-forest-700 rounded-2xl p-6 shadow-xl flex flex-col">
+                                <div class="flex items-center justify-between mb-4 pb-3 border-b border-forest-700">
+                                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-clock-rotate-left text-limeaccent"></i> Real-time Audit Trail
+                                    </h3>
+                                    <span class="text-[10px] bg-forest-900 text-limeaccent px-2 py-0.5 rounded border border-forest-700">Live</span>
+                                </div>
+                                <div class="space-y-3 overflow-y-auto max-h-[360px] pr-1 flex-grow" id="audit-trail-container">
+                                    <!-- Dynamic audit logs -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Invoice Modal -->
+                <div id="new-invoice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+                    <div class="bg-forest-800 border border-forest-700 w-full max-w-lg rounded-2xl p-6 md:p-8 shadow-2xl relative animate-fade-in">
+                        <button onclick="closeNewInvoiceModal()" class="absolute top-5 right-5 text-forest-400 hover:text-white transition w-8 h-8 rounded-full bg-forest-700 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <h3 class="text-lg font-bold text-white mb-4">Create New Philippine Peso Invoice</h3>
+                        <form onsubmit="handleCreateInvoice(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-forest-300 mb-1">Client / Project Name</label>
+                                <input type="text" id="new-inv-client" required placeholder="e.g. Ayala Land Premier Villa" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Amount (₱)</label>
+                                    <input type="number" id="new-inv-amount" required min="1000" placeholder="50000" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-forest-300 mb-1">Line-Item Discount (₱)</label>
+                                    <input type="number" id="new-inv-discount" value="0" min="0" placeholder="0" class="w-full px-4 py-2 bg-forest-900 border border-forest-700 rounded-lg text-white text-xs focus:outline-none focus:border-limeaccent">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-forest-300 mb-1">Status</label>
+                                <select id="new-inv-status" class="w-full bg-forest-900 border border-forest-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-limeaccent">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Past Due">Past Due</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-limeaccent hover:bg-limeaccent-hover text-forest-900 font-bold py-2.5 rounded-xl text-xs transition shadow">
+                                Save & Generate Invoice
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Authentication Handlers
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
         function handleLogin(e) {
             e.preventDefault();
-            const pwd = document.getElementById('login-password').value.trim();
-            const errEl = document.getElementById('login-error');
-
-            if(pwd === 'cuteako') {
-                currentUserRole = 'admin';
-                localStorage.setItem('vc_auth_role', 'admin');
-                setAuthUI('Administrator', 'Admin');
-                closeLoginModal();
-                navigateToSection('billing');
-            } else if(pwd === 'landscape') {
-                currentUserRole = 'member';
-                localStorage.setItem('vc_auth_role', 'member');
-                setAuthUI('Forest Member', 'Member');
-                closeLoginModal();
-                navigateToSection('billing');
+            const val = document.getElementById('login-username').value.trim().toLowerCase();
+            if (val === 'cuteako') {
+                currentUser = { username: 'cuteako', role: 'admin' };
+                showToast('Signed in successfully as Admin (cuteako)');
+            } else if (val === 'landscape') {
+                currentUser = { username: 'landscape', role: 'member' };
+                showToast('Signed in successfully as Member (landscape)');
             } else {
-                errEl.classList.remove('hidden');
-            }
-        }
-
-        function setAuthUI(name, badge) {
-            document.getElementById('login-btn').classList.add('hidden');
-            document.getElementById('sales-stats-btn').classList.remove('hidden');
-            const statusEl = document.getElementById('auth-status');
-            statusEl.classList.remove('hidden');
-            statusEl.classList.add('flex');
-            document.getElementById('auth-user-name').textContent = name;
-            document.getElementById('auth-role-badge').textContent = badge;
-
-            document.getElementById('nav-billing-tab').classList.remove('hidden');
-            document.getElementById('mobile-billing-tab').classList.remove('hidden');
-
-            const adminEls = document.querySelectorAll('.admin-only');
-            adminEls.forEach(el => {
-                el.classList.toggle('hidden', currentUserRole !== 'admin');
-            });
-
-            initBillingSystem();
-        }
-
-        function logout() {
-            currentUserRole = null;
-            localStorage.removeItem('vc_auth_role');
-            document.getElementById('auth-status').classList.add('hidden');
-            document.getElementById('login-btn').classList.remove('hidden');
-            document.getElementById('sales-stats-btn').classList.add('hidden');
-            document.getElementById('nav-billing-tab').classList.add('hidden');
-            document.getElementById('mobile-billing-tab').classList.add('hidden');
-            navigateToSection('home');
-        }
-
-        // Persistent Billing & Audit Data (with Philippine Peso ₱)
-        let clients = JSON.parse(localStorage.getItem('vc_clients')) || [
-            { id: 'c1', name: 'Pinecrest Woodland Estate', email: 'billing@pinecrest.org' },
-            { id: 'c2', name: 'Highland Evergreen Corp', email: 'accounts@highlandevergreen.com' }
-        ];
-
-        let invoices = JSON.parse(localStorage.getItem('vc_invoices')) || [
-            { id: 'INV-2026-201', clientId: 'c1', clientName: 'Pinecrest Woodland Estate', clientEmail: 'billing@pinecrest.org', date: '2026-10-01', dueDate: '2026-10-15', taxRate: 0, items: [{desc: 'Evergreen Canopy Installation & Spruce Trees', qty: 2, price: 36500, discount: 5}], subtotal: 69350, taxAmount: 0, total: 69350, status: 'Paid' },
-            { id: 'INV-2026-202', clientId: 'c2', clientName: 'Highland Evergreen Corp', clientEmail: 'accounts@highlandevergreen.com', date: '2026-09-15', dueDate: '2026-09-30', taxRate: 0, items: [{desc: 'Natural Stone Stream & Waterfall Design', qty: 1, price: 54000, discount: 0}], subtotal: 54000, taxAmount: 0, total: 54000, status: 'Past Due' }
-        ];
-
-        let auditLogs = JSON.parse(localStorage.getItem('vc_audit_logs')) || [
-            { timestamp: '2026-10-01 10:30 AM', role: 'Admin', action: 'CREATE', details: 'Created invoice INV-2026-201 for Pinecrest Woodland Estate (₱69,350.00)' },
-            { timestamp: '2026-09-15 02:15 PM', role: 'Admin', action: 'CREATE', details: 'Created invoice INV-2026-202 for Highland Evergreen Corp (₱54,000.00)' }
-        ];
-
-        let adminSettings = JSON.parse(localStorage.getItem('vc_admin_settings')) || {
-            senderName: 'Verdant Craft Forest Billing',
-            senderEmail: 'billing@verdantcraft.com',
-            senderPassword: '••••••••••••'
-        };
-
-        function logAudit(action, details) {
-            const now = new Date();
-            const timestamp = now.toISOString().split('T')[0] + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const role = currentUserRole === 'admin' ? 'Admin' : 'Member';
-            auditLogs.unshift({ timestamp, role, action, details });
-            localStorage.setItem('vc_audit_logs', JSON.stringify(auditLogs));
-            renderAuditLog();
-        }
-
-        function initBillingSystem() {
-            populateClientDropdowns();
-            renderClientsList();
-            renderInvoicesList();
-            updateBillingStatistics();
-            renderAuditLog();
-            loadAdminSettings();
-            if(invoiceItems.length === 0) {
-                addLineItemRow();
-            }
-            if(!document.getElementById('inv-date').value) {
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('inv-date').value = today;
-                const due = new Date();
-                due.setDate(due.getDate() + 14);
-                document.getElementById('inv-due-date').value = due.toISOString().split('T')[0];
-            }
-        }
-
-        function switchBillingTab(tabName) {
-            document.getElementById('tab-content-invoices').classList.add('hidden');
-            document.getElementById('tab-content-clients').classList.add('hidden');
-            document.getElementById('tab-content-audit').classList.add('hidden');
-            document.getElementById('tab-content-settings').classList.add('hidden');
-
-            document.getElementById('btn-tab-invoices').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
-            document.getElementById('btn-tab-clients').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
-            document.getElementById('btn-tab-audit').className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
-            const btnSettings = document.getElementById('btn-tab-settings');
-            if(btnSettings) btnSettings.className = 'bg-white text-gray-700 hover:bg-gray-100 px-5 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 transition';
-
-            document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
-            document.getElementById(`btn-tab-${tabName}`).className = 'bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition';
-        }
-
-        // Client Management
-        function populateClientDropdowns() {
-            const select = document.getElementById('inv-client-select');
-            const filterClient = document.getElementById('filter-client');
-            if(!select || !filterClient) return;
-
-            const prevClientVal = select.value;
-            const prevFilterVal = filterClient.value;
-
-            select.innerHTML = '<option value="">-- Choose Client --</option>';
-            filterClient.innerHTML = '<option value="All">All Clients</option>';
-
-            clients.forEach(c => {
-                const opt1 = document.createElement('option');
-                opt1.value = c.id;
-                opt1.textContent = c.name + ' (' + c.email + ')';
-                select.appendChild(opt1);
-
-                const opt2 = document.createElement('option');
-                opt2.value = c.id;
-                opt2.textContent = c.name;
-                filterClient.appendChild(opt2);
-            });
-
-            select.value = prevClientVal;
-            filterClient.value = prevFilterVal;
-        }
-
-        function onClientSelect() {
-            const clientId = document.getElementById('inv-client-select').value;
-            const client = clients.find(c => c.id === clientId);
-            document.getElementById('inv-client-email').value = client ? client.email : '';
-        }
-
-        function saveClient(e) {
-            e.preventDefault();
-            const id = document.getElementById('client-id').value;
-            const name = document.getElementById('client-name').value.trim();
-            const email = document.getElementById('client-email').value.trim();
-
-            if(!name || !email) return;
-
-            if(id) {
-                const idx = clients.findIndex(c => c.id === id);
-                if(idx !== -1) {
-                    clients[idx].name = name;
-                    clients[idx].email = email;
-                    logAudit('UPDATE', `Updated client record for ${name}`);
-                }
-            } else {
-                const newId = 'c_' + Date.now();
-                clients.push({ id: newId, name, email });
-                logAudit('CREATE', `Added new client ${name}`);
-            }
-
-            localStorage.setItem('vc_clients', JSON.stringify(clients));
-            resetClientForm();
-            renderClientsList();
-            populateClientDropdowns();
-        }
-
-        function editClient(id) {
-            const client = clients.find(c => c.id === id);
-            if(!client) return;
-            document.getElementById('client-id').value = client.id;
-            document.getElementById('client-name').value = client.name;
-            document.getElementById('client-email').value = client.email;
-            document.getElementById('client-form-heading').textContent = 'Edit Client Record';
-        }
-
-        function deleteClient(id) {
-            if(confirm('Are you sure you want to delete this client?')) {
-                const client = clients.find(c => c.id === id);
-                clients = clients.filter(c => c.id !== id);
-                localStorage.setItem('vc_clients', JSON.stringify(clients));
-                renderClientsList();
-                populateClientDropdowns();
-                logAudit('DELETE', `Deleted client ${client ? client.name : id}`);
-            }
-        }
-
-        function resetClientForm() {
-            document.getElementById('client-form').reset();
-            document.getElementById('client-id').value = '';
-            document.getElementById('client-form-heading').textContent = 'Add New Client';
-        }
-
-        function renderClientsList() {
-            const tbody = document.getElementById('clients-list-body');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            if(clients.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-400">No clients registered yet.</td></tr>';
+                showToast('Invalid passcode! Use "cuteako" or "landscape"', 'error');
                 return;
             }
-            clients.forEach(c => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-gray-50';
-                tr.innerHTML = `
-                    <td class="p-3.5 font-medium text-gray-900">${c.name}</td>
-                    <td class="p-3.5 text-gray-600">${c.email}</td>
-                    <td class="p-3.5 text-center space-x-2">
-                        <button onclick="editClient('${c.id}')" class="text-blue-600 hover:text-blue-800 text-xs font-semibold px-2.5 py-1 bg-blue-50 rounded-lg">Edit</button>
-                        <button onclick="deleteClient('${c.id}')" class="text-red-600 hover:text-red-800 text-xs font-semibold px-2.5 py-1 bg-red-50 rounded-lg">Delete</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            closeAuthModal();
+            addAuditLog(`User signed in as ${currentUser.username} (${currentUser.role})`);
+            switchView('billing');
+        }
+        function handleLogout() {
+            currentUser = null;
+            showToast('Signed out from portal successfully');
+            switchView('home');
         }
 
-        // Admin Settings
-        function loadAdminSettings() {
-            if(document.getElementById('admin-sender-name')) {
-                document.getElementById('admin-sender-name').value = adminSettings.senderName;
-                document.getElementById('admin-sender-email').value = adminSettings.senderEmail;
-                document.getElementById('admin-sender-password').value = adminSettings.senderPassword;
-            }
+        // Stats Modal Handlers
+        function toggleStatsModal(show) {
+            const modal = document.getElementById('stats-modal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
         }
 
-        function saveAdminSettings(e) {
+        // Contact Form Submission Handler
+        function handleContactSubmit(e) {
             e.preventDefault();
-            adminSettings.senderName = document.getElementById('admin-sender-name').value.trim();
-            adminSettings.senderEmail = document.getElementById('admin-sender-email').value.trim();
-            adminSettings.senderPassword = document.getElementById('admin-sender-password').value.trim();
-            localStorage.setItem('vc_admin_settings', JSON.stringify(adminSettings));
-            logAudit('UPDATE', 'Updated admin sender email configuration');
-            alert('Admin sender email configuration updated successfully!');
+            showToast('Consultation request sent successfully! We will contact you soon.');
+            e.target.reset();
         }
 
-        // Line Items & Editable Discounts / Default 0% Tax
-        let invoiceItems = [
-            { desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 15000, discount: 0 }
-        ];
-
-        function addLineItemRow() {
-            invoiceItems.push({ desc: '', qty: 1, price: 0, discount: 0 });
-            renderLineItems();
-            calculateInvoiceTotals();
-        }
-
-        function removeLineItemRow(index) {
-            if(invoiceItems.length === 1) {
-                alert('An invoice must have at least one line item.');
-                return;
-            }
-            invoiceItems.splice(index, 1);
-            renderLineItems();
-            calculateInvoiceTotals();
-        }
-
-        function updateItem(index, field, value) {
-            invoiceItems[index][field] = field === 'desc' ? value : parseFloat(value) || 0;
-            calculateInvoiceTotals();
-        }
-
-        function renderLineItems() {
-            const tbody = document.getElementById('line-items-body');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            invoiceItems.forEach((item, index) => {
-                const netItemAmount = (item.qty * item.price) * (1 - (item.discount / 100));
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="p-2.5"><input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none" placeholder="Forest service description"></td>
-                    <td class="p-2.5"><input type="number" min="1" value="${item.qty}" oninput="updateItem(${index}, 'qty', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none"></td>
-                    <td class="p-2.5"><input type="number" min="0" step="0.01" value="${item.price}" oninput="updateItem(${index}, 'price', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none"></td>
-                    <td class="p-2.5"><input type="number" min="0" max="100" step="0.1" value="${item.discount}" oninput="updateItem(${index}, 'discount', this.value)" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm outline-none" placeholder="0%"></td>
-                    <td class="p-2.5 font-semibold text-gray-700 item-net-display">₱${netItemAmount.toFixed(2)}</td>
-                    <td class="p-2.5 text-center"><button type="button" onclick="removeLineItemRow(${index})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash"></i></button></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function calculateInvoiceTotals() {
-            let subtotal = 0;
-            invoiceItems.forEach((item, idx) => {
-                const net = (item.qty * item.price) * (1 - (item.discount / 100));
-                subtotal += net;
-                const netDisplays = document.querySelectorAll('.item-net-display');
-                if(netDisplays[idx]) netDisplays[idx].textContent = '₱' + net.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            });
-
-            const taxRateInput = document.getElementById('inv-tax-rate');
-            const taxRate = taxRateInput ? (parseFloat(taxRateInput.value) || 0) : 0;
-            const taxAmount = subtotal * (taxRate / 100);
-            const total = subtotal + taxAmount;
-
-            if(document.getElementById('inv-subtotal')) {
-                document.getElementById('inv-subtotal').textContent = '₱' + subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                document.getElementById('inv-tax-amount').textContent = '₱' + taxAmount.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                document.getElementById('inv-total').textContent = '₱' + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            }
-
-            return { subtotal, taxAmount, total };
-        }
-
-        // Live Statistics Dashboard Calculator
-        function updateBillingStatistics() {
-            let paidCount = 0, paidTotal = 0;
-            let pastDueCount = 0, pastDueTotal = 0;
-            let pendingCount = 0, pendingTotal = 0;
-
-            invoices.forEach(inv => {
-                const status = inv.status;
-                const amt = inv.total || 0;
-                if(status === 'Paid') {
-                    paidCount++;
-                    paidTotal += amt;
-                } else if(status === 'Past Due') {
-                    pastDueCount++;
-                    pastDueTotal += amt;
-                } else if(status === 'Sent') {
-                    pendingCount++;
-                    pendingTotal += amt;
-                }
-            });
-
-            document.getElementById('stat-paid-count').textContent = paidCount;
-            document.getElementById('stat-paid-total').textContent = '₱' + paidTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-            document.getElementById('stat-pastdue-count').textContent = pastDueCount;
-            document.getElementById('stat-pastdue-total').textContent = '₱' + pastDueTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-            document.getElementById('stat-pending-count').textContent = pendingCount;
-            document.getElementById('stat-pending-total').textContent = '₱' + pendingTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
-        // Sales Statistics Calculation (Daily, Weekly, Monthly)
-        function calculateSalesStatistics() {
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-            
-            let dailyTotal = 0;
-            let weeklyTotal = 0;
-            let monthlyTotal = 0;
-
-            const currentYear = now.getFullYear();
-            const currentMonth = now.getMonth();
-
-            invoices.forEach(inv => {
-                const invDate = new Date(inv.date);
-                const amt = inv.total || 0;
-
-                // Daily: matches exact YYYY-MM-DD
-                if(inv.date === todayStr) {
-                    dailyTotal += amt;
-                }
-
-                // Weekly: within past 7 days
-                const diffTime = now - invDate;
-                const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                if(diffDays >= 0 && diffDays <= 7) {
-                    weeklyTotal += amt;
-                }
-
-                // Monthly: same calendar year and month
-                if(invDate.getFullYear() === currentYear && invDate.getMonth() === currentMonth) {
-                    monthlyTotal += amt;
-                }
-            });
-
-            document.getElementById('sales-daily').textContent = '₱' + dailyTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('sales-weekly').textContent = '₱' + weeklyTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('sales-monthly').textContent = '₱' + monthlyTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
-        // Form Validation & Save Invoice
-        function saveInvoice(e) {
-            e.preventDefault();
-            const clientId = document.getElementById('inv-client-select').value;
-            const clientEmail = document.getElementById('inv-client-email').value;
-            const date = document.getElementById('inv-date').value || new Date().toISOString().split('T')[0];
-            const dueDate = document.getElementById('inv-due-date').value || new Date().toISOString().split('T')[0];
-            const taxRate = parseFloat(document.getElementById('inv-tax-rate').value) || 0;
-            const status = document.getElementById('inv-status-select').value;
-
-            let hasError = false;
-            if(!clientId) {
-                document.getElementById('err-client').classList.remove('hidden');
-                hasError = true;
-            } else {
-                document.getElementById('err-client').classList.add('hidden');
-            }
-
-            let validItems = invoiceItems.filter(i => i.desc.trim() !== '' && i.price > 0);
-            if(validItems.length === 0) {
-                document.getElementById('err-items').classList.remove('hidden');
-                hasError = true;
-            } else {
-                document.getElementById('err-items').classList.add('hidden');
-            }
-
-            const errBanner = document.getElementById('invoice-form-error');
-            if(hasError) {
-                errBanner.classList.remove('hidden');
-                return;
-            }
-            errBanner.classList.add('hidden');
-
-            const client = clients.find(c => c.id === clientId);
-            const totals = calculateInvoiceTotals();
-            const invoiceId = document.getElementById('invoice-id').value || ('INV-' + new Date().getFullYear() + '-' + Math.floor(100 + Math.random() * 900));
-
-            const invoiceObj = {
-                id: invoiceId,
-                clientId,
-                clientName: client ? client.name : 'Unknown Client',
-                clientEmail: clientEmail || (client ? client.email : ''),
-                date,
-                dueDate,
-                taxRate,
-                items: JSON.parse(JSON.stringify(invoiceItems)),
-                subtotal: totals.subtotal,
-                taxAmount: totals.taxAmount,
-                total: totals.total,
-                status: status
-            };
-
-            const existingIdx = invoices.findIndex(i => i.id === invoiceId);
-            if(existingIdx !== -1) {
-                invoices[existingIdx] = invoiceObj;
-                logAudit('UPDATE', `Updated invoice ${invoiceId} for ${invoiceObj.clientName} (₱${invoiceObj.total.toLocaleString()})`);
-            } else {
-                invoices.unshift(invoiceObj);
-                logAudit('CREATE', `Created invoice ${invoiceId} for ${invoiceObj.clientName} (₱${invoiceObj.total.toLocaleString()})`);
-            }
-
-            localStorage.setItem('vc_invoices', JSON.stringify(invoices));
-            renderInvoicesList();
-            updateBillingStatistics();
-            resetInvoiceForm();
-
-            document.getElementById('sim-sender').textContent = adminSettings.senderEmail;
-            document.getElementById('sim-recipient').textContent = invoiceObj.clientEmail;
-            document.getElementById('sim-invoice-ref').textContent = invoiceObj.id;
-            document.getElementById('email-dispatch-modal').classList.remove('hidden');
-        }
-
-        function closeEmailModal() {
-            document.getElementById('email-dispatch-modal').classList.add('hidden');
-        }
-
-        // Render Invoices with Status and Client Filters
-        function renderInvoicesList() {
-            const tbody = document.getElementById('invoices-list-body');
-            if(!tbody) return;
+        // Billing Portal Logic & Rendering
+        function renderInvoicesTable() {
+            const tbody = document.getElementById('invoices-table-body');
+            if (!tbody) return;
 
             const statusFilter = document.getElementById('filter-status').value;
-            const clientFilter = document.getElementById('filter-client').value;
+            const searchFilter = document.getElementById('filter-search').value.toLowerCase();
+            const taxRate = parseFloat(document.getElementById('global-tax-rate').value) || 0;
 
-            let filtered = invoices.filter(inv => {
-                if(statusFilter !== 'All' && inv.status !== statusFilter) return false;
-                if(clientFilter !== 'All' && inv.clientId !== clientFilter) return false;
-                return true;
+            const filtered = invoices.filter(inv => {
+                const matchesStatus = (statusFilter === 'ALL' || inv.status === statusFilter);
+                const matchesSearch = inv.client.toLowerCase().includes(searchFilter) || inv.id.toLowerCase().includes(searchFilter);
+                return matchesStatus && matchesSearch;
             });
 
+            let totalRev = 0;
             tbody.innerHTML = '';
-            if(filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-400">No invoices match the selected filter criteria.</td></tr>';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-forest-400">No invoices match your filter criteria.</td></tr>`;
+                document.getElementById('total-revenue-display').innerText = '₱ 0.00';
+                document.getElementById('invoice-count-label').innerText = '0 records found';
                 return;
             }
 
             filtered.forEach(inv => {
-                let statusBadge = '';
-                if(inv.status === 'Paid') {
-                    statusBadge = '<span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">Paid</span>';
-                } else if(inv.status === 'Past Due') {
-                    statusBadge = '<span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-bold">Past Due</span>';
-                } else {
-                    statusBadge = '<span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">Pending / Sent</span>';
+                const taxableAmount = Math.max(0, inv.amount - inv.discount);
+                const taxAmount = taxableAmount * (taxRate / 100);
+                const finalTotal = taxableAmount + taxAmount;
+                if (inv.status === 'Paid') {
+                    totalRev += finalTotal;
                 }
-                
+
+                const statusColor = inv.status === 'Paid' 
+                    ? 'bg-emerald-900/60 text-emerald-300 border-emerald-700' 
+                    : inv.status === 'Pending' 
+                    ? 'bg-amber-900/60 text-amber-300 border-amber-700' 
+                    : 'bg-red-900/60 text-red-300 border-red-700';
+
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-gray-50';
+                tr.className = 'hover:bg-forest-900/40 transition';
                 tr.innerHTML = `
-                    <td class="p-3.5 font-semibold text-gray-900">${inv.id}</td>
-                    <td class="p-3.5 text-gray-800 font-medium">${inv.clientName}</td>
-                    <td class="p-3.5 text-gray-600">${inv.clientEmail}</td>
-                    <td class="p-3.5 text-gray-600">${inv.date}</td>
-                    <td class="p-3.5 text-gray-600">${inv.dueDate || inv.date}</td>
-                    <td class="p-3.5 font-bold text-emerald-700">₱${inv.total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    <td class="p-3.5">${statusBadge}</td>
-                    <td class="p-3.5 text-center space-x-2">
-                        <button onclick="editInvoice('${inv.id}')" class="text-blue-600 hover:text-blue-800 text-xs font-semibold px-2.5 py-1 bg-blue-50 rounded-lg">Edit</button>
-                        <button onclick="deleteInvoice('${inv.id}')" class="text-red-600 hover:text-red-800 text-xs font-semibold px-2.5 py-1 bg-red-50 rounded-lg">Delete</button>
+                    <td class="p-4 font-mono font-medium text-white">${inv.id}</td>
+                    <td class="p-4 font-medium text-forest-100">${inv.client}</td>
+                    <td class="p-4 text-forest-300">₱ ${inv.amount.toLocaleString()}</td>
+                    <td class="p-4 text-red-400">- ₱ ${inv.discount.toLocaleString()}</td>
+                    <td class="p-4 font-bold text-white">₱ ${finalTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-semibold border ${statusColor}">${inv.status}</span></td>
+                    <td class="p-4 text-right">
+                        <button onclick="deleteInvoice('${inv.id}')" title="Delete" class="w-7 h-7 rounded bg-forest-900 hover:bg-red-950 hover:text-red-400 text-forest-400 flex items-center justify-center transition ml-auto">
+                            <i class="fa-solid fa-trash text-[11px]"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
+
+            document.getElementById('total-revenue-display').innerText = `₱ ${totalRev.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('invoice-count-label').innerText = `Showing ${filtered.length} of ${invoices.length} records`;
+            renderAuditTrail();
         }
 
-        function editInvoice(id) {
-            const inv = invoices.find(i => i.id === id);
-            if(!inv) return;
-            document.getElementById('invoice-id').value = inv.id;
-            document.getElementById('inv-client-select').value = inv.clientId;
-            onClientSelect();
-            document.getElementById('inv-date').value = inv.date;
-            document.getElementById('inv-due-date').value = inv.dueDate || inv.date;
-            document.getElementById('inv-tax-rate').value = inv.taxRate;
-            document.getElementById('inv-status-select').value = inv.status;
-            invoiceItems = JSON.parse(JSON.stringify(inv.items));
-            renderLineItems();
-            calculateInvoiceTotals();
-            document.getElementById('invoice-form-title').textContent = 'Edit Invoice (' + inv.id + ')';
-            window.scrollTo({ top: document.getElementById('billing').offsetTop, behavior: 'smooth' });
+        function filterInvoices() {
+            renderInvoicesTable();
+        }
+
+        function openNewInvoiceModal() {
+            document.getElementById('new-invoice-modal').classList.remove('hidden');
+        }
+        function closeNewInvoiceModal() {
+            document.getElementById('new-invoice-modal').classList.add('hidden');
+        }
+
+        function handleCreateInvoice(e) {
+            e.preventDefault();
+            const client = document.getElementById('new-inv-client').value;
+            const amount = parseFloat(document.getElementById('new-inv-amount').value);
+            const discount = parseFloat(document.getElementById('new-inv-discount').value) || 0;
+            const status = document.getElementById('new-inv-status').value;
+
+            const newId = `INV-2026-00${invoices.length + 1}`;
+            invoices.unshift({
+                id: newId,
+                client: client,
+                amount: amount,
+                discount: discount,
+                taxRate: 0,
+                status: status,
+                date: new Date().toISOString().split('T')[0]
+            });
+
+            addAuditLog(`Created invoice ${newId} for ${client} (₱ ${amount.toLocaleString()})`);
+            closeNewInvoiceModal();
+            showToast(`Invoice ${newId} successfully created!`);
+            e.target.reset();
+            renderInvoicesTable();
         }
 
         function deleteInvoice(id) {
-            if(confirm('Are you sure you want to delete this invoice?')) {
-                invoices = invoices.filter(i => i.id !== id);
-                localStorage.setItem('vc_invoices', JSON.stringify(invoices));
-                renderInvoicesList();
-                updateBillingStatistics();
-                logAudit('DELETE', `Deleted invoice ${id}`);
+            const index = invoices.findIndex(i => i.id === id);
+            if (index !== -1) {
+                const removed = invoices.splice(index, 1)[0];
+                addAuditLog(`Deleted invoice ${removed.id} (${removed.client})`);
+                showToast(`Invoice ${id} deleted.`);
+                renderInvoicesTable();
             }
         }
 
-        function resetInvoiceForm() {
-            document.getElementById('invoice-form').reset();
-            document.getElementById('invoice-id').value = '';
-            document.getElementById('invoice-form-title').textContent = 'Create New Forest Invoice';
-            document.getElementById('inv-tax-rate').value = '0';
-            document.getElementById('err-client').classList.add('hidden');
-            document.getElementById('err-items').classList.add('hidden');
-            document.getElementById('invoice-form-error').classList.add('hidden');
-            invoiceItems = [{ desc: 'Evergreen Canopy Assessment & Site Survey', qty: 1, price: 15000, discount: 0 }];
-            renderLineItems();
-            calculateInvoiceTotals();
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('inv-date').value = today;
-            const due = new Date();
-            due.setDate(due.getDate() + 14);
-            document.getElementById('inv-due-date').value = due.toISOString().split('T')[0];
+        function addAuditLog(actionText) {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            auditLogs.unshift({
+                time: timeStr,
+                user: currentUser ? `${currentUser.username} (${currentUser.role})` : 'System',
+                action: actionText
+            });
+            if (auditLogs.length > 20) auditLogs.pop();
         }
 
-        // Render Audit Log Table
-        function renderAuditLog() {
-            const tbody = document.getElementById('audit-log-body');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            if(auditLogs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-400">No activity recorded yet.</td></tr>';
-                return;
-            }
+        function renderAuditTrail() {
+            const container = document.getElementById('audit-trail-container');
+            if (!container) return;
+            container.innerHTML = '';
             auditLogs.forEach(log => {
-                let roleBadge = log.role === 'Admin' ? '<span class="bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full text-xs font-bold">Admin</span>' : '<span class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-xs font-bold">Member</span>';
-                let actionBadge = '';
-                if(log.action === 'CREATE') actionBadge = '<span class="text-emerald-700 font-bold">CREATE</span>';
-                else if(log.action === 'UPDATE') actionBadge = '<span class="text-blue-700 font-bold">UPDATE</span>';
-                else if(log.action === 'DELETE') actionBadge = '<span class="text-red-700 font-bold">DELETE</span>';
-                else actionBadge = `<span class="text-gray-700 font-bold">${log.action}</span>`;
-
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-gray-50';
-                tr.innerHTML = `
-                    <td class="p-3.5 text-gray-600 font-mono text-xs">${log.timestamp}</td>
-                    <td class="p-3.5">${roleBadge}</td>
-                    <td class="p-3.5">${actionBadge}</td>
-                    <td class="p-3.5 text-gray-800">${log.details}</td>
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-xl bg-forest-900 border border-forest-700/80 text-xs space-y-1';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between text-[10px] text-forest-400">
+                        <span class="text-limeaccent font-semibold">${log.user}</span>
+                        <span>${log.time}</span>
+                    </div>
+                    <p class="text-forest-200">${log.action}</p>
                 `;
-                tbody.appendChild(tr);
+                container.appendChild(div);
             });
         }
 
-        function clearAuditLog() {
-            if(confirm('Are you sure you want to clear the audit activity tracker?')) {
-                auditLogs = [];
-                localStorage.removeItem('vc_audit_logs');
-                renderAuditLog();
-            }
-        }
-
-        // Initialize on window load
+        // Initialize App on Load
         window.onload = function() {
-            if(currentUserRole) {
-                if(currentUserRole === 'admin') setAuthUI('Administrator', 'Admin');
-                else setAuthUI('Forest Member', 'Member');
-            }
+            switchView('home');
         };
     </script>
 </body>
