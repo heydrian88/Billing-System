@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant Craft Landscaping</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .slide { display: none; }
+        .slide.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col justify-between">
+
+    <header class="bg-emerald-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-700 p-2.5 rounded-xl shadow-inner text-emerald-100">
+                    <i class="fa-solid fa-seedling text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Verdant Craft</h1>
+                    <p class="text-xs text-emerald-300 font-medium">Professional Landscaping & Design</p>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#home" onclick="navigateToSection('home')" class="hover:text-emerald-300 transition"><i class="fa-solid fa-house mr-1.5"></i>Home</a>
+                <a href="#services" onclick="navigateToSection('services')" class="hover:text-emerald-300 transition"><i class="fa-solid fa-spa mr-1.5"></i>Services</a>
+                <a href="#gallery" onclick="navigateToSection('gallery')" class="hover:text-emerald-300 transition"><i class="fa-solid fa-images mr-1.5"></i>Gallery</a>
+                <a href="#about" onclick="navigateToSection('about')" class="hover:text-emerald-300 transition"><i class="fa-solid fa-circle-info mr-1.5"></i>About</a>
+                <a href="#contact" onclick="navigateToSection('contact')" class="hover:text-emerald-300 transition"><i class="fa-solid fa-envelope mr-1.5"></i>Contact</a>
+                <!-- Billing & Invoices Tab visible upon authentication -->
+                <a href="#billing" id="nav-billing-tab" onclick="navigateToSection('billing')" class="hidden text-emerald-200 hover:text-white bg-emerald-800/80 px-3 py-1.5 rounded-lg border border-emerald-700 transition">
+                    <i class="fa-solid fa-file-invoice-dollar mr-1.5"></i>Billing & Invoices
+                </a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <div id="auth-status" class="hidden flex items-center space-x-2 bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                    <span id="auth-role-badge" class="bg-emerald-600 px-2 py-0.5 rounded text-white">Member</span>
+                    <span id="auth-user-name" class="text-emerald-100">User</span>
+                    <button onclick="logout()" class="text-emerald-300 hover:text-white ml-2"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+                <button onclick="openLoginModal()" id="login-btn" class="bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow transition flex items-center space-x-2">
+                    <i class="fa-solid fa-user-lock"></i>
+                    <span>Portal Login</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emerald-950 px-4 pt-2 pb-4 space-y-2 border-t border-emerald-800">
+            <a href="#home" onclick="toggleMobileMenu(); navigateToSection('home')" class="block py-2 hover:bg-emerald-900 px-3 rounded">Home</a>
+            <a href="#services" onclick="toggleMobileMenu(); navigateToSection('services')" class="block py-2 hover:bg-emerald-900 px-3 rounded">Services</a>
+            <a href="#gallery" onclick="toggleMobileMenu(); navigateToSection('gallery')" class="block py-2 hover:bg-emerald-900 px-3 rounded">Gallery</a>
+            <a href="#about" onclick="toggleMobileMenu(); navigateToSection('about')" class="block py-2 hover:bg-emerald-900 px-3 rounded">About</a>
+            <a href="#contact" onclick="toggleMobileMenu(); navigateToSection('contact')" class="block py-2 hover:bg-emerald-900 px-3 rounded">Contact</a>
+            <a href="#billing" id="mobile-billing-tab" onclick="toggleMobileMenu(); navigateToSection('billing')" class="hidden block py-2 bg-emerald-900 px-3 rounded font-medium text-emerald-200">Billing & Invoices</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="home" class="main-page-section relative bg-emerald-900 text-white py-24 px-4 overflow-hidden">
+            <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-emerald-800 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-700">Master Landscape Architects</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">Transforming Outdoor Spaces into Living Masterpieces</h2>
+                    <p class="text-emerald-100 text-lg leading-relaxed">From lush sustainable gardens to sophisticated hardscapes, Verdant Craft delivers exceptional landscaping tailored to your exact lifestyle.</p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#contact" onclick="navigateToSection('contact')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition flex items-center space-x-2">
+                            <span>Get Free Estimate</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#gallery" onclick="navigateToSection('gallery')" class="bg-emerald-800 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-xl border border-emerald-700 transition">
+                            View Portfolio
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-emerald-800 bg-emerald-950 aspect-[4/3]">
+                        <img src="https://placehold.co/800x600/064e3b/10b981?text=Verdant+Craft+Design+1" alt="Landscaping Showcase" class="w-full h-full object-cover hero-slide active slide">
+                        <img src="https://placehold.co/800x600/047857/ecfdf5?text=Verdant+Craft+Design+2" alt="Landscaping Showcase" class="w-full h-full object-cover hero-slide slide">
+                        <img src="https://placehold.co/800x600/065f46/d1fae5?text=Verdant+Craft+Design+3" alt="Landscaping Showcase" class="w-full h-full object-cover hero-slide slide">
+                        <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                            <button onclick="currentHeroSlide(0)" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition hero-dot active"></button>
+                            <button onclick="currentHeroSlide(1)" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition hero-dot"></button>
+                            <button onclick="currentHeroSlide(2)" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition hero-dot"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="main-page-section py-20 px-4 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-3xl font-bold text-gray-900">Our Craftsmanship & Services</h2>
+                <p class="text-gray-600">Comprehensive outdoor design and ongoing care tailored to elevate property value and aesthetic harmony.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Landscape Architecture</h3>
+                    <p class="text-gray-600 leading-relaxed">Custom 3D garden designs, native planting schemes, retaining walls, and complete yard transformations.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Irrigation & Drainage</h3>
+                    <p class="text-gray-600 leading-relaxed">Smart automated sprinkler setups, drip irrigation, and efficient French drain solutions to protect your turf.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-hammer"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Hardscaping & Patios</h3>
+                    <p class="text-gray-600 leading-relaxed">Exquisite stone walkways, custom stone fire pits, elegant patios, and ambient low-voltage landscape lighting.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="main-page-section py-20 bg-emerald-50 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-3xl font-bold text-gray-900">Project Gallery Showcase</h2>
+                    <p class="text-gray-600">Explore our featured portfolio showcasing up to 5 high-resolution landscape transformations.</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border border-emerald-100">
+                    <div class="relative aspect-[16/9] bg-emerald-950 overflow-hidden">
+                        <img src="https://placehold.co/1200x675/064e3b/ffffff?text=Landscape+Project+1:+Modern+Villa+Garden" alt="Gallery 1" class="w-full h-full object-cover gallery-slide active slide">
+                        <img src="https://placehold.co/1200x675/047857/ffffff?text=Landscape+Project+2:+Zen+Stone+Courtyard" alt="Gallery 2" class="w-full h-full object-cover gallery-slide slide">
+                        <img src="https://placehold.co/1200x675/065f46/ffffff?text=Landscape+Project+3:+Lush+Backyard+Poolside" alt="Gallery 3" class="w-full h-full object-cover gallery-slide slide">
+                        <img src="https://placehold.co/1200x675/022c22/ffffff?text=Landscape+Project+4:+Custom+Paver+Patio+Firepit" alt="Gallery 4" class="w-full h-full object-cover gallery-slide slide">
+                        <img src="https://placehold.co/1200x675/10b981/ffffff?text=Landscape+Project+5:+Sustainable+Native+Meadow" alt="Gallery 5" class="w-full h-full object-cover gallery-slide slide">
+
+                        <!-- Controls -->
+                        <button onclick="changeGallerySlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeGallerySlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex items-center justify-between border-t border-gray-100 bg-white">
+                        <div>
+                            <h4 id="gallery-title" class="font-bold text-lg text-gray-900">Modern Villa Garden</h4>
+                            <p id="gallery-desc" class="text-sm text-gray-500">Sleek lines combined with drought-tolerant plantings.</p>
+                        </div>
+                        <div class="flex space-x-2" id="gallery-dots">
+                            <button onclick="setGallerySlide(0)" class="w-3 h-3 rounded-full bg-emerald-600 transition"></button>
+                            <button onclick="setGallerySlide(1)" class="w-3 h-3 rounded-full bg-gray-300 transition"></button>
+                            <button onclick="setGallerySlide(2)" class="w-3 h-3 rounded-full bg-gray-300 transition"></button>
+                            <button onclick="setGallerySlide(3)" class="w-3 h-3 rounded-full bg-gray-300 transition"></button>
+                            <button onclick="setGallerySlide(4)" class="w-3 h-3 rounded-full bg-gray-300 transition"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="main-page-section py-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">About Verdant Craft</span>
+                <h2 class="text-3xl font-bold text-gray-900">Rooted in Passion, Grown in Excellence</h2>
+                <p class="text-gray-600 leading-relaxed">Founded with a deep respect for nature and architectural precision, Verdant Craft has transformed hundreds of residential and commercial properties into breathtaking organic sanctuaries.</p>
+                <div class="grid grid-cols-2 gap-4 pt-2">
+                    <div class="border-l-4 border-emerald-500 pl-4">
+                        <p class="text-2xl font-bold text-gray-900">15+</p>
+                        <p class="text-sm text-gray-500">Years Experience</p>
+                    </div>
+                    <div class="border-l-4 border-emerald-500 pl-4">
+                        <p class="text-2xl font-bold text-gray-900">450+</p>
+                        <p class="text-sm text-gray-500">Projects Completed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-emerald-900 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 space-y-4">
+                    <h3 class="text-2xl font-bold">Ready to Elevate Your Outdoors?</h3>
+                    <p class="text-emerald-200">Connect with our landscape design specialists for a complimentary initial site assessment and consultation.</p>
+                    <a href="#contact" onclick="navigateToSection('contact')" class="inline-block bg-white text-emerald-900 font-semibold px-6 py-3 rounded-xl hover:bg-emerald-50 transition shadow">
+                        Book Consultation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="main-page-section py-20 bg-gray-100 px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200">
+                <div class="text-center mb-10 space-y-2">
+                    <h2 class="text-3xl font-bold text-gray-900">Request an Estimate or Consultation</h2>
+                    <p class="text-gray-600">Fill out the details below and our team will get back to you promptly.</p>
+                </div>
+
+                <form id="estimate-form" onsubmit="handleContactSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" id="contact-name" oninput="validateField('name')" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="John Doe">
+                            <p id="error-name" class="text-xs text-red-500 mt-1 hidden">Please enter your full name.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" id="contact-email" oninput="validateField('email')" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="john@example.com">
+                            <p id="error-email" class="text-xs text-red-500 mt-1 hidden">Please enter a valid email address.</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                            <input type="tel" id="contact-phone" oninput="validateField('phone')" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="(555) 000-0000">
+                            <p id="error-phone" class="text-xs text-red-500 mt-1 hidden">Please enter a valid phone number.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Service Required</label>
+                            <select id="contact-service" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition bg-white">
+                                <option>Landscape Architecture & Design</option>
+                                <option>Irrigation & Drainage Solution</option>
+                                <option>Hardscaping, Patio & Firepit</option>
+                                <option>General Yard Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Project Details & Message *</label>
+                        <textarea id="contact-message" rows="4" oninput="validateField('message')" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="Describe your yard dimensions, goals, and timeline..."></textarea>
+                        <p id="error-message" class="text-xs text-red-500 mt-1 hidden">Please provide a brief message about your project.</p>
+                    </div>
+                    <div class="text-center pt-4">
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg transition w-full md:w-auto">
+                            Submit Inquiry
+                        </button>
+                    </div>
+                </form>
+                <div id="form-success-alert" class="hidden mt-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-center font-medium">
+                    <i class="fa-solid fa-circle-check mr-2"></i> Thank you! Your inquiry has been successfully recorded. We will be in touch shortly.
+                </div>
+            </div>
+        </section>
+
+        <section id="billing" class="main-page-section hidden py-20 px-4 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Billing & Invoicing Portal</h2>
+                    <p class="text-gray-600 text-sm">Manage clients, configure sender emails, create invoices with editable taxes & line item discounts, and dispatch automated emails.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchBillingTab('invoices')" id="btn-tab-invoices" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow transition">Invoices</button>
+                    <button onclick="switchBillingTab('clients')" id="btn-tab-clients" class="bg-white text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-300 transition">Client Management</button>
+                    <button onclick="switchBillingTab('settings')" id="btn-tab-settings" class="bg-white text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-300 transition admin-only">Admin Email Settings</button>
+                </div>
+            </div>
+
+            <!-- Statistics Dashboard for Invoices -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <!-- Paid Stats Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 flex items-center justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Paid Invoices</p>
+                        <h4 id="stat-paid-count" class="text-2xl font-extrabold text-gray-900">0</h4>
+                        <p id="stat-paid-total" class="text-sm font-semibold text-emerald-700">$0.00</p>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+
+                <!-- Past Due Stats Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100 flex items-center justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-red-600">Past Due Invoices</p>
+                        <h4 id="stat-pastdue-count" class="text-2xl font-extrabold text-gray-900">0</h4>
+                        <p id="stat-pastdue-total" class="text-sm font-semibold text-red-700">$0.00</p>
+                    </div>
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                </div>
+
+                <!-- Pending Stats Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-amber-100 flex items-center justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-amber-600">Pending / Sent</p>
+                        <h4 id="stat-pending-count" class="text-2xl font-extrabold text-gray-900">0</h4>
+                        <p id="stat-pending-total" class="text-sm font-semibold text-amber-700">$0.00</p>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoices Tab Content -->
+            <div id="tab-content-invoices" class="space-y-8">
+                <!-- Create/Edit Invoice Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900" id="invoice-form-title">Create New Invoice</h3>
+                        <button onclick="resetInvoiceForm()" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fa-solid fa-rotate-right mr-1"></i>Reset Form</button>
+                    </div>
+
+                    <form id="invoice-form" onsubmit="saveInvoice(event)" class="space-y-6">
+                        <input type="hidden" id="invoice-id">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Select Client *</label>
+                                <select id="inv-client-select" onchange="onClientSelect()" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none bg-white">
+                                    <option value="">-- Choose Client --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Issue Date *</label>
+                                <input type="date" id="inv-date" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Due Date *</label>
+                                <input type="date" id="inv-due-date" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Client Email (Auto-filled)</label>
+                                <input type="email" id="inv-client-email" readonly class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-600 outline-none" placeholder="client@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Invoice Status</label>
+                                <select id="inv-status-select" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-semibold">
+                                    <option value="Sent">Sent / Pending</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Past Due">Past Due</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Line Items Table -->
+                        <div class="pt-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-bold text-gray-800">Line Items & Discounts</h4>
+                                <button type="button" onclick="addLineItemRow()" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-3 py-1.5 rounded-lg text-xs font-semibold border border-emerald-200 transition">
+                                    <i class="fa-solid fa-plus mr-1"></i>Add Item
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border border-gray-200">
+                                <table class="w-full text-left border-collapse" id="line-items-table">
+                                    <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
+                                        <tr>
+                                            <th class="p-3">Description</th>
+                                            <th class="p-3 w-24">Qty</th>
+                                            <th class="p-3 w-32">Unit Price ($)</th>
+                                            <th class="p-3 w-32">Discount (%)</th>
+                                            <th class="p-3 w-32">Net Amount ($)</th>
+                                            <th class="p-3 w-16 text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="line-items-body" class="divide-y divide-gray-200 text-sm">
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Summary & Tax -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 items-center">
+                            <div class="flex items-center space-x-3 bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                                <label class="text-sm font-semibold text-gray-700">Tax Rate (%):</label>
+                                <input type="number" id="inv-tax-rate" value="12" min="0" max="100" step="0.1" oninput="calculateInvoiceTotals()" class="w-24 px-3 py-2 rounded-lg border border-gray-300 bg-white font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
+                                <span class="text-xs text-gray-500">(Default 12%, fully editable)</span>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-right">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>Subtotal:</span>
+                                    <span id="inv-subtotal" class="font-semibold text-gray-800">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>Tax Amount:</span>
+                                    <span id="inv-tax-amount" class="font-semibold text-gray-800">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-lg font-bold text-gray-900 border-t border-gray-300 pt-2">
+                                    <span>Total Amount Due:</span>
+                                    <span id="inv-total" class="text-emerald-700">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="invoice-form-error" class="hidden text-xs text-red-500 font-semibold">Please select a client and ensure at least one line item is added.</div>
+
+                        <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-gray-200">
+                            <button type="button" onclick="saveInvoiceDraft()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-6 py-3 rounded-xl transition">
+                                Save Draft
+                            </button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Save and Send Invoice</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Existing Invoices List -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Generated Invoices</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
+                                <tr>
+                                    <th class="p-3">Invoice #</th>
+                                    <th class="p-3">Client</th>
+                                    <th class="p-3">Email</th>
+                                    <th class="p-3">Issue Date</th>
+                                    <th class="p-3">Due Date</th>
+                                    <th class="p-3">Total</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoices-list-body" class="divide-y divide-gray-200 text-sm">
+                                <!-- Invoices loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Management Tab Content -->
+            <div id="tab-content-clients" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900" id="client-form-heading">Add New Client</h3>
+                        <button onclick="resetClientForm()" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fa-solid fa-rotate-right mr-1"></i>Reset</button>
+                    </div>
+                    <form id="client-form" onsubmit="saveClient(event)" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                        <input type="hidden" id="client-id">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Client Name *</label>
+                            <input type="text" id="client-name" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Acme Corp">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" id="client-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="billing@acme.com">
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow transition">
+                                Save Client
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Client Directory</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-200">
+                                <tr>
+                                    <th class="p-3">Client Name</th>
+                                    <th class="p-3">Email Address</th>
+                                    <th class="p-3 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clients-list-body" class="divide-y divide-gray-200 text-sm">
+                                <!-- Clients loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Email Settings Tab Content -->
+            <div id="tab-content-settings" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-2xl mx-auto">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2"><i class="fa-solid fa-gear mr-2 text-emerald-600"></i>Admin Sender Email Configuration</h3>
+                    <p class="text-gray-500 text-sm mb-6">Configure the official sender address and credentials used when sending invoices automatically to clients.</p>
+                    
+                    <form id="admin-settings-form" onsubmit="saveAdminSettings(event)" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Sender Name / Company</label>
+                            <input type="text" id="admin-sender-name" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="Verdant Craft Billing">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Admin Sender Email Address *</label>
+                            <input type="email" id="admin-sender-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="billing@verdantcraft.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">SMTP / Sender App Password (Simulated)</label>
+                            <input type="password" id="admin-sender-password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" value="••••••••••••">
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 rounded-xl shadow transition">
+                                Save Admin Email Configuration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-emerald-950 text-white py-12 px-4 border-t border-emerald-900 mt-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-seedling text-emerald-400 text-xl"></i>
+                    <span class="font-bold text-lg">Verdant Craft</span>
+                </div>
+                <p class="text-xs text-emerald-300/80 leading-relaxed">Artisan landscaping, sustainable garden engineering, and premium property maintenance.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-sm mb-3 text-emerald-200">Quick Links</h4>
+                <ul class="space-y-2 text-sm text-emerald-300/80">
+                    <li><a href="#home" onclick="navigateToSection('home')" class="hover:text-white transition">Home</a></li>
+                    <li><a href="#services" onclick="navigateToSection('services')" class="hover:text-white transition">Services</a></li>
+                    <li><a href="#gallery" onclick="navigateToSection('gallery')" class="hover:text-white transition">Gallery</a></li>
+                    <li><a href="#about" onclick="navigateToSection('about')" class="hover:text-white transition">About Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-sm mb-3 text-emerald-200">Services</h4>
+                <ul class="space-y-2 text-sm text-emerald-300/80">
+                    <li><span class="hover:text-white transition">Landscape Architecture</span></li>
+                    <li><span class="hover:text-white transition">Irrigation Systems</span></li>
+                    <li><span class="hover:text-white transition">Hardscaping & Patios</span></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-sm mb-3 text-emerald-200">Contact Info</h4>
+                <p class="text-xs text-emerald-300/80 leading-relaxed">Metro Manila, Philippines<br>Email: info@verdantcraft.com<br>Phone: +63 900 555 1234</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 border-t border-emerald-900 text-center text-xs text-emerald-400">
+            &copy; 2026 Verdant Craft Landscaping. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative animate-fade-in">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Portal Authentication</h3>
+                <p class="text-xs text-gray-500 mt-1">Admin password: <span class="font-mono bg-gray-100 px-1 py-0.5 rounded text-emerald-700">cuteako</span> | Member password: <span class="font-mono bg-gray-100 px-1 py-0.5 rounded text-emerald-700">landscape</span></p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Access Password *</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Enter password">
+                </div>
+                <div id="login-error" class="text-xs text-red-500 hidden font-medium">Invalid password. Try 'cuteako' or 'landscape'.</div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow transition">
+                    Authenticate
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Automated Email Dispatch Simulation Modal -->
+    <div id="email-dispatch-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl relative animate-fade-in space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl animate-bounce">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Automated Email Dispatch</h3>
+                <p class="text-xs text-gray-500">Invoice successfully generated and sent to client & admin!</p>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3 text-sm">
+                <div class="flex justify-between border-b border-gray-200 pb-2">
+                    <span class="text-gray-500 font-medium">From (Admin Sender):</span>
+                    <span id="sim-sender" class="font-semibold text-gray-800">billing@verdantcraft.com</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-200 pb-2">
+                    <span class="text-gray-500 font-medium">To (Client Email):</span>
+                    <span id="sim-recipient" class="font-semibold text-emerald-700">client@example.com</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-200 pb-2">
+                    <span class="text-gray-500 font-medium">Invoice Reference:</span>
+                    <span id="sim-invoice-ref" class="font-semibold text-gray-800">INV-2026-001</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500 font-medium">Delivery Status:</span>
+                    <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs font-bold">DISPATCHED & SENT</span>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button onclick="closeEmailModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hero Slideshow Logic (3 slides)
+        let currentHeroIndex = 0;
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDots = document.querySelectorAll('.hero-dot');
+
+        function showHeroSlide(index) {
+            heroSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+                if(heroDots[i]) heroDots[i].classList.toggle('bg-white', i === index);
+                if(heroDots[i]) heroDots[i].classList.toggle('bg-white/50', i !== index);
+            });
+            currentHeroIndex = index;
+        }
+
+        function currentHeroSlide(index) {
+            showHeroSlide(index);
+        }
+
+        setInterval(() => {
+            currentHeroIndex = (currentHeroIndex + 1) % heroSlides.length;
+            showHeroSlide(currentHeroIndex);
+        }, 5000);
+
+        // Gallery Slideshow Logic (up to 5 photos)
+        let currentGalleryIndex = 0;
+        const gallerySlides = document.querySelectorAll('.gallery-slide');
+        const galleryDotsContainer = document.getElementById('gallery-dots');
+        const galleryTitleEl = document.getElementById('gallery-title');
+        const galleryDescEl = document.getElementById('gallery-desc');
+
+        const galleryData = [
+            { title: "Modern Villa Garden", desc: "Sleek lines combined with drought-tolerant plantings." },
+            { title: "Zen Stone Courtyard", desc: "Tranquil japanese-inspired garden with boulder accents." },
+            { title: "Lush Backyard Poolside", desc: "Tropical foliage framing a crystalline swimming pool." },
+            { title: "Custom Paver Patio & Firepit", desc: "Hand-laid natural stone patio with custom seating." },
+            { title: "Sustainable Native Meadow", desc: "Eco-friendly native grasses and pollinator-friendly flora." }
+        ];
+
+        function showGallerySlide(index) {
+            gallerySlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            const dots = galleryDotsContainer.querySelectorAll('button');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-emerald-600', i === index);
+                dot.classList.toggle('bg-gray-300', i !== index);
+            });
+            if(galleryData[index]) {
+                galleryTitleEl.textContent = galleryData[index].title;
+                galleryDescEl.textContent = galleryData[index].desc;
+            }
+            currentGalleryIndex = index;
+        }
+
+        function changeGallerySlide(direction) {
+            currentGalleryIndex = (currentGalleryIndex + direction + gallerySlides.length) % gallerySlides.length;
+            showGallerySlide(currentGalleryIndex);
+        }
+
+        function setGallerySlide(index) {
+            showGallerySlide(index);
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Robust Single-Page View Navigation Controller
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.main-page-section');
+            sections.forEach(sec => {
+                if(sec.id === sectionId) {
+                    sec.classList.remove('hidden');
+                } else {
+                    sec.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(sectionId === 'billing') {
+                initBillingSystem();
+            }
+        }
+
+        // Real-Time Contact Form Validation
+        function validateField(fieldId) {
+            const val = document.getElementById(`contact-${fieldId}`).value.trim();
+            const errEl = document.getElementById(`error-${fieldId}`);
+            if(!errEl) return;
+
+            if(fieldId === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if(!emailRegex.test(val)) {
+                    errEl.classList.remove('hidden');
+                } else {
+                    errEl.classList.add('hidden');
+                }
+            } else {
+                if(val === '') {
+                    errEl.classList.remove('hidden');
+                } else {
+                    errEl.classList.add('hidden');
+                }
+            }
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            if(!name || !email || !phone || !message) {
+                alert('Please complete all required fields.');
+                return;
+            }
+
+            document.getElementById('estimate-form').reset();
+            document.getElementById('form-success-alert').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('form-success-alert').classList.add('hidden');
+            }, 5000);
+        }
+
+        // Authentication & Role State
+        let currentUserRole = localStorage.getItem('vc_auth_role') || null; // 'admin' or 'member'
+
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const pwd = document.getElementById('login-password').value.trim();
+            const errEl = document.getElementById('login-error');
+
+            if(pwd === 'cuteako') {
+                currentUserRole = 'admin';
+                localStorage.setItem('vc_auth_role', 'admin');
+                setAuthUI('Administrator', 'Admin');
+                closeLoginModal();
+                navigateToSection('billing');
+            } else if(pwd === 'landscape') {
+                currentUserRole = 'member';
+                localStorage.setItem('vc_auth_role', 'member');
+                setAuthUI('Landscape Member', 'Member');
+                closeLoginModal();
+                navigateToSection('billing');
+            } else {
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        function setAuthUI(name, badge) {
+            document.getElementById('login-btn').classList.add('hidden');
+            const statusEl = document.getElementById('auth-status');
+            statusEl.classList.remove('hidden');
+            statusEl.classList.add('flex');
+            document.getElementById('auth-user-name').textContent = name;
+            document.getElementById('auth-role-badge').textContent = badge;
+
+            // Show Billing Tab in navigation
+            document.getElementById('nav-billing-tab').classList.remove('hidden');
+            document.getElementById('mobile-billing-tab').classList.remove('hidden');
+
+            // Handle admin-only settings tab
+            const adminEls = document.querySelectorAll('.admin-only');
+            adminEls.forEach(el => {
+                if(currentUserRole === 'admin') {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+
+            // Initialize Billing Data
+            initBillingSystem();
+        }
+
+        function logout() {
+            currentUserRole = null;
+            localStorage.removeItem('vc_auth_role');
+            document.getElementById('auth-status').classList.add('hidden');
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('nav-billing-tab').classList.add('hidden');
+            document.getElementById('mobile-billing-tab').classList.add('hidden');
+            navigateToSection('home');
+        }
+
+        // Persistent Billing Data
+        let clients = JSON.parse(localStorage.getItem('vc_clients')) || [
+            { id: 'c1', name: 'Acme Corporation', email: 'billing@acme.com' },
+            { id: 'c2', name: 'Greenview Estates', email: 'accounts@greenview.org' }
+        ];
+
+        let invoices = JSON.parse(localStorage.getItem('vc_invoices')) || [
+            { id: 'INV-2026-101', clientId: 'c1', clientName: 'Acme Corporation', clientEmail: 'billing@acme.com', date: '2026-10-01', dueDate: '2026-10-15', taxRate: 12, items: [{desc: 'Design Consultation & Blueprint', qty: 1, price: 450, discount: 0}], subtotal: 450, taxAmount: 54, total: 504, status: 'Paid' },
+            { id: 'INV-2026-102', clientId: 'c2', clientName: 'Greenview Estates', clientEmail: 'accounts@greenview.org', date: '2026-09-10', dueDate: '2026-09-25', taxRate: 12, items: [{desc: 'Irrigation System Repair', qty: 2, price: 300, discount: 5}], subtotal: 570, taxAmount: 68.40, total: 638.40, status: 'Past Due' }
+        ];
+
+        let adminSettings = JSON.parse(localStorage.getItem('vc_admin_settings')) || {
+            senderName: 'Verdant Craft Billing',
+            senderEmail: 'billing@verdantcraft.com',
+            senderPassword: '••••••••••••'
+        };
+
+        function initBillingSystem() {
+            populateClientDropdown();
+            renderClientsList();
+            renderInvoicesList();
+            updateBillingStatistics();
+            loadAdminSettings();
+            if(invoiceItems.length === 0) {
+                addLineItemRow();
+            }
+            if(!document.getElementById('inv-date').value) {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('inv-date').value = today;
+                const due = new Date();
+                due.setDate(due.getDate() + 14);
+                document.getElementById('inv-due-date').value = due.toISOString().split('T')[0];
+            }
+        }
+
+        function switchBillingTab(tabName) {
+            document.getElementById('tab-content-invoices').classList.add('hidden');
+            document.getElementById('tab-content-clients').classList.add('hidden');
+            document.getElementById('tab-content-settings').classList.add('hidden');
+
+            document.getElementById('btn-tab-invoices').className = 'bg-white text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-300 transition';
+            document.getElementById('btn-tab-clients').className = 'bg-white text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-300 transition';
+            const btnSettings = document.getElementById('btn-tab-settings');
+            if(btnSettings) btnSettings.className = 'bg-white text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-300 transition';
+
+            document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`btn-tab-${tabName}`).className = 'bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow transition';
+        }
+
+        // Client Management Functions
+        function populateClientDropdown() {
+            const select = document.getElementById('inv-client-select');
+            if(!select) return;
+            select.innerHTML = '<option value="">-- Choose Client --</option>';
+            clients.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.textContent = c.name + ' (' + c.email + ')';
+                select.appendChild(opt);
+            });
+        }
+
+        function onClientSelect() {
+            const clientId = document.getElementById('inv-client-select').value;
+            const client = clients.find(c => c.id === clientId);
+            document.getElementById('inv-client-email').value = client ? client.email : '';
+        }
+
+        function saveClient(e) {
+            e.preventDefault();
+            const id = document.getElementById('client-id').value;
+            const name = document.getElementById('client-name').value.trim();
+            const email = document.getElementById('client-email').value.trim();
+
+            if(!name || !email) return;
+
+            if(id) {
+                const idx = clients.findIndex(c => c.id === id);
+                if(idx !== -1) {
+                    clients[idx].name = name;
+                    clients[idx].email = email;
+                }
+            } else {
+                const newId = 'c_' + Date.now();
+                clients.push({ id: newId, name, email });
+            }
+
+            localStorage.setItem('vc_clients', JSON.stringify(clients));
+            resetClientForm();
+            renderClientsList();
+            populateClientDropdown();
+        }
+
+        function editClient(id) {
+            const client = clients.find(c => c.id === id);
+            if(!client) return;
+            document.getElementById('client-id').value = client.id;
+            document.getElementById('client-name').value = client.name;
+            document.getElementById('client-email').value = client.email;
+            document.getElementById('client-form-heading').textContent = 'Edit Client';
+        }
+
+        function deleteClient(id) {
+            if(confirm('Are you sure you want to delete this client?')) {
+                clients = clients.filter(c => c.id !== id);
+                localStorage.setItem('vc_clients', JSON.stringify(clients));
+                renderClientsList();
+                populateClientDropdown();
+            }
+        }
+
+        function resetClientForm() {
+            document.getElementById('client-form').reset();
+            document.getElementById('client-id').value = '';
+            document.getElementById('client-form-heading').textContent = 'Add New Client';
+        }
+
+        function renderClientsList() {
+            const tbody = document.getElementById('clients-list-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            if(clients.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-400">No clients registered yet.</td></tr>';
+                return;
+            }
+            clients.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-medium text-gray-900">${c.name}</td>
+                    <td class="p-3 text-gray-600">${c.email}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editClient('${c.id}')" class="text-blue-600 hover:text-blue-800 text-xs font-semibold px-2 py-1 bg-blue-50 rounded">Edit</button>
+                        <button onclick="deleteClient('${c.id}')" class="text-red-600 hover:text-red-800 text-xs font-semibold px-2 py-1 bg-red-50 rounded">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Admin Settings Functions
+        function loadAdminSettings() {
+            if(document.getElementById('admin-sender-name')) {
+                document.getElementById('admin-sender-name').value = adminSettings.senderName;
+                document.getElementById('admin-sender-email').value = adminSettings.senderEmail;
+                document.getElementById('admin-sender-password').value = adminSettings.senderPassword;
+            }
+        }
+
+        function saveAdminSettings(e) {
+            e.preventDefault();
+            adminSettings.senderName = document.getElementById('admin-sender-name').value.trim();
+            adminSettings.senderEmail = document.getElementById('admin-sender-email').value.trim();
+            adminSettings.senderPassword = document.getElementById('admin-sender-password').value.trim();
+            localStorage.setItem('vc_admin_settings', JSON.stringify(adminSettings));
+            alert('Admin sender email configuration updated successfully!');
+        }
+
+        // Invoice Line Items & Calculations
+        let invoiceItems = [
+            { desc: 'Initial Landscape Survey & Soil Test', qty: 1, price: 250, discount: 0 }
+        ];
+
+        function addLineItemRow() {
+            invoiceItems.push({ desc: '', qty: 1, price: 0, discount: 0 });
+            renderLineItems();
+            calculateInvoiceTotals();
+        }
+
+        function removeLineItemRow(index) {
+            if(invoiceItems.length === 1) {
+                alert('An invoice must have at least one line item.');
+                return;
+            }
+            invoiceItems.splice(index, 1);
+            renderLineItems();
+            calculateInvoiceTotals();
+        }
+
+        function updateItem(index, field, value) {
+            invoiceItems[index][field] = field === 'desc' ? value : parseFloat(value) || 0;
+            calculateInvoiceTotals();
+        }
+
+        function renderLineItems() {
+            const tbody = document.getElementById('line-items-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            invoiceItems.forEach((item, index) => {
+                const netItemAmount = (item.qty * item.price) * (1 - (item.discount / 100));
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2"><input type="text" value="${item.desc}" oninput="updateItem(${index}, 'desc', this.value)" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none" placeholder="Service or Material description"></td>
+                    <td class="p-2"><input type="number" min="1" value="${item.qty}" oninput="updateItem(${index}, 'qty', this.value)" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none"></td>
+                    <td class="p-2"><input type="number" min="0" step="0.01" value="${item.price}" oninput="updateItem(${index}, 'price', this.value)" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none"></td>
+                    <td class="p-2"><input type="number" min="0" max="100" step="0.1" value="${item.discount}" oninput="updateItem(${index}, 'discount', this.value)" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm outline-none" placeholder="0%"></td>
+                    <td class="p-2 font-semibold text-gray-700 item-net-display">$${netItemAmount.toFixed(2)}</td>
+                    <td class="p-2 text-center"><button type="button" onclick="removeLineItemRow(${index})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calculateInvoiceTotals() {
+            let subtotal = 0;
+            invoiceItems.forEach((item, idx) => {
+                const net = (item.qty * item.price) * (1 - (item.discount / 100));
+                subtotal += net;
+                const netDisplays = document.querySelectorAll('.item-net-display');
+                if(netDisplays[idx]) netDisplays[idx].textContent = '$' + net.toFixed(2);
+            });
+
+            const taxRateInput = document.getElementById('inv-tax-rate');
+            const taxRate = taxRateInput ? (parseFloat(taxRateInput.value) || 0) : 12;
+            const taxAmount = subtotal * (taxRate / 100);
+            const total = subtotal + taxAmount;
+
+            if(document.getElementById('inv-subtotal')) {
+                document.getElementById('inv-subtotal').textContent = '$' + subtotal.toFixed(2);
+                document.getElementById('inv-tax-amount').textContent = '$' + taxAmount.toFixed(2);
+                document.getElementById('inv-total').textContent = '$' + total.toFixed(2);
+            }
+
+            return { subtotal, taxAmount, total };
+        }
+
+        // Statistics Dashboard Calculator
+        function updateBillingStatistics() {
+            let paidCount = 0, paidTotal = 0;
+            let pastDueCount = 0, pastDueTotal = 0;
+            let pendingCount = 0, pendingTotal = 0;
+
+            invoices.forEach(inv => {
+                const status = inv.status;
+                const amt = inv.total || 0;
+                if(status === 'Paid') {
+                    paidCount++;
+                    paidTotal += amt;
+                } else if(status === 'Past Due') {
+                    pastDueCount++;
+                    pastDueTotal += amt;
+                } else {
+                    // Sent, Draft, Pending
+                    pendingCount++;
+                    pendingTotal += amt;
+                }
+            });
+
+            document.getElementById('stat-paid-count').textContent = paidCount;
+            document.getElementById('stat-paid-total').textContent = '$' + paidTotal.toFixed(2);
+
+            document.getElementById('stat-pastdue-count').textContent = pastDueCount;
+            document.getElementById('stat-pastdue-total').textContent = '$' + pastDueTotal.toFixed(2);
+
+            document.getElementById('stat-pending-count').textContent = pendingCount;
+            document.getElementById('stat-pending-total').textContent = '$' + pendingTotal.toFixed(2);
+        }
+
+        // Save & Send Invoice
+        function saveInvoice(e) {
+            e.preventDefault();
+            const clientId = document.getElementById('inv-client-select').value;
+            const clientEmail = document.getElementById('inv-client-email').value;
+            const date = document.getElementById('inv-date').value || new Date().toISOString().split('T')[0];
+            const dueDate = document.getElementById('inv-due-date').value || new Date().toISOString().split('T')[0];
+            const taxRate = parseFloat(document.getElementById('inv-tax-rate').value) || 12;
+            const status = document.getElementById('inv-status-select').value;
+            const errEl = document.getElementById('invoice-form-error');
+
+            if(!clientId || invoiceItems.length === 0) {
+                errEl.classList.remove('hidden');
+                return;
+            }
+            errEl.classList.add('hidden');
+
+            const client = clients.find(c => c.id === clientId);
+            const totals = calculateInvoiceTotals();
+            const invoiceId = document.getElementById('invoice-id').value || ('INV-' + new Date().getFullYear() + '-' + Math.floor(100 + Math.random() * 900));
+
+            const invoiceObj = {
+                id: invoiceId,
+                clientId,
+                clientName: client ? client.name : 'Unknown Client',
+                clientEmail: clientEmail || (client ? client.email : ''),
+                date,
+                dueDate,
+                taxRate,
+                items: JSON.parse(JSON.stringify(invoiceItems)),
+                subtotal: totals.subtotal,
+                taxAmount: totals.taxAmount,
+                total: totals.total,
+                status: status
+            };
+
+            const existingIdx = invoices.findIndex(i => i.id === invoiceId);
+            if(existingIdx !== -1) {
+                invoices[existingIdx] = invoiceObj;
+            } else {
+                invoices.unshift(invoiceObj);
+            }
+
+            localStorage.setItem('vc_invoices', JSON.stringify(invoices));
+            renderInvoicesList();
+            updateBillingStatistics();
+            resetInvoiceForm();
+
+            // Trigger automated email dispatch simulation modal
+            document.getElementById('sim-sender').textContent = adminSettings.senderEmail;
+            document.getElementById('sim-recipient').textContent = invoiceObj.clientEmail;
+            document.getElementById('sim-invoice-ref').textContent = invoiceObj.id;
+            document.getElementById('email-dispatch-modal').classList.remove('hidden');
+        }
+
+        function saveInvoiceDraft() {
+            const clientId = document.getElementById('inv-client-select').value;
+            if(!clientId) {
+                alert('Please select a client to save a draft.');
+                return;
+            }
+            const client = clients.find(c => c.id === clientId);
+            const totals = calculateInvoiceTotals();
+            const invoiceId = document.getElementById('invoice-id').value || ('INV-' + new Date().getFullYear() + '-' + Math.floor(100 + Math.random() * 900));
+            const date = document.getElementById('inv-date').value || new Date().toISOString().split('T')[0];
+            const dueDate = document.getElementById('inv-due-date').value || date;
+            const taxRate = parseFloat(document.getElementById('inv-tax-rate').value) || 12;
+
+            const invoiceObj = {
+                id: invoiceId,
+                clientId,
+                clientName: client ? client.name : 'Unknown',
+                clientEmail: client ? client.email : '',
+                date,
+                dueDate,
+                taxRate,
+                items: JSON.parse(JSON.stringify(invoiceItems)),
+                subtotal: totals.subtotal,
+                taxAmount: totals.taxAmount,
+                total: totals.total,
+                status: 'Draft'
+            };
+
+            const existingIdx = invoices.findIndex(i => i.id === invoiceId);
+            if(existingIdx !== -1) invoices[existingIdx] = invoiceObj;
+            else invoices.unshift(invoiceObj);
+
+            localStorage.setItem('vc_invoices', JSON.stringify(invoices));
+            renderInvoicesList();
+            updateBillingStatistics();
+            resetInvoiceForm();
+            alert('Invoice saved as draft successfully.');
+        }
+
+        function closeEmailModal() {
+            document.getElementById('email-dispatch-modal').classList.add('hidden');
+        }
+
+        function renderInvoicesList() {
+            const tbody = document.getElementById('invoices-list-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            if(invoices.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-400">No invoices generated yet.</td></tr>';
+                return;
+            }
+            invoices.forEach(inv => {
+                let statusBadge = '';
+                if(inv.status === 'Paid') {
+                    statusBadge = '<span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-bold">Paid</span>';
+                } else if(inv.status === 'Past Due') {
+                    statusBadge = '<span class="bg-red-100 text-red-800 px-2.5 py-1 rounded-full text-xs font-bold">Past Due</span>';
+                } else if(inv.status === 'Draft') {
+                    statusBadge = '<span class="bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full text-xs font-bold">Draft</span>';
+                } else {
+                    statusBadge = '<span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full text-xs font-bold">Pending</span>';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-semibold text-gray-900">${inv.id}</td>
+                    <td class="p-3 text-gray-800">${inv.clientName}</td>
+                    <td class="p-3 text-gray-600">${inv.clientEmail}</td>
+                    <td class="p-3 text-gray-600">${inv.date}</td>
+                    <td class="p-3 text-gray-600">${inv.dueDate || inv.date}</td>
+                    <td class="p-3 font-bold text-emerald-700">$${inv.total.toFixed(2)}</td>
+                    <td class="p-3">${statusBadge}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editInvoice('${inv.id}')" class="text-blue-600 hover:text-blue-800 text-xs font-semibold px-2 py-1 bg-blue-50 rounded">Edit</button>
+                        <button onclick="deleteInvoice('${inv.id}')" class="text-red-600 hover:text-red-800 text-xs font-semibold px-2 py-1 bg-red-50 rounded">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function editInvoice(id) {
+            const inv = invoices.find(i => i.id === id);
+            if(!inv) return;
+            document.getElementById('invoice-id').value = inv.id;
+            document.getElementById('inv-client-select').value = inv.clientId;
+            onClientSelect();
+            document.getElementById('inv-date').value = inv.date;
+            document.getElementById('inv-due-date').value = inv.dueDate || inv.date;
+            document.getElementById('inv-tax-rate').value = inv.taxRate;
+            document.getElementById('inv-status-select').value = inv.status;
+            invoiceItems = JSON.parse(JSON.stringify(inv.items));
+            renderLineItems();
+            calculateInvoiceTotals();
+            document.getElementById('invoice-form-title').textContent = 'Edit Invoice (' + inv.id + ')';
+            window.scrollTo({ top: document.getElementById('billing').offsetTop, behavior: 'smooth' });
+        }
+
+        function deleteInvoice(id) {
+            if(confirm('Are you sure you want to delete this invoice?')) {
+                invoices = invoices.filter(i => i.id !== id);
+                localStorage.setItem('vc_invoices', JSON.stringify(invoices));
+                renderInvoicesList();
+                updateBillingStatistics();
+            }
+        }
+
+        function resetInvoiceForm() {
+            document.getElementById('invoice-form').reset();
+            document.getElementById('invoice-id').value = '';
+            document.getElementById('invoice-form-title').textContent = 'Create New Invoice';
+            document.getElementById('inv-tax-rate').value = '12';
+            invoiceItems = [{ desc: 'Initial Landscape Survey & Soil Test', qty: 1, price: 250, discount: 0 }];
+            renderLineItems();
+            calculateInvoiceTotals();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inv-date').value = today;
+            const due = new Date();
+            due.setDate(due.getDate() + 14);
+            document.getElementById('inv-due-date').value = due.toISOString().split('T')[0];
+        }
+
+        // On load check auth state
+        window.onload = function() {
+            if(currentUserRole) {
+                if(currentUserRole === 'admin') setAuthUI('Administrator', 'Admin');
+                else setAuthUI('Landscape Member', 'Member');
+            }
+        };
+    </script>
+</body>
+</html>
