@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catering Sales Manager & Menu Planner</title>
+    <title>Kamana Sanctuary Resort & Spa - Banquet Sales & Menu Planner</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -37,23 +37,32 @@
             .no-print { display: none !important; }
             .print-only { display: block !important; }
             body { background: #fff !important; color: #000 !important; }
-            .print-card { border: none !important; shadow: none !important; }
+            .print-card { border: none !important; box-shadow: none !important; }
         }
         .print-only { display: none; }
+        /* Hide spin buttons on number inputs for clean UI */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
 
     <!-- Top Navigation Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 no-print shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3">
-                <div class="bg-brand-600 text-white p-2 rounded-xl shadow-sm">
+                <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-sm flex items-center justify-center">
                     <i class="fa-solid fa-utensils text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-slate-900 leading-tight">Kamana Sanctuary Resort & Spa</h1>
-                    <p class="text-xs text-slate-500">Banquet Sales & Catering Planner</p>
+                    <h1 class="font-bold text-slate-900 leading-tight text-sm sm:text-base">Kamana Sanctuary Resort & Spa</h1>
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Banquet Sales & Catering Planner</p>
                 </div>
             </div>
 
@@ -61,30 +70,71 @@
             <div class="flex items-center gap-2 sm:gap-4">
                 <!-- Nav Tabs -->
                 <nav class="flex bg-slate-100 p-1 rounded-xl text-xs sm:text-sm font-medium">
-                    <button onclick="switchTab('catalog')" id="tab-catalog" class="px-3 py-1.5 rounded-lg transition-all text-slate-700 bg-white shadow-sm font-semibold">
-                        <i class="fa-solid fa-book-open mr-1.5"></i>Menu Catalog
+                    <button onclick="switchTab('catalog')" id="tab-catalog" class="px-3 py-1.5 rounded-lg transition-all text-slate-900 bg-white shadow-sm font-semibold">
+                        <i class="fa-solid fa-book-open mr-1.5"></i>Catalog
                     </button>
                     <button onclick="switchTab('summary')" id="tab-summary" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 relative">
-                        <i class="fa-solid fa-receipt mr-1.5"></i>Selected Summary
+                        <i class="fa-solid fa-receipt mr-1.5"></i>Summary
                         <span id="nav-badge" class="hidden ml-1.5 px-1.5 py-0.5 text-[10px] bg-brand-600 text-white rounded-full font-bold">0</span>
                     </button>
                     <button onclick="switchTab('grocery')" id="tab-grocery" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900">
-                        <i class="fa-solid fa-basket-shopping mr-1.5"></i>Grocery List
+                        <i class="fa-solid fa-basket-shopping mr-1.5"></i>Grocery
                     </button>
                 </nav>
 
                 <!-- Role Switcher -->
                 <div class="flex items-center bg-slate-900 text-white p-1 rounded-xl text-xs">
                     <button id="mode-customer" onclick="setRole('customer')" class="px-2.5 py-1 rounded-lg font-medium transition-all bg-brand-600">
-                        <i class="fa-solid fa-user mr-1"></i><span class="hidden sm:inline">Customer</span> Mode
+                        <i class="fa-solid fa-user mr-1"></i><span class="hidden md:inline">Customer</span> Mode
                     </button>
                     <button id="mode-manager" onclick="setRole('manager')" class="px-2.5 py-1 rounded-lg font-medium transition-all text-slate-400 hover:text-white">
-                        <i class="fa-solid fa-user-tie mr-1"></i><span class="hidden sm:inline">Sales</span> Manager
+                        <i class="fa-solid fa-user-tie mr-1"></i><span class="hidden md:inline">Sales</span> Manager
                     </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- GLOBAL NUMBER OF PAX (GUEST COUNT) CONTROL BAR -->
+    <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-3.5 border-b border-slate-700 shadow-md no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-brand-500/20 text-brand-400 p-2 rounded-xl border border-brand-500/30">
+                    <i class="fa-solid fa-users text-sm sm:text-base"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Banquet Guest Count (Pax)</h2>
+                    <p class="text-[11px] text-slate-400">All dish costs, packages &amp; grocery lists scale dynamically by headcount</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
+                <!-- Quick Presets -->
+                <span class="text-[11px] text-slate-400 mr-1 hidden md:inline">Presets:</span>
+                <div class="flex items-center gap-1">
+                    <button onclick="setPax(20)" class="pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all">20 Pax</button>
+                    <button onclick="setPax(50)" class="pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all">50 Pax</button>
+                    <button onclick="setPax(100)" class="pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all">100 Pax</button>
+                    <button onclick="setPax(150)" class="pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all">150 Pax</button>
+                    <button onclick="setPax(200)" class="pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all">200 Pax</button>
+                </div>
+
+                <!-- Custom Pax Stepper -->
+                <div class="flex items-center bg-slate-950/80 rounded-xl border border-slate-700 p-0.5 ml-1">
+                    <button onclick="adjustPax(-5)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors flex items-center justify-center text-xs font-bold" title="-5 Pax">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <div class="flex items-center px-2.5 gap-1">
+                        <input type="number" id="pax-input" value="50" min="1" max="5000" onchange="onPaxInputChange()" class="w-14 bg-transparent text-center text-sm font-extrabold text-brand-400 outline-none">
+                        <span class="text-xs text-slate-400 font-semibold">Pax</span>
+                    </div>
+                    <button onclick="adjustPax(5)" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors flex items-center justify-center text-xs font-bold" title="+5 Pax">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-28">
@@ -127,12 +177,28 @@
         <!-- VIEW 2: SELECTED MENU PACKAGE & ORDER SUMMARY PAGE -->
         <div id="view-summary" class="hidden space-y-6">
             
+            <!-- PRINT-ONLY OFFICIAL LETTERHEAD BANNER -->
+            <div class="print-only border-b-2 border-slate-800 pb-4 mb-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Kamana Sanctuary Resort & Spa</h1>
+                        <p class="text-xs text-slate-600">Subic Bay Freeport Zone, Zambales, Philippines</p>
+                        <p class="text-xs text-slate-600">Tel: +63 (047) 252-9500 | Email: banquet@kamanasanctuary.com</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1 uppercase rounded">Official Quotation</span>
+                        <p class="text-xs text-slate-500 mt-2">Date: <span id="print-date"></span></p>
+                        <p class="text-xs text-slate-700 font-bold">Pax Count: <span id="print-pax-count" class="text-brand-700">50 Pax</span></p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Manager Sales Summary Header Banner (Manager Mode Only) -->
             <div id="manager-summary-banner" class="hidden bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md border border-slate-700">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-700">
                     <div>
                         <span class="bg-brand-500/20 text-brand-300 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">Manager Analytics View</span>
-                        <h2 class="text-xl font-bold mt-1">Package Profitability Breakdown</h2>
+                        <h2 class="text-xl font-bold mt-1">Package Profitability Breakdown (<span class="display-pax-count">50</span> Pax)</h2>
                     </div>
                     <div class="text-xs text-slate-300 bg-slate-800 px-3 py-2 rounded-xl border border-slate-700">
                         Target Cost Margin: <strong class="text-white">60.0%</strong>
@@ -140,15 +206,15 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
-                        <p class="text-xs text-slate-400">Total Customer Price</p>
+                        <p class="text-xs text-slate-400">Total Customer Revenue</p>
                         <p id="mgr-summary-revenue" class="text-lg font-bold text-emerald-400">₱0.00</p>
                     </div>
                     <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
-                        <p class="text-xs text-slate-400">Estimated Total Cost</p>
+                        <p class="text-xs text-slate-400">Total Recipe Cost</p>
                         <p id="mgr-summary-cost" class="text-lg font-bold text-amber-400">₱0.00</p>
                     </div>
                     <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
-                        <p class="text-xs text-slate-400">Gross Margin Profit</p>
+                        <p class="text-xs text-slate-400">Gross Profit</p>
                         <p id="mgr-summary-profit" class="text-lg font-bold text-blue-400">₱0.00</p>
                     </div>
                     <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
@@ -161,8 +227,13 @@
             <!-- Quotation Header (Visible for Print/Customer Summary) -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Banquet Package Proposal & Summary</h2>
-                    <p class="text-xs text-slate-500 mt-1">Review selected dishes, adjust portion packages, and export formal catering quotation.</p>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-2xl font-bold text-slate-900">Banquet Package Proposal</h2>
+                        <span class="bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-full border border-brand-200">
+                            <i class="fa-solid fa-users mr-1"></i><span class="display-pax-count">50</span> Pax Total
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Review selected menu selections, adjust portion packages, and print or export formal catering quotation.</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 no-print">
                     <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-2">
@@ -185,12 +256,13 @@
             <!-- Grand Total Footer Card -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-center sm:text-left">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Banquet Package Total</span>
-                    <h3 class="text-xs text-slate-500 mt-0.5">All prices are inclusive of Philippine Government Tax & Service Charges</h3>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Banquet Package Total (<span class="display-pax-count">50</span> Pax)</span>
+                    <h3 class="text-xs text-slate-500 mt-0.5">All prices are inclusive of Philippine Government Tax &amp; Service Charges</h3>
                 </div>
                 <div class="text-center sm:text-right">
                     <span class="text-xs text-slate-400 block">Grand Total Amount</span>
                     <span id="summary-grand-total" class="text-3xl font-extrabold text-brand-700">₱0.00</span>
+                    <span id="summary-per-pax-rate" class="block text-xs text-slate-500 font-medium mt-0.5">₱0.00 per pax total</span>
                 </div>
             </div>
         </div>
@@ -199,8 +271,13 @@
         <div id="view-grocery" class="hidden space-y-6">
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900">Consolidated Kitchen Grocery List</h2>
-                    <p class="text-xs text-slate-500">Auto-calculated raw ingredients needed for selected catering packages.</p>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-xl font-bold text-slate-900">Consolidated Kitchen Grocery List</h2>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-slate-200">
+                            Scaled for <span class="display-pax-count">50</span> Pax
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Auto-calculated raw ingredients needed based on guest headcount and chosen menus.</p>
                 </div>
                 <button onclick="window.print()" class="no-print bg-slate-900 text-white text-xs px-3.5 py-2 rounded-xl">
                     <i class="fa-solid fa-print mr-1"></i>Print List
@@ -212,7 +289,7 @@
                         <tr>
                             <th class="p-4">Ingredient Name</th>
                             <th class="p-4">Category</th>
-                            <th class="p-4 text-right">Required Quantity</th>
+                            <th class="p-4 text-right">Scaled Quantity (<span class="display-pax-count">50</span> Pax)</th>
                             <th class="p-4 text-right mgr-only">Est. Unit Cost (₱)</th>
                             <th class="p-4 text-right mgr-only">Est. Total Cost (₱)</th>
                         </tr>
@@ -233,7 +310,7 @@
                 0
             </div>
             <div>
-                <p class="text-xs text-slate-400">Selected Package Total</p>
+                <p class="text-xs text-slate-400">Selected (<span class="display-pax-count">50</span> Pax Total)</p>
                 <p id="sticky-total" class="text-sm font-bold text-brand-400">₱0.00</p>
             </div>
         </div>
@@ -246,14 +323,14 @@
 
     <!-- JavaScript Data & Logic -->
     <script>
-        // Preset Dish Inventory Data (10+ Items across Breakfast, Lunch, Snacks, Dinner)
+        // Preset Dish Inventory Data
         const dishes = [
             {
                 id: 'd1',
                 name: 'Crispy Beef Tapa & Garlic Rice',
                 category: 'Breakfast',
-                price: 280,
-                cost: 110,
+                price: 280, // per pax unit rate
+                cost: 110,  // per pax unit cost
                 allergens: ['soy', 'garlic'],
                 image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
                 description: 'Marinated sirloin beef strips served with sunny-side egg and toasted garlic rice.',
@@ -402,13 +479,61 @@
         let currentRole = 'customer'; // 'customer' | 'manager'
         let currentTab = 'catalog'; // 'catalog' | 'summary' | 'grocery'
         let activeCategory = 'All';
+        let paxCount = 50; // Default headcount
 
         // Initialize App
         window.onload = function() {
+            // Set printable date
+            const today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('print-date').innerText = today;
+
+            updatePaxUI();
             renderCatalog();
             updateSummaryView();
             updateStickyCounter();
         };
+
+        // PAX Management Functions
+        function setPax(val) {
+            paxCount = Math.max(1, parseInt(val) || 1);
+            document.getElementById('pax-input').value = paxCount;
+            updatePaxUI();
+            refreshAllViews();
+        }
+
+        function adjustPax(delta) {
+            setPax(paxCount + delta);
+        }
+
+        function onPaxInputChange() {
+            const inputVal = parseInt(document.getElementById('pax-input').value);
+            setPax(isNaN(inputVal) ? 1 : inputVal);
+        }
+
+        function updatePaxUI() {
+            // Sync all pax labels in document
+            document.querySelectorAll('.display-pax-count').forEach(el => {
+                el.innerText = paxCount.toLocaleString('en-PH');
+            });
+            document.getElementById('print-pax-count').innerText = `${paxCount.toLocaleString('en-PH')} Pax`;
+
+            // Highlight quick preset buttons if matched
+            document.querySelectorAll('.pax-preset-btn').forEach(btn => {
+                const presetVal = parseInt(btn.innerText);
+                if (presetVal === paxCount) {
+                    btn.className = 'pax-preset-btn bg-brand-600 text-white text-xs px-2.5 py-1 rounded-lg font-bold transition-all border border-brand-500 shadow-sm';
+                } else {
+                    btn.className = 'pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-lg border border-slate-700 font-medium transition-all';
+                }
+            });
+        }
+
+        function refreshAllViews() {
+            renderCatalog();
+            updateSummaryView();
+            updateGroceryList();
+            updateStickyCounter();
+        }
 
         // Switch Views/Tabs
         function switchTab(tab) {
@@ -515,6 +640,10 @@
             grid.innerHTML = dishes.map(dish => {
                 const isSelected = selectedItems[dish.id] > 0;
                 const qty = selectedItems[dish.id] || 0;
+                
+                // Pax Scaled Values
+                const totalDishPriceForPax = dish.price * paxCount;
+                const totalDishCostForPax = dish.cost * paxCount;
                 const profitMargin = (((dish.price - dish.cost) / dish.price) * 100).toFixed(0);
 
                 return `
@@ -538,15 +667,19 @@
                         </div>
 
                         <!-- Price & Manager Metrics -->
-                        <div>
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                             <div class="flex items-baseline justify-between">
-                                <span class="text-xs text-slate-400">Package Unit Price</span>
-                                <span class="text-base font-extrabold text-brand-700">₱${dish.price.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
+                                <span class="text-xs text-slate-500">Rate / Pax:</span>
+                                <span class="text-xs font-bold text-slate-700">₱${dish.price.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
+                            </div>
+                            <div class="flex items-baseline justify-between mt-1 pt-1 border-t border-slate-200/60">
+                                <span class="text-xs text-slate-800 font-semibold">Total (${paxCount} Pax):</span>
+                                <span class="text-base font-extrabold text-brand-700">₱${totalDishPriceForPax.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
                             </div>
 
                             ${currentRole === 'manager' ? `
-                            <div class="mt-2 pt-2 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2 rounded-xl mgr-only">
-                                <div><span class="text-slate-400">Cost:</span> <strong class="text-amber-700">₱${dish.cost}</strong></div>
+                            <div class="mt-2 pt-2 border-t border-slate-200 grid grid-cols-2 gap-1 text-[11px] mgr-only">
+                                <div><span class="text-slate-400">Total Cost:</span> <strong class="text-amber-700">₱${totalDishCostForPax.toLocaleString('en-PH')}</strong></div>
                                 <div class="text-right"><span class="text-slate-400">Margin:</span> <strong class="text-emerald-700">${profitMargin}%</strong></div>
                             </div>
                             ` : ''}
@@ -556,15 +689,15 @@
                         <div class="pt-1">
                             ${qty === 0 ? `
                                 <button onclick="updateQty('${dish.id}', 1)" class="w-full bg-slate-900 hover:bg-brand-600 text-white text-xs font-medium py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-plus text-[10px]"></i> Select for Package
+                                    <i class="fa-solid fa-plus text-[10px]"></i> Select Menu
                                 </button>
                             ` : `
                                 <div class="flex items-center justify-between bg-brand-50 border border-brand-200 rounded-xl p-1">
-                                    <button onclick="updateQty('${dish.id}', ${qty - 1})" class="w-7 h-7 bg-white text-brand-700 hover:bg-brand-600 hover:text-white rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-sm">
+                                    <button onclick="updateQty('${dish.id}', ${qty - 1})" class="w-7 h-7 bg-white text-brand-700 hover:bg-brand-600 hover:text-white rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-xs">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
-                                    <span class="text-xs font-bold text-brand-900 px-2">${qty} Pkg${qty > 1 ? 's' : ''}</span>
-                                    <button onclick="updateQty('${dish.id}', ${qty + 1})" class="w-7 h-7 bg-brand-600 text-white hover:bg-brand-700 rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-sm">
+                                    <span class="text-xs font-bold text-brand-900 px-2">${qty} Option${qty > 1 ? 's' : ''}</span>
+                                    <button onclick="updateQty('${dish.id}', ${qty + 1})" class="w-7 h-7 bg-brand-600 text-white hover:bg-brand-700 rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-xs">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -601,9 +734,11 @@
         function updateStickyCounter() {
             const keys = Object.keys(selectedItems);
             const totalItems = keys.reduce((acc, k) => acc + selectedItems[k], 0);
+            
+            // Total calculated based on Selected Dishes x Pax
             const totalPrice = keys.reduce((acc, k) => {
                 const dish = dishes.find(d => d.id === k);
-                return acc + (dish ? dish.price * selectedItems[k] : 0);
+                return acc + (dish ? (dish.price * paxCount) * selectedItems[k] : 0);
             }, 0);
 
             const counterBar = document.getElementById('sticky-counter-bar');
@@ -638,13 +773,14 @@
                             <i class="fa-solid fa-utensils"></i>
                         </div>
                         <h3 class="text-lg font-bold text-slate-800">No Menus Selected Yet</h3>
-                        <p class="text-xs text-slate-500 max-w-sm mx-auto">Browse the catalog to select dishes for Breakfast, Lunch, Snacks, or Dinner to build your customized banquet package.</p>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto">Browse the catalog to select dishes for Breakfast, Lunch, Snacks, or Dinner to build your customized banquet package for ${paxCount} Pax.</p>
                         <button onclick="switchTab('catalog')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl inline-block transition-all shadow-sm">
                             Go to Menu Catalog
                         </button>
                     </div>
                 `;
                 document.getElementById('summary-grand-total').innerText = '₱0.00';
+                document.getElementById('summary-per-pax-rate').innerText = '₱0.00 / pax total rate';
                 return;
             }
 
@@ -652,6 +788,7 @@
             const categories = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
             let grandTotal = 0;
             let grandCost = 0;
+            let totalPerPaxRate = 0;
 
             let html = '';
 
@@ -665,7 +802,7 @@
                 let catTotal = 0;
 
                 html += `
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-card">
                     <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-bold text-slate-800 text-sm flex items-center gap-2">
                             <i class="fa-solid fa-circle-notch text-brand-600 text-xs"></i> ${cat} Menu Selections
@@ -676,30 +813,36 @@
                 `;
 
                 catDishes.forEach(item => {
-                    const lineTotal = item.price * item.qty;
-                    const lineCost = item.cost * item.qty;
+                    const unitPrice = item.price;
+                    const dishPerPaxTotal = unitPrice * item.qty;
+                    const lineTotal = dishPerPaxTotal * paxCount;
+                    const lineCost = (item.cost * paxCount) * item.qty;
+
                     catTotal += lineTotal;
                     grandTotal += lineTotal;
                     grandCost += lineCost;
+                    totalPerPaxRate += dishPerPaxTotal;
 
                     html += `
                     <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
-                            <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 shadow-sm" onerror="this.src='https://placehold.co/100?text=Food'">
+                            <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 shadow-sm no-print" onerror="this.src='https://placehold.co/100?text=Food'">
                             <div>
                                 <h4 class="font-bold text-slate-900 text-sm">${item.name}</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">₱${item.price.toLocaleString('en-PH', {minimumFractionDigits: 2})} per package</p>
+                                <div class="text-xs text-slate-500 mt-0.5 space-y-0.5">
+                                    <p>₱${unitPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})} / pax × ${paxCount} Pax = <strong class="text-slate-800">₱${(unitPrice * paxCount).toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></p>
+                                </div>
                                 
                                 ${currentRole === 'manager' ? `
                                 <div class="mt-1 text-[11px] text-slate-500 mgr-only">
-                                    Cost/Unit: <span class="text-amber-700 font-medium">₱${item.cost}</span> | Line Cost: <span class="text-amber-700 font-medium">₱${lineCost.toLocaleString('en-PH')}</span>
+                                    Recipe Cost (${paxCount} Pax): <span class="text-amber-700 font-medium">₱${lineCost.toLocaleString('en-PH')}</span>
                                 </div>
                                 ` : ''}
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6 border-t sm:border-t-0 pt-3 sm:pt-0">
-                            <!-- Portion Quantity Control -->
+                            <!-- Option Multiplier Control -->
                             <div class="flex items-center gap-2 no-print">
                                 <span class="text-xs text-slate-400">Qty:</span>
                                 <div class="flex items-center bg-slate-100 rounded-lg p-1">
@@ -714,11 +857,11 @@
                             </div>
 
                             <!-- Print view quantity output -->
-                            <span class="print-only text-xs font-semibold">Qty: ${item.qty}</span>
+                            <span class="print-only text-xs font-semibold">Qty: ${item.qty} (× ${paxCount} Pax)</span>
 
                             <!-- Line Total Amount -->
-                            <div class="text-right min-w-[100px]">
-                                <span class="text-[10px] text-slate-400 block uppercase tracking-wider">Subtotal</span>
+                            <div class="text-right min-w-[120px]">
+                                <span class="text-[10px] text-slate-400 block uppercase tracking-wider">Extended Subtotal</span>
                                 <span class="text-base font-extrabold text-slate-900">₱${lineTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
                             </div>
                         </div>
@@ -729,7 +872,7 @@
                 html += `
                     </div>
                     <div class="bg-slate-50/50 px-6 py-2.5 border-t border-slate-100 text-right">
-                        <span class="text-xs text-slate-500">${cat} Category Subtotal: <strong class="text-slate-900 font-bold">₱${catTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></span>
+                        <span class="text-xs text-slate-500">${cat} Subtotal (${paxCount} Pax): <strong class="text-slate-900 font-bold">₱${catTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></span>
                     </div>
                 </div>
                 `;
@@ -737,6 +880,7 @@
 
             container.innerHTML = html;
             document.getElementById('summary-grand-total').innerText = `₱${grandTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}`;
+            document.getElementById('summary-per-pax-rate').innerText = `₱${totalPerPaxRate.toLocaleString('en-PH', {minimumFractionDigits: 2})} per pax total rate`;
 
             // Update Manager Banner Analytics
             if (currentRole === 'manager') {
@@ -750,7 +894,7 @@
             }
         }
 
-        // VIEW 3 LOGIC: Render Kitchen Grocery List
+        // VIEW 3 LOGIC: Render Kitchen Grocery List (Scaled for Pax)
         function updateGroceryList() {
             const tbody = document.getElementById('grocery-table-body');
             const keys = Object.keys(selectedItems);
@@ -760,7 +904,7 @@
                 return;
             }
 
-            // Consolidate ingredient quantities
+            // Consolidate ingredient quantities scaled by Pax and dish selection count
             const map = {};
 
             keys.forEach(id => {
@@ -779,7 +923,8 @@
                             costPerUnit: ing.costPerUnit
                         };
                     }
-                    map[key].qty += (ing.qty * pkgQty);
+                    // Quantity = Base Ingredient Qty * Selected Menu Qty * Headcount (Pax)
+                    map[key].qty += (ing.qty * pkgQty * paxCount);
                 });
             });
 
