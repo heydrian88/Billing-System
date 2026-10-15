@@ -86,7 +86,7 @@
                     </button>
                     <button onclick="switchTab('summary')" id="tab-summary" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 relative">
                         <i class="fa-solid fa-receipt mr-1.5"></i>Final Proposal
-                        <span id="chosen-pkg-badge" class="hidden ml-1.5 px-2 py-0.5 text-[10px] bg-brand-600 text-white rounded-full font-bold">Pkg A</span>
+                        <span id="chosen-pkg-badge" class="ml-1.5 px-2 py-0.5 text-[10px] bg-brand-600 text-white rounded-full font-bold">Pkg A</span>
                     </button>
                     <button onclick="switchTab('grocery')" id="tab-grocery" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900">
                         <i class="fa-solid fa-basket-shopping mr-1.5"></i>Grocery
@@ -221,13 +221,17 @@
                     <button onclick="filterCategory('Dinner')" class="cat-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0">Dinner</button>
                 </div>
 
-                <!-- Dynamic Allergen Filter Search -->
+                <!-- Add Custom Special Meal Button -->
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <div class="relative w-full sm:w-64">
+                    <button onclick="openCustomDishModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm shrink-0">
+                        <i class="fa-solid fa-plus-circle"></i> Add Special/Allergy Dish
+                    </button>
+
+                    <!-- Dynamic Allergen Filter Search -->
+                    <div class="relative w-full sm:w-52">
                         <i class="fa-solid fa-filter text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 text-xs"></i>
-                        <input type="text" id="allergen-search" oninput="applyFilters()" placeholder="Filter allergen (e.g., milk, nuts)..." class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
+                        <input type="text" id="allergen-search" oninput="applyFilters()" placeholder="Filter allergen..." class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
                     </div>
-                    <button onclick="clearAllergenFilter()" class="text-xs text-slate-500 hover:text-red-600 font-medium px-2 py-1">Clear</button>
                 </div>
             </div>
             
@@ -413,6 +417,72 @@
 
     </main>
 
+    <!-- MODAL: ADD CUSTOM DISH / ALLERGY SUBSTITUTION -->
+    <div id="custom-dish-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in duration-150">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="bg-brand-100 text-brand-700 p-2 rounded-xl">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">Add Custom Special / Allergy Dish</h3>
+                        <p class="text-xs text-slate-500">Add a custom dish to <strong id="modal-active-pkg-label" class="text-brand-700">Package A</strong></p>
+                    </div>
+                </div>
+                <button onclick="closeCustomDishModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleCustomDishSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Meal Category</label>
+                    <select id="modal-dish-category" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch" selected>Lunch</option>
+                        <option value="Snacks">Snacks</option>
+                        <option value="Dinner">Dinner</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Dish Name</label>
+                    <input type="text" id="modal-dish-name" required placeholder="e.g. Gluten-Free Grilled Chicken (Special Meal)" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Description / Special Instructions</label>
+                    <textarea id="modal-dish-desc" rows="2" placeholder="e.g. Prepared separately for guest with severe gluten/seafood allergy." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Rate / Portion Price (₱)</label>
+                        <input type="number" id="modal-dish-price" min="0" step="10" value="300" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Portion Qty / Guests</label>
+                        <input type="number" id="modal-dish-qty" min="1" value="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500">
+                        <span class="text-[10px] text-slate-400 mt-0.5 block">e.g. 1 for single guest allergy</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Allergen Tags (Comma Separated)</label>
+                    <input type="text" id="modal-dish-allergens" placeholder="e.g. dairy-free, nut-free" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeCustomDishModal()" class="px-4 py-2 rounded-xl border border-slate-200 font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-sm">
+                        <i class="fa-solid fa-plus mr-1"></i>Add Dish to Package
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- STICKY BOTTOM ACTIVE PACKAGE TRACKER BAR -->
     <div id="sticky-counter-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900/95 backdrop-blur-md text-white px-5 py-3.5 rounded-2xl shadow-2xl z-40 border border-slate-800 flex items-center justify-between transition-all duration-300 no-print">
         <div class="flex items-center gap-3">
@@ -585,44 +655,94 @@
         ];
 
         // State Management
-        // Multi-Package state: storing selections independently for A, B, and C
         let packages = {
-            A: { d1: 1, d3: 1, d6: 1 }, // Default initial sample for Package A
-            B: { d1: 1, d4: 1, d5: 1, d7: 1, d9: 1 }, // Default initial sample for Package B
-            C: { d2: 1, d5: 1, d6: 1, d8: 1, d9: 1 }  // Default initial sample for Package C
+            A: { d1: { portions: 50 }, d3: { portions: 50 }, d6: { portions: 50 } },
+            B: { d1: { portions: 50 }, d4: { portions: 50 }, d5: { portions: 50 }, d7: { portions: 50 }, d9: { portions: 50 } },
+            C: { d2: { portions: 50 }, d5: { portions: 50 }, d6: { portions: 50 }, d8: { portions: 50 }, d9: { portions: 50 } }
         };
 
-        let activePackageKey = 'A'; // Currently edited package ('A' | 'B' | 'C')
-        let chosenPackageKey = 'A'; // Finalized contract package selected by client ('A' | 'B' | 'C')
+        let activePackageKey = 'A';
+        let chosenPackageKey = 'A';
 
-        let currentRole = 'customer'; // 'customer' | 'manager'
-        let currentTab = 'catalog'; // 'catalog' | 'compare' | 'summary' | 'grocery'
+        let currentRole = 'customer';
+        let currentTab = 'catalog';
         let activeCategory = 'All';
-        let paxCount = 50; // Default headcount
+        let paxCount = 50;
 
-        // Initialize App safely on window load
-        window.onload = function() {
-            // Set printable date
-            const printDateEl = document.getElementById('print-date');
-            if (printDateEl) {
-                const today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
-                printDateEl.innerText = today;
-            }
+        // Core View Synchronization Function
+        function refreshAllViews() {
+            // Synchronize pax labels
+            document.querySelectorAll('.display-pax-count').forEach(el => el.innerText = paxCount);
+            const printPax = document.getElementById('print-pax-count');
+            if (printPax) printPax.innerText = paxCount + ' Pax';
 
-            updatePaxUI();
-            updatePackageHeaderBadges();
+            const printDate = document.getElementById('print-date');
+            if (printDate) printDate.innerText = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // Update UI elements for active package
+            updateActivePackageUI();
+
+            // Re-render subviews
             renderCatalog();
             renderComparisonView();
             updateSummaryView();
-            updateStickyCounter();
-        };
+            updateGroceryList();
+            updateStickyBar();
+            updatePackageHeaderBadges();
+        }
 
-        // PAX Management
+        // Active Package Switcher Logic
+        function setActivePackage(key) {
+            activePackageKey = key;
+            refreshAllViews();
+        }
+
+        function finalizePackage(key) {
+            chosenPackageKey = key;
+            const chosenBadge = document.getElementById('chosen-pkg-badge');
+            if (chosenBadge) chosenBadge.innerText = `Pkg ${key}`;
+            switchTab('summary');
+        }
+
+        function updateActivePackageUI() {
+            ['A', 'B', 'C'].forEach(k => {
+                const btn = document.getElementById(`pkg-btn-${k}`);
+                const ind = document.getElementById(`pkg-indicator-active-${k}`);
+                
+                if (k === activePackageKey) {
+                    if (btn) btn.className = 'pkg-switch-btn flex-1 min-w-[170px] bg-brand-600 text-white p-2 rounded-xl border border-brand-400 shadow-md transition-all text-left relative overflow-hidden';
+                    if (ind) ind.classList.remove('hidden');
+                } else {
+                    if (btn) btn.className = 'pkg-switch-btn flex-1 min-w-[170px] bg-slate-800 hover:bg-slate-750 text-slate-300 p-2 rounded-xl border border-slate-700 transition-all text-left relative overflow-hidden';
+                    if (ind) ind.classList.add('hidden');
+                }
+            });
+
+            const catalogPkgLabel = document.getElementById('catalog-active-pkg-label');
+            if (catalogPkgLabel) catalogPkgLabel.innerText = `Package ${activePackageKey}`;
+
+            const stickyIcon = document.getElementById('sticky-active-pkg-icon');
+            if (stickyIcon) stickyIcon.innerText = activePackageKey;
+
+            const stickyLabel = document.getElementById('sticky-pkg-label');
+            if (stickyLabel) stickyLabel.innerText = `Package ${activePackageKey}`;
+        }
+
+        // Pax Controls
         function setPax(val) {
             paxCount = Math.max(1, parseInt(val) || 1);
             const paxInput = document.getElementById('pax-input');
             if (paxInput) paxInput.value = paxCount;
-            updatePaxUI();
+
+            // Automatically update default non-custom portion counts to scale with pax
+            ['A', 'B', 'C'].forEach(k => {
+                if (packages[k]) {
+                    Object.keys(packages[k]).forEach(dishId => {
+                        packages[k][dishId].portions = paxCount;
+                    });
+                }
+            });
+
             refreshAllViews();
         }
 
@@ -631,153 +751,73 @@
         }
 
         function onPaxInputChange() {
-            const paxInput = document.getElementById('pax-input');
-            const inputVal = parseInt(paxInput ? paxInput.value : '50');
-            setPax(isNaN(inputVal) ? 1 : inputVal);
+            const input = document.getElementById('pax-input');
+            if (input) setPax(input.value);
         }
 
-        function updatePaxUI() {
-            document.querySelectorAll('.display-pax-count').forEach(el => {
-                el.innerText = paxCount.toLocaleString('en-PH');
-            });
-            const printPax = document.getElementById('print-pax-count');
-            if (printPax) printPax.innerText = `${paxCount.toLocaleString('en-PH')} Pax`;
-
-            document.querySelectorAll('.pax-preset-btn').forEach(btn => {
-                const presetVal = parseInt(btn.innerText);
-                if (presetVal === paxCount) {
-                    btn.className = 'pax-preset-btn bg-brand-600 text-white text-xs px-2 py-1 rounded-lg font-bold transition-all border border-brand-500 shadow-sm';
-                } else {
-                    btn.className = 'pax-preset-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-lg border border-slate-700 font-medium transition-all';
-                }
-            });
-        }
-
-        // Active Package Switcher Logic (A, B, C)
-        function setActivePackage(pkgKey) {
-            activePackageKey = pkgKey;
-            
-            // Update Top Switcher Buttons UI
-            ['A', 'B', 'C'].forEach(key => {
-                const btn = document.getElementById(`pkg-btn-${key}`);
-                const activeTag = document.getElementById(`pkg-indicator-active-${key}`);
-                const isActive = key === pkgKey;
-
-                if (btn) {
-                    if (isActive) {
-                        btn.className = 'pkg-switch-btn flex-1 min-w-[170px] bg-brand-600 text-white p-2 rounded-xl border border-brand-400 shadow-md transition-all text-left relative overflow-hidden';
-                    } else {
-                        btn.className = 'pkg-switch-btn flex-1 min-w-[170px] bg-slate-800 hover:bg-slate-750 text-slate-300 p-2 rounded-xl border border-slate-700 transition-all text-left relative overflow-hidden';
-                    }
-                }
-                if (activeTag) {
-                    activeTag.classList.toggle('hidden', !isActive);
-                }
-            });
-
-            const label = document.getElementById('catalog-active-pkg-label');
-            if (label) label.innerText = `Package ${pkgKey}`;
-            
-            renderCatalog();
-            updateStickyCounter();
-        }
-
-        // Update calculations for top Package A, B, C badges
-        function updatePackageHeaderBadges() {
-            ['A', 'B', 'C'].forEach(key => {
-                const pkgObj = packages[key] || {};
-                const itemKeys = Object.keys(pkgObj);
-                const totalItems = itemKeys.reduce((acc, k) => acc + pkgObj[k], 0);
-                const totalPrice = itemKeys.reduce((acc, k) => {
-                    const dish = dishes.find(d => d.id === k);
-                    return acc + (dish ? (dish.price * paxCount) * pkgObj[k] : 0);
-                }, 0);
-
-                const badgePrice = document.getElementById(`pkg-badge-price-${key}`);
-                const badgeCount = document.getElementById(`pkg-badge-count-${key}`);
-                if (badgePrice) badgePrice.innerText = `₱${totalPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})}`;
-                if (badgeCount) badgeCount.innerText = `${totalItems} item${totalItems === 1 ? '' : 's'}`;
-            });
-        }
-
-        function refreshAllViews() {
-            updatePackageHeaderBadges();
-            renderCatalog();
-            renderComparisonView();
-            updateSummaryView();
-            updateGroceryList();
-            updateStickyCounter();
-        }
-
-        // Switch Views/Tabs
+        // Navigation Tabs & View Switcher
         function switchTab(tab) {
             currentTab = tab;
             ['catalog', 'compare', 'summary', 'grocery'].forEach(t => {
                 const view = document.getElementById(`view-${t}`);
-                const tabBtn = document.getElementById(`tab-${t}`);
-                const isCurrent = t === tab;
-
-                if (view) view.classList.toggle('hidden', !isCurrent);
-                if (tabBtn) {
-                    if (isCurrent) {
-                        tabBtn.className = 'px-3 py-1.5 rounded-lg transition-all text-slate-900 bg-white shadow-sm font-semibold';
-                    } else {
-                        tabBtn.className = 'px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900';
-                    }
+                const navBtn = document.getElementById(`tab-${t}`);
+                
+                if (t === tab) {
+                    if (view) view.classList.remove('hidden');
+                    if (navBtn) navBtn.className = 'px-3 py-1.5 rounded-lg transition-all text-slate-900 bg-white shadow-sm font-semibold';
+                } else {
+                    if (view) view.classList.add('hidden');
+                    if (navBtn) navBtn.className = 'px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 relative';
                 }
             });
 
-            // Toggle category filter bar
             const filterBar = document.getElementById('filter-bar');
-            if (filterBar) filterBar.classList.toggle('hidden', tab !== 'catalog');
-
-            if (tab === 'compare') renderComparisonView();
-            if (tab === 'summary') updateSummaryView();
-            if (tab === 'grocery') updateGroceryList();
+            if (filterBar) {
+                if (tab === 'catalog') filterBar.classList.remove('hidden');
+                else filterBar.classList.add('hidden');
+            }
         }
 
-        // Role Switcher Mode
+        // Role Switcher
         function setRole(role) {
             currentRole = role;
-            const btnCust = document.getElementById('mode-customer');
-            const btnMgr = document.getElementById('mode-manager');
+            const custBtn = document.getElementById('mode-customer');
+            const mgrBtn = document.getElementById('mode-manager');
+            const mgrBanner = document.getElementById('manager-summary-banner');
 
-            if (role === 'customer') {
-                if (btnCust) btnCust.className = 'px-2.5 py-1 rounded-lg font-medium transition-all bg-brand-600 text-white';
-                if (btnMgr) btnMgr.className = 'px-2.5 py-1 rounded-lg font-medium transition-all text-slate-400 hover:text-white';
-                document.querySelectorAll('.mgr-only').forEach(el => el.classList.add('hidden'));
-                const mgrBanner = document.getElementById('manager-summary-banner');
-                if (mgrBanner) mgrBanner.classList.add('hidden');
-            } else {
-                if (btnMgr) btnMgr.className = 'px-2.5 py-1 rounded-lg font-medium transition-all bg-brand-600 text-white';
-                if (btnCust) btnCust.className = 'px-2.5 py-1 rounded-lg font-medium transition-all text-slate-400 hover:text-white';
-                document.querySelectorAll('.mgr-only').forEach(el => el.classList.remove('hidden'));
-                const mgrBanner = document.getElementById('manager-summary-banner');
+            if (role === 'manager') {
+                if (custBtn) custBtn.className = 'px-2.5 py-1 rounded-lg font-medium transition-all text-slate-400 hover:text-white';
+                if (mgrBtn) mgrBtn.className = 'px-2.5 py-1 rounded-lg font-medium transition-all bg-brand-600 text-white';
                 if (mgrBanner) mgrBanner.classList.remove('hidden');
+                document.querySelectorAll('.mgr-only').forEach(el => el.classList.remove('hidden'));
+            } else {
+                if (custBtn) custBtn.className = 'px-2.5 py-1 rounded-lg font-medium transition-all bg-brand-600 text-white';
+                if (mgrBtn) mgrBtn.className = 'px-2.5 py-1 rounded-lg font-medium transition-all text-slate-400 hover:text-white';
+                if (mgrBanner) mgrBanner.classList.add('hidden');
+                document.querySelectorAll('.mgr-only').forEach(el => el.classList.add('hidden'));
             }
-
             refreshAllViews();
         }
 
-        // Category Filter
+        // Filtering
         function filterCategory(cat) {
             activeCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                const match = btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All'));
-                btn.className = match 
-                    ? 'cat-btn bg-slate-900 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0'
-                    : 'cat-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0';
+                if (btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All Meals'))) {
+                    btn.className = 'cat-btn bg-slate-900 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0';
+                } else {
+                    btn.className = 'cat-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0';
+                }
             });
             applyFilters();
         }
 
-        // Apply Allergen & Search Filters
         function applyFilters() {
             const allergenSearch = document.getElementById('allergen-search');
-            const query = allergenSearch ? allergenSearch.value.toLowerCase().trim() : '';
-            const warningBox = document.getElementById('allergen-warning');
-            const warningText = document.getElementById('allergen-query-text');
-            const countText = document.getElementById('filtered-count');
+            const query = allergenSearch ? allergenSearch.value.trim().toLowerCase() : '';
+            const warningEl = document.getElementById('allergen-warning');
+            const queryTextEl = document.getElementById('allergen-query-text');
+            const countEl = document.getElementById('filtered-count');
 
             let hiddenCount = 0;
 
@@ -785,33 +825,110 @@
                 const card = document.getElementById(`dish-card-${dish.id}`);
                 if (!card) return;
 
-                const matchCategory = (activeCategory === 'All' || dish.category === activeCategory);
-                const hasAllergen = query.length > 0 && dish.allergens.some(a => a.toLowerCase().includes(query));
+                const matchesCat = (activeCategory === 'All' || dish.category === activeCategory);
+                const hasAllergen = query ? dish.allergens.some(a => a.toLowerCase().includes(query)) : false;
 
-                if (matchCategory && !hasAllergen) {
+                if (matchesCat && !hasAllergen) {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
-                    if (hasAllergen) hiddenCount++;
+                    if (hasAllergen && matchesCat) hiddenCount++;
                 }
             });
 
-            if (query.length > 0) {
-                if (warningBox) warningBox.classList.remove('hidden');
-                if (warningText) warningText.innerText = query;
-                if (countText) countText.innerText = `${hiddenCount} dish(es) filtered out`;
+            if (query && hiddenCount > 0) {
+                if (warningEl) warningEl.classList.remove('hidden');
+                if (queryTextEl) queryTextEl.innerText = query;
+                if (countEl) countEl.innerText = `${hiddenCount} dish(es) hidden`;
             } else {
-                if (warningBox) warningBox.classList.add('hidden');
+                if (warningEl) warningEl.classList.add('hidden');
             }
         }
 
-        function clearAllergenFilter() {
-            const allergenSearch = document.getElementById('allergen-search');
-            if (allergenSearch) allergenSearch.value = '';
-            applyFilters();
+        // Modal Custom Dish Logic
+        function openCustomDishModal() {
+            const label = document.getElementById('modal-active-pkg-label');
+            if (label) label.innerText = `Package ${activePackageKey}`;
+            const modal = document.getElementById('custom-dish-modal');
+            if (modal) modal.classList.remove('hidden');
         }
 
-        // Render Dish Cards Grid
+        function closeCustomDishModal() {
+            const modal = document.getElementById('custom-dish-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function handleCustomDishSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-dish-name').value;
+            const cat = document.getElementById('modal-dish-category').value;
+            const desc = document.getElementById('modal-dish-desc').value;
+            const price = parseFloat(document.getElementById('modal-dish-price').value) || 0;
+            const qty = parseInt(document.getElementById('modal-dish-qty').value) || 1;
+            const allergens = document.getElementById('modal-dish-allergens').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            const newId = 'custom_' + Date.now();
+            const newDish = {
+                id: newId,
+                name: name + " (Custom Meal)",
+                category: cat,
+                price: price,
+                cost: price * 0.4,
+                allergens: allergens,
+                isCustom: true,
+                image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+                description: desc || 'Custom requested meal option.',
+                ingredients: [
+                    { name: name + ' Ingredients', qty: 0.2, unit: 'kg', costPerUnit: price * 0.4 / 0.2, cat: 'Custom' }
+                ]
+            };
+
+            dishes.push(newDish);
+
+            if (!packages[activePackageKey]) packages[activePackageKey] = {};
+            packages[activePackageKey][newId] = { portions: qty };
+
+            closeCustomDishModal();
+            refreshAllViews();
+        }
+
+        // Calculations for top Package A, B, C badges based on guest portion counts
+        function updatePackageHeaderBadges() {
+            ['A', 'B', 'C'].forEach(key => {
+                const pkgObj = packages[key] || {};
+                const itemKeys = Object.keys(pkgObj);
+                const totalItems = itemKeys.length;
+                
+                const totalPrice = itemKeys.reduce((acc, k) => {
+                    const dish = dishes.find(d => d.id === k);
+                    const portions = pkgObj[k].portions || paxCount;
+                    return acc + (dish ? (dish.price * portions) : 0);
+                }, 0);
+
+                const badgePrice = document.getElementById(`pkg-badge-price-${key}`);
+                const badgeCount = document.getElementById(`pkg-badge-count-${key}`);
+                if (badgePrice) badgePrice.innerText = `₱${totalPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})}`;
+                if (badgeCount) badgeCount.innerText = `${totalItems} dish${totalItems === 1 ? '' : 'es'}`;
+            });
+        }
+
+        function updateStickyBar() {
+            const activePkgObj = packages[activePackageKey] || {};
+            const itemKeys = Object.keys(activePkgObj);
+            const totalItems = itemKeys.length;
+
+            const totalPrice = itemKeys.reduce((acc, k) => {
+                const dish = dishes.find(d => d.id === k);
+                const portions = activePkgObj[k].portions || paxCount;
+                return acc + (dish ? (dish.price * portions) : 0);
+            }, 0);
+
+            const stickyTotal = document.getElementById('sticky-total');
+            const stickyItems = document.getElementById('sticky-items-count');
+            if (stickyTotal) stickyTotal.innerHTML = `₱${totalPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})} (<span id="sticky-items-count">${totalItems}</span> item${totalItems === 1 ? '' : 's'})`;
+        }
+
+        // Render Catalog Cards Grid
         function renderCatalog() {
             const grid = document.getElementById('dishes-grid');
             if (!grid) return;
@@ -819,16 +936,16 @@
             const activePkgObj = packages[activePackageKey] || {};
 
             grid.innerHTML = dishes.map(dish => {
-                const qtyInActivePkg = activePkgObj[dish.id] || 0;
-                const isSelectedInActive = qtyInActivePkg > 0;
+                const entry = activePkgObj[dish.id];
+                const isSelectedInActive = !!entry;
+                const activePortions = entry ? entry.portions : paxCount;
                 
-                // Indicators for other packages
-                const inPkgA = (packages.A && packages.A[dish.id]) > 0;
-                const inPkgB = (packages.B && packages.B[dish.id]) > 0;
-                const inPkgC = (packages.C && packages.C[dish.id]) > 0;
+                const inPkgA = !!(packages.A && packages.A[dish.id]);
+                const inPkgB = !!(packages.B && packages.B[dish.id]);
+                const inPkgC = !!(packages.C && packages.C[dish.id]);
 
-                const totalDishPriceForPax = dish.price * paxCount;
-                const totalDishCostForPax = dish.cost * paxCount;
+                const totalDishPrice = dish.price * activePortions;
+                const totalDishCost = dish.cost * activePortions;
                 const profitMargin = (((dish.price - dish.cost) / dish.price) * 100).toFixed(0);
 
                 return `
@@ -839,8 +956,8 @@
                             ${dish.category}
                         </span>
 
-                        <!-- Indicators for which package contains this dish -->
                         <div class="absolute top-3 right-3 flex items-center gap-1">
+                            ${dish.isCustom ? `<span class="bg-amber-500 text-slate-900 text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs">CUSTOM</span>` : ''}
                             ${inPkgA ? `<span class="bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs" title="Included in Package A">A</span>` : ''}
                             ${inPkgB ? `<span class="bg-blue-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs" title="Included in Package B">B</span>` : ''}
                             ${inPkgC ? `<span class="bg-purple-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs" title="Included in Package C">C</span>` : ''}
@@ -860,19 +977,19 @@
                         </div>
 
                         <!-- Price & Manager Metrics -->
-                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 space-y-1">
                             <div class="flex items-baseline justify-between">
-                                <span class="text-xs text-slate-500">Rate / Pax:</span>
+                                <span class="text-xs text-slate-500">Portion Rate:</span>
                                 <span class="text-xs font-bold text-slate-700">₱${dish.price.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
                             </div>
-                            <div class="flex items-baseline justify-between mt-1 pt-1 border-t border-slate-200/60">
-                                <span class="text-xs text-slate-800 font-semibold">Total (${paxCount} Pax):</span>
-                                <span class="text-base font-extrabold text-brand-700">₱${totalDishPriceForPax.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
+                            <div class="flex items-baseline justify-between pt-1 border-t border-slate-200/60">
+                                <span class="text-xs text-slate-800 font-semibold">Subtotal (${activePortions} Guest Portions):</span>
+                                <span class="text-base font-extrabold text-brand-700">₱${totalDishPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
                             </div>
 
                             ${currentRole === 'manager' ? `
                             <div class="mt-2 pt-2 border-t border-slate-200 grid grid-cols-2 gap-1 text-[11px] mgr-only">
-                                <div><span class="text-slate-400">Total Cost:</span> <strong class="text-amber-700">₱${totalDishCostForPax.toLocaleString('en-PH')}</strong></div>
+                                <div><span class="text-slate-400">Total Cost:</span> <strong class="text-amber-700">₱${totalDishCost.toLocaleString('en-PH')}</strong></div>
                                 <div class="text-right"><span class="text-slate-400">Margin:</span> <strong class="text-emerald-700">${profitMargin}%</strong></div>
                             </div>
                             ` : ''}
@@ -880,19 +997,26 @@
 
                         <!-- Add/Quantity Buttons for Active Package -->
                         <div class="pt-1">
-                            ${qtyInActivePkg === 0 ? `
-                                <button onclick="updateQtyForActivePkg('${dish.id}', 1)" class="w-full bg-slate-900 hover:bg-brand-600 text-white text-xs font-medium py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1.5">
+                            ${!isSelectedInActive ? `
+                                <button onclick="toggleDishForActivePkg('${dish.id}', true)" class="w-full bg-slate-900 hover:bg-brand-600 text-white text-xs font-medium py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1.5">
                                     <i class="fa-solid fa-plus text-[10px]"></i> Add to Package ${activePackageKey}
                                 </button>
                             ` : `
-                                <div class="flex items-center justify-between bg-brand-50 border border-brand-200 rounded-xl p-1">
-                                    <button onclick="updateQtyForActivePkg('${dish.id}', ${qtyInActivePkg - 1})" class="w-7 h-7 bg-white text-brand-700 hover:bg-brand-600 hover:text-white rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-xs">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-xs font-bold text-brand-900 px-2">Pkg ${activePackageKey}: ${qtyInActivePkg}</span>
-                                    <button onclick="updateQtyForActivePkg('${dish.id}', ${qtyInActivePkg + 1})" class="w-7 h-7 bg-brand-600 text-white hover:bg-brand-700 rounded-lg flex items-center justify-center font-bold text-xs transition-colors shadow-xs">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
+                                <div class="space-y-1.5 bg-brand-50 border border-brand-200 rounded-xl p-2">
+                                    <div class="flex items-center justify-between text-[11px] text-brand-900 font-bold">
+                                        <span>Pkg ${activePackageKey} Portions:</span>
+                                        <button onclick="toggleDishForActivePkg('${dish.id}', false)" class="text-red-600 hover:text-red-800 text-[10px] underline font-normal">Remove</button>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <button onclick="updatePortionsForActivePkg('${dish.id}', ${activePortions - 1})" class="w-7 h-7 bg-white text-brand-700 rounded-lg flex items-center justify-center font-bold text-xs shadow-xs hover:bg-brand-100">
+                                            <i class="fa-solid fa-minus text-[10px]"></i>
+                                        </button>
+                                        <input type="number" value="${activePortions}" min="1" max="1000" onchange="updatePortionsForActivePkg('${dish.id}', this.value)" class="w-full bg-white text-center font-extrabold text-xs text-brand-900 py-1 rounded-lg border border-brand-200 outline-none">
+                                        <button onclick="updatePortionsForActivePkg('${dish.id}', ${activePortions + 1})" class="w-7 h-7 bg-brand-600 text-white rounded-lg flex items-center justify-center font-bold text-xs shadow-xs hover:bg-brand-700">
+                                            <i class="fa-solid fa-plus text-[10px]"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-[10px] text-brand-700 text-center font-medium">Set to 1 for 1 guest allergy substitution</p>
                                 </div>
                             `}
                         </div>
@@ -904,42 +1028,24 @@
             applyFilters();
         }
 
-        // Quantity Handler specifically targeting active Package
-        function updateQtyForActivePkg(dishId, newQty) {
-            if (!packages[activePackageKey]) {
-                packages[activePackageKey] = {};
-            }
-            if (newQty <= 0) {
-                delete packages[activePackageKey][dishId];
+        function toggleDishForActivePkg(dishId, shouldAdd) {
+            if (!packages[activePackageKey]) packages[activePackageKey] = {};
+            if (shouldAdd) {
+                packages[activePackageKey][dishId] = { portions: paxCount };
             } else {
-                packages[activePackageKey][dishId] = newQty;
+                delete packages[activePackageKey][dishId];
             }
             refreshAllViews();
         }
 
-        // Update Sticky Bottom Active Bar safely
-        function updateStickyCounter() {
-            const activePkgObj = packages[activePackageKey] || {};
-            const keys = Object.keys(activePkgObj);
-            const totalItems = keys.reduce((acc, k) => acc + activePkgObj[k], 0);
-            
-            const totalPrice = keys.reduce((acc, k) => {
-                const dish = dishes.find(d => d.id === k);
-                return acc + (dish ? (dish.price * paxCount) * activePkgObj[k] : 0);
-            }, 0);
-
-            const iconEl = document.getElementById('sticky-active-pkg-icon');
-            const labelEl = document.getElementById('sticky-pkg-label');
-            const totalEl = document.getElementById('sticky-total');
-            const itemsCountEl = document.getElementById('sticky-items-count');
-
-            if (iconEl) iconEl.innerText = activePackageKey;
-            if (labelEl) labelEl.innerText = `Package ${activePackageKey}`;
-            if (totalEl) totalEl.innerHTML = `₱${totalPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})} (<span id="sticky-items-count">${totalItems}</span> items)`;
-            if (itemsCountEl) itemsCountEl.innerText = totalItems;
+        function updatePortionsForActivePkg(dishId, newPortions) {
+            const qty = Math.max(1, parseInt(newPortions) || 1);
+            if (packages[activePackageKey] && packages[activePackageKey][dishId]) {
+                packages[activePackageKey][dishId].portions = qty;
+            }
+            refreshAllViews();
         }
 
-        // VIEW 2 LOGIC: Side-by-Side Package Comparison (A vs B vs C)
         function renderComparisonView() {
             const container = document.getElementById('comparison-grid');
             if (!container) return;
@@ -954,31 +1060,31 @@
 
                 let pkgTotalRevenue = 0;
                 let pkgTotalCost = 0;
-                let totalPerPaxRate = 0;
-                let totalItemsCount = 0;
+                let totalItemsCount = selectedDishIds.length;
 
                 const categoryList = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
                 let categorizedHTML = '';
 
                 categoryList.forEach(cat => {
                     const catDishes = selectedDishIds
-                        .map(id => ({ ...dishes.find(d => d.id === id), qty: pkgObj[id] }))
+                        .map(id => ({ ...dishes.find(d => d.id === id), portions: pkgObj[id].portions }))
                         .filter(d => d.category === cat && d.name);
 
                     if (catDishes.length > 0) {
-                        categorizedHTML += `<div class="mt-3"><h5 class="text-[11px] font-extrabold uppercase text-slate-400 tracking-wider mb-1">${cat}</h5><ul class="space-y-1 text-xs text-slate-700">`;
+                        categorizedHTML += `<div class="mt-3"><h5 class="text-[11px] font-extrabold uppercase text-slate-400 tracking-wider mb-1">${cat}</h5><ul class="space-y-1.5 text-xs text-slate-700">`;
                         catDishes.forEach(d => {
-                            const lineTotal = (d.price * paxCount) * d.qty;
-                            const lineCost = (d.cost * paxCount) * d.qty;
+                            const lineTotal = d.price * d.portions;
+                            const lineCost = d.cost * d.portions;
 
                             pkgTotalRevenue += lineTotal;
                             pkgTotalCost += lineCost;
-                            totalPerPaxRate += (d.price * d.qty);
-                            totalItemsCount += d.qty;
 
                             categorizedHTML += `
                                 <li class="flex justify-between items-center py-1 border-b border-slate-100">
-                                    <span class="font-medium text-slate-800 line-clamp-1">${d.name} ${d.qty > 1 ? `(×${d.qty})` : ''}</span>
+                                    <div>
+                                        <span class="font-medium text-slate-800 line-clamp-1">${d.name}</span>
+                                        <span class="text-[10px] text-slate-400 font-semibold">${d.portions} guest portion(s)</span>
+                                    </div>
                                     <span class="font-bold text-slate-900 shrink-0 ml-2">₱${lineTotal.toLocaleString('en-PH')}</span>
                                 </li>
                             `;
@@ -1000,7 +1106,7 @@
                                 <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
                                     <i class="fa-solid fa-box text-brand-600"></i> Package ${key}
                                 </h3>
-                                <p class="text-xs text-slate-500">${totalItemsCount} item(s) selected</p>
+                                <p class="text-xs text-slate-500">${totalItemsCount} dish selection(s)</p>
                             </div>
                             <button onclick="setActivePackage('${key}'); switchTab('catalog');" class="text-xs font-bold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-2.5 py-1.5 rounded-lg border border-brand-200 transition-colors">
                                 <i class="fa-solid fa-pen-to-square mr-1"></i>Edit
@@ -1009,12 +1115,10 @@
 
                         <!-- Price summary banner for card -->
                         <div class="bg-slate-900 text-white p-4 rounded-xl space-y-1">
-                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Total Amount (${paxCount} Pax)</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Total Package Price</span>
                             <div class="text-2xl font-black text-brand-400">₱${pkgTotalRevenue.toLocaleString('en-PH', {minimumFractionDigits: 2})}</div>
-                            <span class="text-xs text-slate-300 block">₱${totalPerPaxRate.toLocaleString('en-PH', {minimumFractionDigits: 2})} per pax rate</span>
                         </div>
 
-                        <!-- Manager Metrics (visible in Sales Manager Mode) -->
                         ${currentRole === 'manager' ? `
                         <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-xs space-y-1 text-amber-900 mgr-only">
                             <div class="font-bold flex justify-between"><span>Recipe Cost:</span> <span>₱${pkgTotalCost.toLocaleString('en-PH')}</span></div>
@@ -1042,32 +1146,12 @@
             container.innerHTML = html;
         }
 
-        // Action: Select & Finalize Package (A, B, or C)
-        function finalizePackage(pkgKey) {
-            chosenPackageKey = pkgKey;
-            
-            // Sync badge on top tab
-            const chosenBadge = document.getElementById('chosen-pkg-badge');
-            if (chosenBadge) {
-                chosenBadge.innerText = `Pkg ${pkgKey}`;
-                chosenBadge.classList.remove('hidden');
-            }
-
-            renderComparisonView();
-            updateSummaryView();
-            updateGroceryList();
-
-            // Switch to proposal summary
-            switchTab('summary');
-        }
-
         // VIEW 3 LOGIC: Render Final Selected Proposal Contract
         function updateSummaryView() {
             const container = document.getElementById('summary-grouped-container');
             const chosenPkgObj = packages[chosenPackageKey] || {};
             const keys = Object.keys(chosenPkgObj);
 
-            // Update Header labels safely
             const tagEl = document.getElementById('final-package-tag');
             const chosenLabelEl = document.getElementById('summary-chosen-label');
             const groceryBadgeEl = document.getElementById('grocery-pkg-badge');
@@ -1101,13 +1185,12 @@
             const categories = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
             let grandTotal = 0;
             let grandCost = 0;
-            let totalPerPaxRate = 0;
 
             let html = '';
 
             categories.forEach(cat => {
                 const catDishes = keys
-                    .map(id => ({ ...dishes.find(d => d.id === id), qty: chosenPkgObj[id] }))
+                    .map(id => ({ ...dishes.find(d => d.id === id), portions: chosenPkgObj[id].portions }))
                     .filter(d => d.category === cat && d.name);
 
                 if (catDishes.length === 0) return;
@@ -1120,55 +1203,50 @@
                         <span class="font-bold text-slate-800 text-sm flex items-center gap-2">
                             <i class="fa-solid fa-circle-notch text-brand-600 text-xs"></i> ${cat} Menu Selections
                         </span>
-                        <span class="text-xs text-slate-500 font-medium">${catDishes.length} Item(s)</span>
+                        <span class="text-xs text-slate-500 font-medium">${catDishes.length} Dish Item(s)</span>
                     </div>
                     <div class="divide-y divide-slate-100">
                 `;
 
                 catDishes.forEach(item => {
-                    const unitPrice = item.price;
-                    const dishPerPaxTotal = unitPrice * item.qty;
-                    const lineTotal = dishPerPaxTotal * paxCount;
-                    const lineCost = (item.cost * paxCount) * item.qty;
+                    const lineTotal = item.price * item.portions;
+                    const lineCost = item.cost * item.portions;
 
                     catTotal += lineTotal;
                     grandTotal += lineTotal;
                     grandCost += lineCost;
-                    totalPerPaxRate += dishPerPaxTotal;
 
                     html += `
                     <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
                             <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 shadow-sm no-print" onerror="this.src='https://placehold.co/100?text=Food'">
                             <div>
-                                <h4 class="font-bold text-slate-900 text-sm">${item.name}</h4>
-                                <div class="text-xs text-slate-500 mt-0.5 space-y-0.5">
-                                    <p>₱${unitPrice.toLocaleString('en-PH', {minimumFractionDigits: 2})} / pax × ${paxCount} Pax = <strong class="text-slate-800">₱${(unitPrice * paxCount).toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></p>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-bold text-slate-900 text-sm">${item.name}</h4>
+                                    ${item.isCustom ? `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded">Special Custom Dish</span>` : ''}
                                 </div>
-                                
-                                ${currentRole === 'manager' ? `
-                                <div class="mt-1 text-[11px] text-slate-500 mgr-only">
-                                    Recipe Cost (${paxCount} Pax): <span class="text-amber-700 font-medium">₱${lineCost.toLocaleString('en-PH')}</span>
+                                <p class="text-xs text-slate-500 mt-0.5">${item.description}</p>
+                                <div class="text-xs text-slate-500 mt-1 space-y-0.5">
+                                    <p>₱${item.price.toLocaleString('en-PH', {minimumFractionDigits: 2})} per portion × <strong class="text-brand-700 font-bold">${item.portions} Portion(s)</strong></p>
                                 </div>
-                                ` : ''}
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6 border-t sm:border-t-0 pt-3 sm:pt-0">
                             <div class="flex items-center gap-2 no-print">
-                                <span class="text-xs text-slate-400">Qty:</span>
+                                <span class="text-xs text-slate-400">Portions:</span>
                                 <div class="flex items-center bg-slate-100 rounded-lg p-1">
-                                    <button onclick="updateQtyForActivePkg('${item.id}', ${item.qty - 1})" class="w-6 h-6 bg-white text-slate-700 rounded flex items-center justify-center font-bold text-xs shadow-xs hover:bg-slate-200">
+                                    <button onclick="updatePortionsForActivePkg('${item.id}', ${item.portions - 1})" class="w-6 h-6 bg-white text-slate-700 rounded flex items-center justify-center font-bold text-xs shadow-xs hover:bg-slate-200">
                                         <i class="fa-solid fa-minus text-[10px]"></i>
                                     </button>
-                                    <span class="text-xs font-bold px-2.5 text-slate-800">${item.qty}</span>
-                                    <button onclick="updateQtyForActivePkg('${item.id}', ${item.qty + 1})" class="w-6 h-6 bg-white text-slate-700 rounded flex items-center justify-center font-bold text-xs shadow-xs hover:bg-slate-200">
+                                    <span class="text-xs font-bold px-2.5 text-slate-800">${item.portions}</span>
+                                    <button onclick="updatePortionsForActivePkg('${item.id}', ${item.portions + 1})" class="w-6 h-6 bg-white text-slate-700 rounded flex items-center justify-center font-bold text-xs shadow-xs hover:bg-slate-200">
                                         <i class="fa-solid fa-plus text-[10px]"></i>
                                     </button>
                                 </div>
                             </div>
 
-                            <span class="print-only text-xs font-semibold">Qty: ${item.qty} (× ${paxCount} Pax)</span>
+                            <span class="print-only text-xs font-semibold">Portions: ${item.portions}</span>
 
                             <div class="text-right min-w-[120px]">
                                 <span class="text-[10px] text-slate-400 block uppercase tracking-wider">Extended Subtotal</span>
@@ -1182,7 +1260,7 @@
                 html += `
                     </div>
                     <div class="bg-slate-50/50 px-6 py-2.5 border-t border-slate-100 text-right">
-                        <span class="text-xs text-slate-500">${cat} Subtotal (${paxCount} Pax): <strong class="text-slate-900 font-bold">₱${catTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></span>
+                        <span class="text-xs text-slate-500">${cat} Subtotal: <strong class="text-slate-900 font-bold">₱${catTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}</strong></span>
                     </div>
                 </div>
                 `;
@@ -1193,9 +1271,8 @@
             const summaryGrandTotal = document.getElementById('summary-grand-total');
             const summaryPerPaxRate = document.getElementById('summary-per-pax-rate');
             if (summaryGrandTotal) summaryGrandTotal.innerText = `₱${grandTotal.toLocaleString('en-PH', {minimumFractionDigits: 2})}`;
-            if (summaryPerPaxRate) summaryPerPaxRate.innerText = `₱${totalPerPaxRate.toLocaleString('en-PH', {minimumFractionDigits: 2})} per pax total rate`;
+            if (summaryPerPaxRate) summaryPerPaxRate.innerText = `₱${(grandTotal / paxCount).toLocaleString('en-PH', {minimumFractionDigits: 2})} per pax average rate`;
 
-            // Update Manager Banner Analytics for Finalized Package
             if (currentRole === 'manager') {
                 const profit = grandTotal - grandCost;
                 const marginPct = grandTotal > 0 ? ((profit / grandTotal) * 100).toFixed(1) : 0;
@@ -1212,7 +1289,7 @@
             }
         }
 
-        // VIEW 4 LOGIC: Render Kitchen Grocery List (Scaled for Final Selected Package)
+        // VIEW 4 LOGIC: Render Kitchen Grocery List
         function updateGroceryList() {
             const tbody = document.getElementById('grocery-table-body');
             if (!tbody) return;
@@ -1229,7 +1306,7 @@
 
             keys.forEach(id => {
                 const dish = dishes.find(d => d.id === id);
-                const pkgQty = chosenPkgObj[id];
+                const portions = chosenPkgObj[id].portions;
                 if (!dish || !dish.ingredients) return;
 
                 dish.ingredients.forEach(ing => {
@@ -1243,7 +1320,7 @@
                             costPerUnit: ing.costPerUnit
                         };
                     }
-                    map[key].qty += (ing.qty * pkgQty * paxCount);
+                    map[key].qty += (ing.qty * portions);
                 });
             });
 
@@ -1264,6 +1341,11 @@
                 document.querySelectorAll('.mgr-only').forEach(el => el.classList.add('hidden'));
             }
         }
+
+        // Initialize application on load
+        window.addEventListener('DOMContentLoaded', () => {
+            refreshAllViews();
+        });
     </script>
 </body>
 </html>
